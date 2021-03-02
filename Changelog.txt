@@ -1,0 +1,17 @@
+2016/10/19	v1.11
+*Corrected CD/DVD detection ratio formula.
+
+2016/09/11	v1.10
+*Corrected incorrect values for C-chassis detection.
+*Corrected incorrect floating-point values used in elect-adjustment.
+*Corrected (debug) ID numbers for post-update and post-EEPROM write tasks.
+*Corrected detection of the Rohm RTC IC on the F-chassis and later.
+*Corrected return values for the Rx handlers of elect-adjustment.
+*Added code to reset the RTC.
+*Added an option to clear the OSD2 Init Bit during updates.
+*Refactored the code under elect adjustment to make it possible to change the UI.
+*Removed debug messages from elect adjustment.
+*Added an error message for commands that time out.
+
+2016/04/08	v1.00
+*Initial public beta release
