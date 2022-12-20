@@ -129,7 +129,7 @@ static void InitConsoleInfo(HWND hwnd)
     if (EEPROMInitSerial() == MECHA_RTC_RICOH)
     {
         EEPROMGetSerial(&serial, &emcs);
-        sprintf(buffer, "%07d", serial);
+        sprintf(buffer, "%07u", serial);
         SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_SERIAL), buffer);
         sprintf(buffer, "%02x", emcs);
         SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_EMCS_ID), buffer);
@@ -259,7 +259,7 @@ static INT_PTR CALLBACK MainDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
     return result;
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR pCmdLine, int nCmdShow)
 {
     g_hInstance = hInstance;
     DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG_MAIN), NULL, &MainDlg);

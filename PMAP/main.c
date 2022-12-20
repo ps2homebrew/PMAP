@@ -5,9 +5,9 @@
 #include <errno.h>
 
 #include "platform.h"
-#include "main.h"
-#include "mecha.h"
-#include "eeprom.h"
+#include "../base/main.h"
+#include "../base/mecha.h"
+#include "../base/eeprom.h"
 
 void DisplayRawIdentData(void)
 {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        printf("Syntax error. Syntax: PS2CDVDTool <COM port>\n");
+        printf("Syntax error. Syntax: PMAP <COM port>\n");
         return EINVAL;
     }
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     {
         do
         {
-            printf("\nP.M.A.P (v1.11)\n"
+            printf("\nP.M.A.P (v1.11.1beta)\n"
                    "=============================\n"
                    "\t1.\tEEPROM management\n"
                    "\t2.\tAutomatic ELECT adjustment\n"

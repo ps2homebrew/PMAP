@@ -293,10 +293,7 @@ int MechaUpdateChassisAB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int 
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "02", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT DISC DETECT");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "03", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT SERVO");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "05", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT TRAY");
-    }
 
-    if (forceUpdate)
-    {
         if (EEPMapRead(0x026) == 0x0c06 || EEPMapRead(0x026) == 0x0e06)
         {
             AddUpdateItem(0x026, 0x0e06, id++);
@@ -428,10 +425,7 @@ int MechaUpdateChassisB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "03", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT SERVO");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "04", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT TILT");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "05", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT TRAY");
-    }
 
-    if (forceUpdate)
-    {
         if (EEPMapRead(0x026) == 0x0c0a || EEPMapRead(0x026) == 0x0c06 || EEPMapRead(0x026) == 0x0e06)
         {
             AddUpdateItem(0x026, 0x0e06, id++);
@@ -545,10 +539,7 @@ int MechaUpdateChassisC(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "02", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT DISC DETECT");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "03", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT SERVO");
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "05", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT TRAY");
-    }
 
-    if (forceUpdate)
-    {
         if (EEPMapRead(0x026) == 0x0c0a || EEPMapRead(0x026) == 0x0c06 || EEPMapRead(0x026) == 0x0e06)
         {
             AddUpdateItem(0x026, 0x0e06, id++);
@@ -1105,10 +1096,7 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         MechaCommandAdd(MECHA_CMD_CLEAR_CONF, "05", id++, 0, MECHA_TASK_NORMAL_TO, "DEFAULT TRAY");
         if (opt == MECHA_OP_SANYO)
             MechaCommandAdd(MECHA_CMD_SETUP_SANYO, NULL, id++, 0, MECHA_TASK_NORMAL_TO, "SANYO DEFAULTS");
-    }
 
-    if (forceUpdate)
-    {
         AddUpdateItem(0x024, 0x3008, id++);
 
         if (opt == MECHA_OP_SANYO)

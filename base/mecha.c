@@ -49,7 +49,7 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
 {
     char cmd[MECHA_TX_BUFFER_SIZE];
     unsigned short int size;
-    int result;
+    int result = 0;
 
     if (args != NULL)
         sprintf(cmd, "%03x%s\r\n", command, args);
@@ -247,7 +247,7 @@ static void MechaParseOP(void)
         return;
     }
 
-    ConOP = idReg & 0x20 ? MECHA_OP_SANYO : MECHA_OP_SONY;
+    ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
 
     // Old version from EEPROM 2003/03/13:
     /* switch (reg10)

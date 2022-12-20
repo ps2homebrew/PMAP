@@ -371,7 +371,7 @@ void MenuEEPROM(void)
             while (getchar() != '\n')
             {
             };
-        } while (choice < 1 || choice > 17);
+        } while (choice < 1 || choice > 18);
 
         switch (choice)
         {

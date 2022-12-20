@@ -1236,10 +1236,10 @@ static int JudgeDVDSLFocusOffset(const char *data, int len)
 
 static int JudgeDVDSLDeFocusOffset(const char *data, int len)
 {
-    int offset;
+    unsigned int offset;
     float result;
 
-    offset = (int)strtoul(&data[5], NULL, 16);
+    offset = (unsigned int)strtoul(&data[5], NULL, 16);
     if (offset == 0x100)
         offset = -(~offset & 0xFF);
     else
@@ -1264,16 +1264,16 @@ static int JudgeDVDSLFBOffset(const char *data, int len)
     char number[3];
     unsigned short int FbOffsetHi, FbOffsetLo;
 
-    number[2] = '\0';
     strncpy(number, &data[5], 2);
+    number[2]  = '\0';
     FbOffsetHi = (unsigned short int)strtoul(number, NULL, 16);
     FbOffsetLo = (unsigned short int)strtoul(&data[7], NULL, 16);
 
-    if ((FbOffsetHi >= 0 && FbOffsetHi <= 0x4C) || (FbOffsetHi >= 0xB4 && FbOffsetHi <= 0xFF))
+    if ((FbOffsetHi <= 0x4C) || (FbOffsetHi >= 0xB4 && FbOffsetHi <= 0xFF))
     {
         PlatDPrintf("DVD-SL FB OFFSET (HI) OK: %d\n", FbOffsetHi);
 
-        if ((FbOffsetLo >= 0 && FbOffsetLo <= 0x4C) || (FbOffsetLo >= 0xB4 && FbOffsetLo <= 0xFF))
+        if ((FbOffsetLo <= 0x4C) || (FbOffsetLo >= 0xB4 && FbOffsetLo <= 0xFF))
         {
             PlatDPrintf("DVD-SL FB OFFSET (LO) Check OK: %d\n", FbOffsetLo);
             return 0;

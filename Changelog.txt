@@ -1,7 +1,7 @@
-2016/10/19	v1.11
+2016/10/19    v1.11
 *Corrected CD/DVD detection ratio formula.
 
-2016/09/11	v1.10
+2016/09/11    v1.10
 *Corrected incorrect values for C-chassis detection.
 *Corrected incorrect floating-point values used in elect-adjustment.
 *Corrected (debug) ID numbers for post-update and post-EEPROM write tasks.
@@ -13,5 +13,5 @@
 *Removed debug messages from elect adjustment.
 *Added an error message for commands that time out.
 
-2016/04/08	v1.00
+2016/04/08    v1.00
 *Initial public beta release

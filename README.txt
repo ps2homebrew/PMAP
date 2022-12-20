@@ -2,7 +2,7 @@ PlayStation 2 Mechacon Adjustment Program (PMAP)	- 2015/12/22
 ====================================================================
 
 The PlayStation 2 Mechacon Adjustment Program (PMAP) is a tool for maintaining the PlayStation 2 CD/DVD subsystem.
-SONY has its own official tools that aid in the maintanence process of their consoles. This program is a clone of their tools.
+SONY has its own official tools that aid in the maintenance process of its consoles. This program is a clone of their tools.
 
 It offers the following functionality:
 1. EEPROM maintenance and updating
@@ -66,43 +66,43 @@ There is a new BGA-based MechaCon on the F-chassis mainboard (CXP-103049-xxx).
 The battery must be present, or the DVD-ROM circuit may not function correctly.
 
 If the battery is removed or has run out, the RTC-ECR data on the RTC IC and EEPROM will be erased to 0.
-This may result in the i.Link interface not working properly. Therefore, install a good battery before adjustment and do not remove it.
+This may result in the i.Link interface is not working properly. Therefore, install a good battery before adjustment and do not remove it.
 
 EEPROM management
 -----------------
 
-The PlayStation 2 has a EEPROM chip that contains various configuration segments:
+The PlayStation 2 has an EEPROM chip that contains various configuration segments:
 1. Disc detect
 2. Servo
 3. Tilt (unused on all consoles that do not have an auto-tilt motor)
-4. PS2ID (model name + iLink ID + Console ID)
+4. PS2ID (model name + i.Link ID + Console ID)
 5. Tray
 6. DVD player
 7. EEGS
 8. OSD
 
 This tool allows the EEPROM to be backed up and restored (up to G-chassis only), erased and for the defaults to be loaded.
-The defaults for the SANYO OP (F-chassis and later) can also be loaded, allowing the OP to be changed to a SANYO OP. The MECHACON defaults is for a SONY OP.
+The defaults for the SANYO OP (F-chassis and later) can also be loaded, allowing the OP to be changed to a SANYO OP. The MECHACON defaults are for a SONY OP.
 
 Updates to the EEPROM parameters are also provided.
 
-Warning! although the functionality is provided, do not erasese the EEPROM or load the defaults for the ID region!
-This tool does not provide functionality to restore the IDs of the PlayStation 2.
+Warning! although the functionality is provided, do not erase the EEPROM or load the defaults for the ID region!
+This tool does not provide the functionality to restore the IDs of the PlayStation 2.
 
 Electrical circuit adjustment
 -----------------------------
 
-Adjustment of the electical circuit is done automatically. Simply follow the on-screen instructions to complete the adjustment procedure.
+Adjustment of the electrical circuit is done automatically. Simply follow the on-screen instructions to complete the adjustment procedure.
 You will need the following discs:
 CD test disc 		- SCD-2700 (YEDS-18 for DTL-T10000)
 DVD-SL test disc	- HX-504
 DVD-DL test disc	- HX-505
 
-If unavailable, regular discs (CD, DVD-SL and DVD-DL) can be used as substitute for these discs, but the correct type of disc must be inserted.
-Failing which, irrepairable damage to the console's optical block may result!
+If unavailable, regular discs (CD, DVD-SL and DVD-DL) can be used as a substitute for these discs, but the correct type of disc must be inserted.
+Failing which, irreparable damage to the console's optical block may result!
 If unsure, please use the corresponding PlayStation 2 discs. They have to be in a good condition.
 
-You have to do this, if you:
+You have to do this if you:
 1. Changed or removed the OP block.
 2. Changed or removed the spindle motor.
 3. Changed the MECHACON IC.
@@ -115,18 +115,18 @@ The mechanism adjustment involves two parts:
 1. Tangential skew
 2. Radial skew (automatic for B-chassis)
 
-You need to do this, if you:
+You need to do this if you:
 1. Changed or removed the OP block
 2. Changed or removed the spindle motor
 
 Procedure for mechanism (skew) adjustment:
-1. Remove tray and move the tray mechanism to the close position.
+1. Remove the tray and move the tray mechanism to the close position.
 2. Put a disc (GLD-DR01, or a DVD-SL disc) on the spindle motor with a chuck (clamp).
 3. Do initialization (INIT SKEW).
 4. Move the sled out (SLED OUT). Warning! the laser is now at the outer part of the disc!
 5. Enter play mode (PLAY 1x).
 6. Read jitter (JITTER 16 or JITTER 256) as you make adjustments.
-	You will have to repeat both radial and tangential skew adjustments, until jitter is minimal (i.e. the sweet spot is found).
+	You will have to repeat both radial and tangential skew adjustments until jitter is minimal (i.e. the sweet spot is found).
 6a. Radial skew:
 	i) If the console is a B-chassis, use the AUTO TILT motor adjustment function:
 		*Automatically adjust radial skew with the ADJ command (TILT ADJ).
@@ -136,7 +136,7 @@ Procedure for mechanism (skew) adjustment:
 	ii) If the console is a non-auto-tilt motor model:
 		*Adjust the radial skew adjustment screw until jitter is minimal.
 6b. Tangential skew:
-	*Move the sled out (SLED OUT), if it was moved back to home position.
+	*Move the sled out (SLED OUT), if it was moved back to the home position.
 	*Adjust the tangential skew adjustment screw until jitter is minimal.
 7. Stop play mode (PLAY STOP).
 8. Move the sled back to the home position (SLED HOM).
@@ -190,7 +190,7 @@ MD1.40 (CXR706080-xxx H/I-chassis)
 
 Known bugs and limitations:
 ---------------------------
-1. There is currently no way to enter a new i.Link or console ID.
+1. There is currently no way to enter new i.Link or console ID.
 2. There is currently no way to enter a new model name.
 
 There are no plans for adding support for ID management, as their only use is to evade DNAS.

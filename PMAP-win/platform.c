@@ -27,8 +27,8 @@ int PlatOpenCOMPort(const char *device)
             DeviceControlBlock.DCBlength = sizeof(DCB);
             GetCommState(ComPortHandle, &DeviceControlBlock);
             DeviceControlBlock.BaudRate = CBR_57600;
-            DeviceControlBlock.fParity  = FALSE;
             DeviceControlBlock.ByteSize = 8;
+            DeviceControlBlock.fParity  = FALSE;
             DeviceControlBlock.StopBits = ONESTOPBIT;
             SetCommState(ComPortHandle, &DeviceControlBlock);
             CommTimeout.ReadIntervalTimeout        = 0;

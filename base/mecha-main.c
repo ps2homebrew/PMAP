@@ -1101,7 +1101,9 @@ static int DisplayHelp(const struct MechaDiagCommand *commands, short int argc, 
         printf("To get help for a specific command, type HELP <command>\n"
                "Available commands:\n");
         for (pCmd = commands, i = 0; pCmd->command != NULL; pCmd++, i++)
-            printf("\t%s%c", pCmd->command, (i != 0 && i % 4 == 0) ? '\n' : ' ');
+        {
+            printf("\t%s%c", pCmd->command, ((i != 0) && (i % 4) == 0) ? '\n' : ' ');
+        }
         putchar('\n');
     }
     else if (argc == 2)
