@@ -73,7 +73,7 @@ static int EEPROMRxHandler(MechaTask_t *task, const char *result, short int len)
 {
     switch (result[0])
     {
-        case '0': //Rx-OK
+        case '0': // Rx-OK
             switch (task->tag)
             {
                 case MECHA_CMD_TAG_EEPROM_SERIAL_0:
@@ -100,14 +100,14 @@ static int EEPROMRxHandler(MechaTask_t *task, const char *result, short int len)
                     return 0;
             }
             break;
-        case '1': //Rx-NGErr
+        case '1': // Rx-NGErr
             switch (task->tag)
             {
                 default:
                     return MechaDefaultHandleRes1(task, result, len);
             }
             break;
-        case '2': //Rx-NGBadCmd
+        case '2': // Rx-NGBadCmd
             switch (task->tag)
             {
                 default:
@@ -131,7 +131,7 @@ int EEPROMReadWord(unsigned short int word, u16 *data)
     }
     else
     {
-        if (result > 0) //Data was read.
+        if (result > 0) // Data was read.
             result = (int)strtoul(buffer, NULL, 16);
     }
 
@@ -150,7 +150,7 @@ int EEPROMWriteWord(unsigned short int word, u16 data)
     }
     else
     {
-        if (result > 0) //Data was read.
+        if (result > 0) // Data was read.
             result = (int)strtoul(buffer, NULL, 16);
     }
 
@@ -317,7 +317,7 @@ static int EEPROMDefaultRohmRTC(void)
     char buffer[8];
     int result;
 
-    //BU9861FV-WE2
+    // BU9861FV-WE2
     if (ConRTCStat & 0x80)
         PlatShowEMessage("Clear RTC: NO BATTERY!!\n");
 
@@ -607,7 +607,7 @@ int EEPROMGetEEPROMStatus(void)
     return (word == 0xFFFF);
 }
 
-//While this indicates the status of the OSD2 init bit on most models, SONY didn't use it for the A and AB chassis.
+// While this indicates the status of the OSD2 init bit on most models, SONY didn't use it for the A and AB chassis.
 int EEPROMIsOSD2InitBitTrue(void)
 {
     u16 word;
@@ -669,12 +669,12 @@ int EEPROMGetTVSystem(void)
     return ((word & 0xC0) || (word & 0x1000));
 }
 
-/*	SCPH-10000: OSD2 init bit can never be cleared (not supported)
-	A-chassis (not SCPH-10000): if EEPROM[0x188] !=	0x0000, OSD2 init bit can be cleared
-	AB-chassis: if EEPROM[0x18F] !=	0x0000, OSD2 init bit can be cleared
-	B-chassis and later: if EEPROM[0x189] & 0x80, init OSD2 bit can be cleared
-	
-	This function returns 1 if the OSD2 Init Bit is set and the user can clear it.	*/
+/*  SCPH-10000: OSD2 init bit can never be cleared (not supported)
+    A-chassis (not SCPH-10000): if EEPROM[0x188] != 0x0000, OSD2 init bit can be cleared
+    AB-chassis: if EEPROM[0x18F] != 0x0000, OSD2 init bit can be cleared
+    B-chassis and later: if EEPROM[0x189] & 0x80, init OSD2 bit can be cleared
+
+    This function returns 1 if the OSD2 Init Bit is set and the user can clear it. */
 int EEPROMCanClearOSD2InitBit(int chassis)
 {
     switch (chassis)
@@ -683,7 +683,7 @@ int EEPROMCanClearOSD2InitBit(int chassis)
         case MECHA_CHASSIS_MODEL_DEXA:
         case MECHA_CHASSIS_MODEL_DEXA2:
         case MECHA_CHASSIS_MODEL_DEXA3:
-            return 0; //These models do not support the OSD2 init bit.
+            return 0; // These models do not support the OSD2 init bit.
         case MECHA_CHASSIS_MODEL_A:
             return (EEPMapRead(0x188) != 0x0000);
         case MECHA_CHASSIS_MODEL_AB:

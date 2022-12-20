@@ -15,6 +15,6 @@ void PlatDebugInit(void);
 void PlatDebugDeinit(void);
 void PlatDPrintf(const char *format, ...);
 
-//If necessary, provide these functions, otherwise define them to their equivalents
+// If necessary, provide these functions, otherwise define them to their equivalents
 int pstricmp(const char *s1, const char *s2);
 int pstrincmp(const char *s1, const char *s2, int len);

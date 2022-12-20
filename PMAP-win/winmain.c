@@ -148,7 +148,7 @@ static void InitConsoleInfo(HWND hwnd)
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_RTC_TYPE), MechaGetRTCName(MechaGetRTCType()));
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_TV_SYS), MechaGetTVSystemDesc(EEPROMGetTVSystem()));
 
-    //System status
+    // System status
     CheckDlgButton(hwnd, IDC_CHECK_CHKSUM_ERR, MechaGetEEPROMStat() ? BST_UNCHECKED : BST_CHECKED);
 
     status = MechaGetRTCStat();
@@ -218,7 +218,7 @@ static INT_PTR CALLBACK MainDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
                         else
                             DisplayConnHelp();
                     }
-                    //Otherwise (if failed to connect), fall through.
+                    // Otherwise (if failed to connect), fall through.
                 case IDC_BUTTON_DISCONNECT:
                     PlatCloseCOMPort();
                     PlatDebugDeinit();

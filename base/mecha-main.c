@@ -8,18 +8,18 @@
 #include "eeprom.h"
 #include "main.h"
 
-/*	Adjustment process:
-	1. Remove tray (Not required for B-chassis)
-	2. Put adjustment disc with chuck (clamp)
-	3. Perform DVD-SL adjustment.
-	4. Press OUT button and then the PLAY 1x button.
-	5. Push 16 or 256-read buttons to read the jitter level.
-	6. Perform radial and tangential skew adjustment.
-		For B-chassis, enable auto-tilt radial skew adjustment (ADJ button).
-	7. Stop jitter measurement.
-	8. Stop play mode.
-	9. Press HOME button and take out the disc.
-	10. Put the tray back and check the eject mechanism.	*/
+/*  Adjustment process:
+    1. Remove tray (Not required for B-chassis)
+    2. Put adjustment disc with chuck (clamp)
+    3. Perform DVD-SL adjustment.
+    4. Press OUT button and then the PLAY 1x button.
+    5. Push 16 or 256-read buttons to read the jitter level.
+    6. Perform radial and tangential skew adjustment.
+        For B-chassis, enable auto-tilt radial skew adjustment (ADJ button).
+    7. Stop jitter measurement.
+    8. Stop play mode.
+    9. Press HOME button and take out the disc.
+    10. Put the tray back and check the eject mechanism. */
 
 enum MECHA_ADJ_STATE
 {
@@ -202,7 +202,7 @@ static int MechaAdjRxHandler(MechaTask_t *task, const char *result, short int le
 {
     switch (result[0])
     {
-        case '0': //Rx-OK
+        case '0': // Rx-OK
             switch (task->tag)
             {
                 case MECHA_CMD_TAG_MECHA_DVD_ERROR_RATE:
@@ -215,14 +215,14 @@ static int MechaAdjRxHandler(MechaTask_t *task, const char *result, short int le
                     return 0;
             }
             break;
-        case '1': //Rx-NGErr
+        case '1': // Rx-NGErr
             switch (task->tag)
             {
                 default:
                     return MechaDefaultHandleRes1(task, result, len);
             }
             break;
-        case '2': //Rx-NGBadCmd
+        case '2': // Rx-NGBadCmd
             switch (task->tag)
             {
                 default:
@@ -357,23 +357,23 @@ static int MechaAdjInit(short int argc, char *argv[])
 {
     unsigned char id;
 
-    /*	Mechanism (slew) adjustment
-		DVD-SL (10-15s TimeOut) initialization:
-			1. Sled home position
-			2. DVD-SL mode
-			3. (B-chassis only) Initialize AUTO-TILT motor
-			4. Autogain 1+2 (No EEP WRITE)
-			5. STOP
-		DVD-DL initialization:
-			1. Sled home position
-			2. DVD-DL mode
-			3. Autogain 1+2 (No EEP WRITE)
-			4. STOP
-		CD-ROM initialization:
-			1. Sled home position
-			2. CD-ROM mode
-			3. Autogain 1+2 (No EEP WRITE)
-			4. STOP	*/
+    /*  Mechanism (slew) adjustment
+        DVD-SL (10-15s TimeOut) initialization:
+            1. Sled home position
+            2. DVD-SL mode
+            3. (B-chassis only) Initialize AUTO-TILT motor
+            4. Autogain 1+2 (No EEP WRITE)
+            5. STOP
+        DVD-DL initialization:
+            1. Sled home position
+            2. DVD-DL mode
+            3. Autogain 1+2 (No EEP WRITE)
+            4. STOP
+        CD-ROM initialization:
+            1. Sled home position
+            2. CD-ROM mode
+            3. Autogain 1+2 (No EEP WRITE)
+            4. STOP */
 
     switch (ConType)
     {
@@ -418,18 +418,18 @@ static int MechaAdjInit(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_SLED_POS_HOME, NULL, id++, 0, 3000, "SLED HOME");
             MechaCommandAdd(MECHA_CMD_DISC_MODE_CD_8, NULL, id++, MECHA_CMD_TAG_MECHA_CD_TYPE, 1000, "DISC MODE CD 8cm");
             switch (ConType)
-            { //TCD-732RA
+            { // TCD-732RA
                 case MECHA_TYPE_F:
                 case MECHA_TYPE_G:
                 case MECHA_TYPE_G2:
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_FIX_GAIN, "0003", id++, 0, 20000, "CD ADJUSTMENT (FIX GAIN)");
                     break;
-                case MECHA_TYPE_40: //TCD-732RA
+                case MECHA_TYPE_40: // TCD-732RA
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_12, "00", id++, 0, 20000, "CD AUTO ADJUSTMENT (1+2)");
                     break;
                 case MECHA_TYPE_36:
                 case MECHA_TYPE_38:
-                case MECHA_TYPE_39: //TCD-732RA
+                case MECHA_TYPE_39: // TCD-732RA
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "CD AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2, "00", id++, 0, 20000, "CD AUTO ADJUSTMENT (STAGE 2)");
                     break;
@@ -448,7 +448,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_DISC_MODE_DVDSL_12, NULL, id++, 0, 1000, "DISC MODE DVD-SL 12cm");
             MechaCommandAdd(MECHA_CMD_INIT_AUTO_TILT, NULL, id++, MECHA_CMD_TAG_MECHA_AUTO_TILT, 5000, "AUTO TILT INIT");
             switch (ConType)
-            { //TDR-832/TDV-520CSC
+            { // TDR-832/TDV-520CSC
                 case MECHA_TYPE_40:
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_12, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (1+2)");
                     break;
@@ -457,7 +457,7 @@ static int MechaAdjInit(short int argc, char *argv[])
                 case MECHA_TYPE_39:
                 case MECHA_TYPE_F:
                 case MECHA_TYPE_G:
-                case MECHA_TYPE_G2: //TDR-832
+                case MECHA_TYPE_G2: // TDR-832
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 2)");
             }
@@ -474,7 +474,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_SLED_POS_HOME, NULL, id++, 0, 3000, "SLED HOME");
             MechaCommandAdd(MECHA_CMD_DISC_MODE_DVDDL_12, NULL, id++, 0, 1000, "DISC MODE DVD-DL 12cm");
             switch (ConType)
-            { //TDV-540CSC
+            { // TDV-540CSC
                 case MECHA_TYPE_40:
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_12, "00", id++, 0, 20000, "DVD-DL AUTO ADJUSTMENT (1+2)");
                     break;
@@ -483,7 +483,7 @@ static int MechaAdjInit(short int argc, char *argv[])
                 case MECHA_TYPE_39:
                 case MECHA_TYPE_F:
                 case MECHA_TYPE_G:
-                case MECHA_TYPE_G2: //HLX-505
+                case MECHA_TYPE_G2: // HLX-505
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "DVD-DL AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2, "00", id++, 0, 20000, "DVD-DL AUTO ADJUSTMENT (STAGE 2)");
             }
@@ -501,7 +501,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_DISC_MODE_DVDSL_12, NULL, id++, 0, 1000, "DISC MODE DVD-SL 12cm");
             MechaCommandAdd(MECHA_CMD_INIT_AUTO_TILT, NULL, id++, MECHA_CMD_TAG_MECHA_AUTO_TILT, 5000, "AUTO TILT INIT");
             switch (ConType)
-            { //Test DVD-SL GLD-DR01
+            { // Test DVD-SL GLD-DR01
                 case MECHA_TYPE_F:
                 case MECHA_TYPE_G:
                 case MECHA_TYPE_G2:
@@ -999,14 +999,14 @@ static int MechaAdjSled(short int argc, char *argv[])
             if (argc == 3)
             {
                 if (!pstricmp(argv[2], "IN"))
-                { //Micro reverse
+                { // Micro reverse
                     sprintf(args, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
-                { //Micro forward
+                { // Micro forward
                     sprintf(args, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, "010064", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
@@ -1023,14 +1023,14 @@ static int MechaAdjSled(short int argc, char *argv[])
             if (argc == 3)
             {
                 if (!pstricmp(argv[2], "IN"))
-                { //Biphs reverse
+                { // Biphs reverse
                     sprintf(args, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
-                { //Biphs forward
+                { // Biphs forward
                     sprintf(args, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
@@ -1626,7 +1626,9 @@ static int MechaAdjPromptT10K(void)
     {
         printf("Is this a DTL-T10000? [y,n] ");
         input = getchar();
-        while (getchar() != '\n') {};
+        while (getchar() != '\n')
+        {
+        };
     } while (input != 'y' && input != 'n');
 
     return (input == 'y');
@@ -1660,7 +1662,9 @@ void MenuMECHA(void)
                "\nContinue with MECHA adjustment? [y/n]");
 
         choice = getchar();
-        while (getchar() != '\n') {};
+        while (getchar() != '\n')
+        {
+        };
     } while (choice != 'y' && choice != 'n');
 
     if (choice == 'y')
@@ -1679,7 +1683,9 @@ void MenuMECHA(void)
                        "Your choice: ");
                 input = 0;
                 scanf("%d", &input);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (input < 1 || input > 3);
 
             switch (input)

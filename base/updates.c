@@ -8,7 +8,7 @@
 #include "mecha.h"
 #include "eeprom.h"
 
-//If any additional data is required/no longer required, please update the EEPROM map initialization code within MechaInitModel().
+// If any additional data is required/no longer required, please update the EEPROM map initialization code within MechaInitModel().
 extern char MechaName[9], RTCData[19];
 extern unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat;
 
@@ -304,11 +304,11 @@ int MechaUpdateChassisAB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int 
         }
         else if (EEPMapRead(0x0026) != 0x9a4d)
         {
-            //Not AB-chassis
+            // Not AB-chassis
             MechaCommandListClear();
             return -EINVAL;
         }
-        //Do nothing for 0x9a4d
+        // Do nothing for 0x9a4d
     }
     else
     {
@@ -319,11 +319,11 @@ int MechaUpdateChassisAB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int 
         }
         else if (EEPMapRead(0x026) != 0x0e06 && EEPMapRead(0x0026) != 0x9a4d)
         {
-            //Not AB-chassis
+            // Not AB-chassis
             MechaCommandListClear();
             return -EINVAL;
         }
-        //Do nothing for 0x0e06 and 0x9a4d
+        // Do nothing for 0x0e06 and 0x9a4d
     }
     if (lens == MECHA_LENS_T487)
     {
@@ -340,7 +340,7 @@ int MechaUpdateChassisAB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int 
     }
     else
     {
-        //Strangely not for the T487. So no new value for T487?
+        // Strangely not for the T487. So no new value for T487?
         if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_13) != 0x6f6f)
         {
             AddUpdateItem(EEPROM_MAP_OPT_13, 0x6f6f, id++);
@@ -437,7 +437,7 @@ int MechaUpdateChassisB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             AddUpdateItem(0x026, 0x0e06, id++);
             UpdateStat |= UPDATE_REGION_SERVO;
         }
-        //Do nothing for 0x9a4d (also does nothing if not 0x9a4d).
+        // Do nothing for 0x9a4d (also does nothing if not 0x9a4d).
     }
     else
     {
@@ -446,7 +446,7 @@ int MechaUpdateChassisB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             AddUpdateItem(0x026, 0x0e06, id++);
             UpdateStat |= UPDATE_REGION_SERVO;
         }
-        //Do nothing for 0x0e06 and 0x9a4d (also does nothing if not any of these).
+        // Do nothing for 0x0e06 and 0x9a4d (also does nothing if not any of these).
     }
     if (lens == MECHA_LENS_T487)
     {
@@ -463,7 +463,7 @@ int MechaUpdateChassisB(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
     }
     else
     {
-        //Strangely not for the T487. So no new value for T487?
+        // Strangely not for the T487. So no new value for T487?
         if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_13) != 0x6f6f)
         {
             AddUpdateItem(EEPROM_MAP_OPT_13, 0x6f6f, id++);
@@ -554,7 +554,7 @@ int MechaUpdateChassisC(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             AddUpdateItem(0x026, 0x0e06, id++);
             UpdateStat |= UPDATE_REGION_SERVO;
         }
-        //Do nothing for 0x9a4d (also does nothing if not 0x9a4d).
+        // Do nothing for 0x9a4d (also does nothing if not 0x9a4d).
     }
     else
     {
@@ -563,7 +563,7 @@ int MechaUpdateChassisC(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             AddUpdateItem(0x026, 0x0e06, id++);
             UpdateStat |= UPDATE_REGION_SERVO;
         }
-        //Do nothing for 0x0e06 and 0x9a4d (also does nothing if not any of these).
+        // Do nothing for 0x0e06 and 0x9a4d (also does nothing if not any of these).
     }
     if (lens == MECHA_LENS_T487)
     {
@@ -580,7 +580,7 @@ int MechaUpdateChassisC(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
     }
     else
     {
-        //Strangely not for the T487. So no new value for T487?
+        // Strangely not for the T487. So no new value for T487?
         if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_13) != 0x6f6f)
         {
             AddUpdateItem(EEPROM_MAP_OPT_13, 0x6f6f, id++);
@@ -662,7 +662,7 @@ int MechaUpdateChassisD(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
     versionOnly[4] = '\0';
     version        = (unsigned int)strtoul(versionOnly, NULL, 16);
     if (version < 0x0206)
-    { //Not a D-chassis MECHACON
+    { // Not a D-chassis MECHACON
         return EINVAL;
     }
 
@@ -720,7 +720,7 @@ int MechaUpdateChassisD(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         }
         else if ((value != 0x0e06) && (value != 0x9a4d))
         {
-            //Do nothing for 0x0e06 and 0x9a4d. Do nothing if not any of these, other than displaying a warning ("unknown data at 0x26 on D-chassis").
+            // Do nothing for 0x0e06 and 0x9a4d. Do nothing if not any of these, other than displaying a warning ("unknown data at 0x26 on D-chassis").
             PlatShowEMessage("unknown data at 0x26 on D-chassis\n");
         }
     }
@@ -831,18 +831,18 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         {0x00fb, 0x0007, UPDATE_REGION_TRAY},
         {0xFFFF, 0xFFFF, 0xFF}};
 
-    /*	Instead of making individual checks, just check once here.
-		As of MAR 2003, there was no official support for a SANYO Optical Block with T609K lens.
-		However, the original code that handles the T609K has checks for the SANYO OP,
-		and sometimes uses different values from the SONY OP.
-		Where applicable, the code for both OPs are merged.	*/
+    /*  Instead of making individual checks, just check once here.
+        As of MAR 2003, there was no official support for a SANYO Optical Block with T609K lens.
+        However, the original code that handles the T609K has checks for the SANYO OP,
+        and sometimes uses different values from the SONY OP.
+        Where applicable, the code for both OPs are merged. */
     if (lens == MECHA_LENS_T609K && opt == MECHA_OP_SANYO)
-    { //Not supported.
+    { // Not supported.
         return -1;
     }
-    //The tool checks to ensure that only either a SANYO or SONY OP was selected.
+    // The tool checks to ensure that only either a SANYO or SONY OP was selected.
     if (opt != MECHA_OP_SONY && opt != MECHA_OP_SANYO)
-    { //Not supported
+    { // Not supported
         return -1;
     }
 
@@ -876,7 +876,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             }
         }
         else
-        { //SONY OP
+        { // SONY OP
             if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_13) != 0x6f4f)
             {
                 AddUpdateItem(EEPROM_MAP_OPT_13, 0x6f4f, id++);
@@ -890,7 +890,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             }
         }
 
-        //For both OPs with T487
+        // For both OPs with T487
         if (forceUpdate || EEPMapRead(0x027) != 0x4d4d)
         {
             AddUpdateItem(0x027, 0x4d4d, id++);
@@ -913,7 +913,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         }
     }
     else
-    { //T609K lens
+    { // T609K lens
         if (opt == MECHA_OP_SONY)
         {
             if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_12) != 0x6b8b)
@@ -929,7 +929,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             }
         }
         else
-        { //SANYO OP
+        { // SANYO OP
             if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_12) != 0x6d8f)
             {
                 AddUpdateItem(EEPROM_MAP_OPT_12, 0x6d8f, id++);
@@ -943,7 +943,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             }
         }
 
-        //For both OPs with T609K
+        // For both OPs with T609K
         if (forceUpdate || EEPMapRead(EEPROM_MAP_OPT_13) != 0x4f6f)
         {
             AddUpdateItem(EEPROM_MAP_OPT_13, 0x4f6f, id++);
@@ -966,7 +966,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         }
     }
     if (!forceUpdate)
-    { //Only if not forced (otherwise, no update is made).
+    { // Only if not forced (otherwise, no update is made).
         if (opt == MECHA_OP_SONY)
         {
             if (EEPMapRead(0x008) != 0x4300)
@@ -995,7 +995,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
     }
 
     if (ConRTC == MECHA_RTC_RICOH)
-    { //RS5C348AE2
+    { // RS5C348AE2
         if (forceUpdate || EEPMapRead(0x029) != 0xf113)
         {
             AddUpdateItem(0x029, 0xf113, id++);
@@ -1032,7 +1032,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
 #endif
     }
     else
-    { //BU9861FV-WE2
+    { // BU9861FV-WE2
         if (forceUpdate || EEPMapRead(0x029) != 0xf100)
         {
             AddUpdateItem(0x029, 0xf100, id++);
@@ -1067,7 +1067,7 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
 }
 
 int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int opt)
-{ //In EEPROM tool 2003/03/13, the newer G-chassis had no updates. In the (later) combined tool, both versions of the G-chassis share the same updates.
+{ // In EEPROM tool 2003/03/13, the newer G-chassis had no updates. In the (later) combined tool, both versions of the G-chassis share the same updates.
     unsigned short int UpdateStat;
     unsigned char forceUpdate, i, id;
     const struct UpdateData data[] = {
@@ -1078,15 +1078,15 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         {0x000e, 0xFFFF, UPDATE_REGION_SERVO},
         {0xFFFF, 0xFFFF, 0xFF}};
 
-    //Instead of making individual checks, just check once here.
-    //The tool checks to ensure that only either a SANYO or SONY OP was selected.
+    // Instead of making individual checks, just check once here.
+    // The tool checks to ensure that only either a SANYO or SONY OP was selected.
     if (opt != MECHA_OP_SONY && opt != MECHA_OP_SANYO)
-    { //Not supported
+    { // Not supported
         return -1;
     }
-    //The tool checks and supports only the first and second versions of the G-chassis.
+    // The tool checks and supports only the first and second versions of the G-chassis.
     if (ConMD != MECHA_TYPE_G && ConMD != MECHA_TYPE_G2)
-    { //Not supported.
+    { // Not supported.
         return -1;
     }
 
@@ -1113,9 +1113,9 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
 
         if (opt == MECHA_OP_SANYO)
         {
-            AddUpdateItem(EEPROM_MAP_OPT_12, 0x6482, id++); //Only for SANYO OP
+            AddUpdateItem(EEPROM_MAP_OPT_12, 0x6482, id++); // Only for SANYO OP
             AddUpdateItem(0x031, 0x25c8, id++);
-            AddUpdateItem(0x04b, 0x1a1a, id++); //Only for SANYO OP
+            AddUpdateItem(0x04b, 0x1a1a, id++); // Only for SANYO OP
         }
         else
         {
@@ -1134,13 +1134,13 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         if (opt == MECHA_OP_SANYO)
         {
             if (EEPMapRead(EEPROM_MAP_OPT_12) != 0x6482)
-            { //Only for SANYO OP
+            { // Only for SANYO OP
                 AddUpdateItem(EEPROM_MAP_OPT_12, 0x6482, id++);
                 UpdateStat |= UPDATE_REGION_SERVO;
             }
 
             if (EEPMapRead(0x008) != 0x8800)
-            { //Only when update is not forced.
+            { // Only when update is not forced.
                 AddUpdateItem(0x008, 0x8800, id++);
                 UpdateStat |= UPDATE_REGION_DISCDET;
             }
@@ -1152,15 +1152,15 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             }
 
             if (EEPMapRead(0x04b) != 0x1a1a)
-            { //Only for SANYO OP
+            { // Only for SANYO OP
                 AddUpdateItem(0x04b, 0x1a1a, id++);
                 UpdateStat |= UPDATE_REGION_SERVO;
             }
         }
         else
-        { //SONY OP
+        { // SONY OP
             if (EEPMapRead(0x008) != 0x4300)
-            { //Only when update is not forced.
+            { // Only when update is not forced.
                 AddUpdateItem(0x008, 0x4300, id++);
                 UpdateStat |= UPDATE_REGION_DISCDET;
             }
@@ -1182,7 +1182,7 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         }
     }
 
-    //BU9861FV-WE2
+    // BU9861FV-WE2
     if (forceUpdate || ConECR != 0x00)
     {
         MechaCommandAdd(MECHA_CMD_ECR_WRITE, "00", id++, 0, MECHA_TASK_NORMAL_TO, "ECR WRITE");
@@ -1589,7 +1589,7 @@ int MechaUpdateChassisDexD(int ClearOSD2InitBit, int ReplacedMecha, int lens, in
     return UpdateStat;
 }
 
-//Note: EEPROM regions may not be labelled correctly because the data was extracted from the March 2003 ELECT tool (which does not give this information).
+// Note: EEPROM regions may not be labelled correctly because the data was extracted from the March 2003 ELECT tool (which does not give this information).
 int MechaUpdateChassisH(int ClearOSD2InitBit, int ReplacedMecha, int lens, int opt)
 {
     unsigned short int UpdateStat;
@@ -1622,7 +1622,7 @@ int MechaUpdateChassisH(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
             UpdateStat |= data[i].type;
         }
     }
-    //BU9861FV-WE2
+    // BU9861FV-WE2
     if (forceUpdate || ConECR != 0x00)
     {
         MechaCommandAdd(MECHA_CMD_ECR_WRITE, "00", id++, 0, MECHA_TASK_NORMAL_TO, "ECR WRITE");
@@ -1642,7 +1642,7 @@ int MechaUpdateChassisH(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
     }
     MechaCommandAdd(MECHA_TASK_UI_CMD_WAIT, NULL, MECHA_TASK_ID_UI, 0, 100, "WAIT 100ms");
     if (!pstrincmp(MechaName, "000405", 6))
-    { //The data here seems to appear at the end of the EEPROM (+0x320).
+    { // The data here seems to appear at the end of the EEPROM (+0x320).
         MechaCommandAdd(MECHA_CMD_CFA, "00b1ea8bc0c8198435", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");
         MechaCommandAdd(MECHA_CMD_CFA, "0103dccd7dd383ff90", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");
         MechaCommandAdd(MECHA_CMD_CFA, "02a6848324ddf69aeb", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");
@@ -1713,7 +1713,7 @@ int MechaUpdateChassisDexH(int ClearOSD2InitBit, int ReplacedMecha, int lens, in
             UpdateStat |= data[i].type;
         }
     }
-    //BU9861FV-WE2
+    // BU9861FV-WE2
     if (forceUpdate || ConECR != 0x00)
     {
         MechaCommandAdd(MECHA_CMD_ECR_WRITE, "00", id++, 0, MECHA_TASK_NORMAL_TO, "ECR WRITE");
@@ -1732,9 +1732,9 @@ int MechaUpdateChassisDexH(int ClearOSD2InitBit, int ReplacedMecha, int lens, in
         UpdateStat |= (UPDATE_REGION_RTC | UPDATE_REGION_RTC_CTL12 | UPDATE_REGION_RTC_TIME);
     }
     if (!pstrincmp(MechaName, "000505", 6))
-    { //Something here checks for 0x19, 0x1A, 0x1B and 0x1C. If it's any of those, then the codes for the CEX H-chassis are used instead.
-        //No idea what it actually checks for because the UI doesn't seem to set it (always 0xFFFFFFFF).
-        //The data here seems to appear at the very end of the EEPROM (+0x320)
+    { // Something here checks for 0x19, 0x1A, 0x1B and 0x1C. If it's any of those, then the codes for the CEX H-chassis are used instead.
+        // No idea what it actually checks for because the UI doesn't seem to set it (always 0xFFFFFFFF).
+        // The data here seems to appear at the very end of the EEPROM (+0x320)
         MechaCommandAdd(MECHA_CMD_CFA, "0003dccd7dd383ff90", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");
         MechaCommandAdd(MECHA_CMD_CFA, "0103dccd7dd383ff90", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");
         MechaCommandAdd(MECHA_CMD_CFA, "02ffffffffffffffff", id++, 0, MECHA_TASK_NORMAL_TO, "PCEA1240");

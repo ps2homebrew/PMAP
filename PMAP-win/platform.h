@@ -9,13 +9,13 @@ void PlatCloseCOMPort(void);
 void PlatSleep(unsigned short int msec);
 void PlatShowEMessage(const char *format, ...);
 void PlatShowMessage(const char *format, ...);
-//void PlatShowMessageB(const char *format, ...);
+// void PlatShowMessageB(const char *format, ...);
 #define PlatShowMessageB PlatShowMessage
 
 void PlatDebugInit(void);
 void PlatDebugDeinit(void);
 void PlatDPrintf(const char *format, ...);
 
-//If necessary, provide these functions, otherwise define them to their equivalents
+// If necessary, provide these functions, otherwise define them to their equivalents
 int pstricmp(const char *s1, const char *s2);
 int pstrincmp(const char *s1, const char *s2, int len);

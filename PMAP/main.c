@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
         return ENODEV;
     }
 
-    //TODO!
-    //PlatDebugInit();
+    // TODO!
+    // PlatDebugInit();
 
     done = 0;
     do
@@ -107,7 +107,9 @@ int main(int argc, char *argv[])
 
             choice = 0;
             scanf("%hd", &choice);
-            while (getchar() != '\n') {};
+            while (getchar() != '\n')
+            {
+            };
 
 #ifdef ID_MANAGEMENT
             if (choice == 99)

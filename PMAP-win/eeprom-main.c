@@ -47,9 +47,9 @@ static void InitWindow(HWND hwnd)
                                 L"F-chassis (SCPH-30000/SCPH-300xx R)",
                                 L"G-chassis (SCPH-390xx)",
                                 L"H-chassis (SCPH-500xx)",
-                                L"A-chassis (DTL-H10000)",  //A
-                                L"A-chassis (DTL-T10000H)", //A2
-                                L"A-chassis (DTL-T10000)",  //A3
+                                L"A-chassis (DTL-H10000)",  // A
+                                L"A-chassis (DTL-T10000H)", // A2
+                                L"A-chassis (DTL-T10000)",  // A3
                                 L"B-chassis (DTL-H30001/2 with Auto-Tilt motor)",
                                 L"D-chassis (DTL-H30000)",
                                 L"H-chassis (DTL-H500xx)",
@@ -62,8 +62,8 @@ static void InitWindow(HWND hwnd)
     ToggleMainDialogControls(hwnd, FALSE);
 }
 
-#define EEPROM_UPDATE_FLAG_SANYO    1 //Supports SANYO OP
-#define EEPROM_UPDATE_FLAG_NEW_SONY 2 //No support for the old T487
+#define EEPROM_UPDATE_FLAG_SANYO    1 // Supports SANYO OP
+#define EEPROM_UPDATE_FLAG_NEW_SONY 2 // No support for the old T487
 
 static int UpdateEEPROM(HWND hwndDlg)
 {
@@ -111,7 +111,9 @@ static int UpdateEEPROM(HWND hwndDlg)
                        "Your choice: ");
                 OpticalBlock = 0;
                 scanf("%d", &OpticalBlock);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (OpticalBlock < 1 || OpticalBlock > 2);
             OpticalBlock--;
         }
@@ -128,7 +130,9 @@ static int UpdateEEPROM(HWND hwndDlg)
                        "Your choice: ");
                 ObjectLens = 0;
                 scanf("%d", &ObjectLens);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (ObjectLens < 1 || ObjectLens > 2);
             ObjectLens--;
         }
@@ -141,7 +145,9 @@ static int UpdateEEPROM(HWND hwndDlg)
             {
                 printf("The OSD2 init bit is set. Clear it? (y/n)");
                 choice = getchar();
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (choice != 'y' && choice != 'n');
             ClearOSD2InitBit = choice == 'y';
         }
@@ -178,7 +184,9 @@ static int UpdateEEPROM(HWND hwndDlg)
             {
                 printf("Proceed with updates? (y/n) ");
                 choice = getchar();
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (choice != 'y' && choice != 'n');
             if (choice == 'y')
             {

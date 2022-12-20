@@ -125,8 +125,10 @@ void PlatShowMessageB(const char *format, ...)
     if (DebugOutputFile != NULL)
         vfprintf(DebugOutputFile, format, args);
 
-    //Block until the user presses ENTER
-    while (getchar() != '\n') {};
+    // Block until the user presses ENTER
+    while (getchar() != '\n')
+    {
+    };
 
     va_end(args);
 }

@@ -65,7 +65,7 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
 
                 if ((size + 1 >= 2) && buffer[size - 1] == '\r' && buffer[size] == '\n')
                 {
-                    size--; //So that the NULL-terminator will overwrite the carriage return character, making the output perfect for functions like strcmp.
+                    size--; // So that the NULL-terminator will overwrite the carriage return character, making the output perfect for functions like strcmp.
                     break;
                 }
             }
@@ -249,34 +249,34 @@ static void MechaParseOP(void)
 
     ConOP = idReg & 0x20 ? MECHA_OP_SANYO : MECHA_OP_SONY;
 
-    /*	Old version from EEPROM 2003/03/13:
-	switch(reg10)
-	{
-		case MECHA_CHASSIS_F_SONY:
-		case MECHA_CHASSIS_G_SONY:
-		case MECHA_CHASSIS_BCD:
-		case MECHA_CHASSIS_B:
-		case MECHA_CHASSIS_AB:
-		case MECHA_CHASSIS_A:
-		case MECHA_CHASSIS_DEX_A:
-		case MECHA_CHASSIS_DEX_B:
-		case MECHA_CHASSIS_DEX_BD:
-			ConOP = MECHA_OP_SONY;
-			break;
-		case MECHA_CHASSIS_F_SANYO:
-		case MECHA_CHASSIS_G_SANYO:
-			ConOP = MECHA_OP_SANYO;
-			break;
-		default:
-			ConOP = 0xFF;
-	}	*/
+    // Old version from EEPROM 2003/03/13:
+    /* switch (reg10)
+    {
+        case MECHA_CHASSIS_F_SONY:
+        case MECHA_CHASSIS_G_SONY:
+        case MECHA_CHASSIS_BCD:
+        case MECHA_CHASSIS_B:
+        case MECHA_CHASSIS_AB:
+        case MECHA_CHASSIS_A:
+        case MECHA_CHASSIS_DEX_A:
+        case MECHA_CHASSIS_DEX_B:
+        case MECHA_CHASSIS_DEX_BD:
+            ConOP = MECHA_OP_SONY;
+            break;
+        case MECHA_CHASSIS_F_SANYO:
+        case MECHA_CHASSIS_G_SANYO:
+            ConOP = MECHA_OP_SANYO;
+            break;
+        default:
+            ConOP = 0xFF;
+    } */
 }
 
 static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
 {
     if (ConMD == 40)
     {
-        ConLens = MECHA_LENS_T609K; //Starting from the G-chassis, SONY stopped allowing the lens type to be selected. The T609K probably became the standard SONY lens.
+        ConLens = MECHA_LENS_T609K; // Starting from the G-chassis, SONY stopped allowing the lens type to be selected. The T609K probably became the standard SONY lens.
     }
     else if (ConMD < 40)
     {
@@ -316,13 +316,13 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_F_SANYO: //F-chassis with SANYO OP
+            case MECHA_CHASSIS_F_SANYO: // F-chassis with SANYO OP
                 if (reg12 == 0x6d8f && reg13 == 0x6f6f)
                     ConLens = MECHA_LENS_T487;
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_BCD: //B/C/D-chassis
+            case MECHA_CHASSIS_BCD: // B/C/D-chassis
                 if (reg12 == 0x6d8f && reg13 == 0x6f6f)
                     ConLens = MECHA_LENS_T609K;
                 else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f))
@@ -382,7 +382,7 @@ static int MechaCmdInitRxModelHandler(const char *data, int len)
 {
     char temp[5];
 
-    //Model information: TestMode, MD number (i.e. 00C10024 -> TestMode.193, MD1.36).
+    // Model information: TestMode, MD number (i.e. 00C10024 -> TestMode.193, MD1.36).
     MechaIdentRaw.cfd = (u32)strtoul(&data[1], NULL, 16);
     strncpy(temp, data + 1, 4);
     temp[4] = '\0';
@@ -397,20 +397,20 @@ static int MechaCmdInitRxModelHandler(const char *data, int len)
 static int MechaCmdInitRxModel2Handler(const char *data, int len)
 {
     if (data[0] == '0')
-    { /*	MECHACON version data: TTmmMMRR
-			TT Type (00 = PS2, 01 = PSX)
-			mm Minor Version
-			MM Major Version
-			RR MagicGate Region:
-				00 - Japan
-				01 - USA
-				02 - Europe
-				03 - Oceania
-				04 - Asia
-				05 - Russia
-				06 - China
-				07 - Mexico
-			i.e. 00080304 -> PS2, v3.8, Asia	*/
+    { /*    MECHACON version data: TTmmMMRR
+            TT Type (00 = PS2, 01 = PSX)
+            mm Minor Version
+            MM Major Version
+            RR MagicGate Region:
+                00 - Japan
+                01 - USA
+                02 - Europe
+                03 - Oceania
+                04 - Asia
+                05 - Russia
+                06 - China
+                07 - Mexico
+            i.e. 00080304 -> PS2, v3.8, Asia    */
         strcpy(MechaName, &data[1]);
         MechaIdentRaw.cfc = (u32)strtoul(&data[1], NULL, 16);
     }
@@ -436,14 +436,14 @@ static int MechaCmdInitRxRtcReadHandler(const char *data, int len)
     if (len == 19)
     {
         strcpy(RTCData, &data[1]);
-        ConRTC = (data[3] == '0' && data[4] == '0'); //00 = Rohm, non-zero = Ricoh
+        ConRTC = (data[3] == '0' && data[4] == '0'); // 00 = Rohm, non-zero = Ricoh
         if (ConRTC == MECHA_RTC_ROHM)
         {
             temp[0] = data[1];
             temp[1] = data[2];
         }
         else
-        { //Ricoh
+        { // Ricoh
             temp[0] = data[3];
             temp[1] = data[4];
         }
@@ -485,7 +485,7 @@ static int InitRxHandler(MechaTask_t *task, const char *result, short int len)
 {
     switch (result[0])
     {
-        case '0': //Rx-OK
+        case '0': // Rx-OK
             switch (task->tag)
             {
                 case MECHA_CMD_TAG_INIT_MODEL:
@@ -502,7 +502,7 @@ static int InitRxHandler(MechaTask_t *task, const char *result, short int len)
                     return 0;
             }
             break;
-        case '1': //Rx-NGErr
+        case '1': // Rx-NGErr
             switch (task->tag)
             {
                 case MECHA_CMD_TAG_INIT_CHECKSUM_CHK:
@@ -512,7 +512,7 @@ static int InitRxHandler(MechaTask_t *task, const char *result, short int len)
                     return 1;
             }
             break;
-        case '2': //Rx-NGBadCmd
+        case '2': // Rx-NGBadCmd
             switch (task->tag)
             {
                 case MECHA_CMD_TAG_INIT_MODEL_2:
@@ -538,7 +538,7 @@ int MechaInitModel(void)
 {
     char address[5];
     int result, i, id;
-    static const u16 EEPMapToInit[] = {//EEPROM words to read.
+    static const u16 EEPMapToInit[] = {// EEPROM words to read.
                                        0x0001, 0x0006, 0x0008, 0x000e, 0x0010, 0x0012, 0x0013, 0x0021,
                                        0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027, 0x0029, 0x002a,
                                        0x002b, 0x002c, 0x002d, 0x002e, 0x0031, 0x0032, 0x0033, 0x0038,
@@ -550,7 +550,7 @@ int MechaInitModel(void)
                                        0x0161, 0x0162, 0x0163, 0x0164, 0x0165, 0x0166, 0x0167, 0x0188,
                                        0x0189, 0x018a, 0x018b, 0x018c, 0x018d, 0x018e, 0x018f, 0xffff};
 
-    id                              = 1;
+    id = 1;
     EEPMapClear();
     if ((result = MechaCommandAdd(MECHA_CMD_READ_MODEL, NULL, id++, MECHA_CMD_TAG_INIT_MODEL, MECHA_TASK_NORMAL_TO, "READ MECHACON MD")) == 0 && (result = MechaCommandAdd(MECHA_CMD_READ_CHECKSUM, "00", id++, MECHA_CMD_TAG_INIT_CHECKSUM_CHK, MECHA_TASK_NORMAL_TO, "EEPROM CHECKSUM CHK")) == 0 && (result = MechaCommandAdd(MECHA_CMD_RTC_READ, NULL, id++, MECHA_CMD_TAG_INIT_RTC_READ, MECHA_TASK_NORMAL_TO, "READ RTC")) == 0 && (result = MechaCommandAdd(MECHA_CMD_READ_MODEL_2, NULL, id++, MECHA_CMD_TAG_INIT_MODEL_2, MECHA_TASK_NORMAL_TO, "READ MECHACON MODEL")) == 0)
     {
@@ -756,7 +756,7 @@ int MechaAddPostUpdateCmds(unsigned char ClearOSD2InitBit, unsigned char id)
                 MechaCommandAdd(MECHA_CMD_UPLOAD_TO_RAM, "05", id++, 0, MECHA_TASK_NORMAL_TO, "EEPROM TO MECHACON-RAM (TRAY)");
                 break;
             default:
-                //Shouldn't happen.
+                // Shouldn't happen.
                 return -1;
         }
     }
@@ -1025,7 +1025,7 @@ int IsChassisDexD(void)
     return 0;
 }
 
-//Non-SONY helper functions
+// Non-SONY helper functions
 int IsAutoTiltModel(void)
 {
     if (ConMD <= 39)
@@ -1134,17 +1134,17 @@ void MechaGetTimeString(char *TimeString)
     struct tm *TimeInfo;
     u8 month, year;
 
-    //The PlayStation 2 clock is in JST
+    // The PlayStation 2 clock is in JST
     time(&RawTime);
     TimeInfo = gmtime(&RawTime);
     TimeInfo->tm_hour += 9;
     mktime(TimeInfo);
 
     /*						 ssmmhhddDDMMYY
-		Ricoh default:	"308801151803258401"
-		Rohm default:	"300001431800221001"
-		The EEPROM tool dated 23 MAR 2003 used these defaults,
-		but the combined ELECT tool will use the system time. */
+        Ricoh default:	"308801151803258401"
+        Rohm default:	"300001431800221001"
+        The EEPROM tool dated 23 MAR 2003 used these defaults,
+        but the combined ELECT tool will use the system time. */
     month = itob(TimeInfo->tm_mon + 1);
     if (TimeInfo->tm_year + 1900 >= 2000)
         month |= 0x80; //'99 -> '00 Century bit

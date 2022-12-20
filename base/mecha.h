@@ -1,14 +1,14 @@
 #define MAX_MECHA_TASKS      128
 #define MECHA_TASK_ARGS_MAX  24
 
-//Recommended buffer sizes for various functions
+// Recommended buffer sizes for various functions
 #define MECHA_TX_BUFFER_SIZE 32
 #define MECHA_RX_BUFFER_SIZE 32
 
 struct MechaIdentRaw
 {
     u32 cfc, cfd;
-    u16 VersionID; //As the updates for B, C and D chassis are seen to be changing this ID, it's probably not a hardware model number. Known within the SONY tools as ADD0x010
+    u16 VersionID; // As the updates for B, C and D chassis are seen to be changing this ID, it's probably not a hardware model number. Known within the SONY tools as ADD0x010
 };
 
 typedef struct MechaTask
@@ -23,7 +23,7 @@ typedef struct MechaTask
 #define MECHA_TASK_NORMAL_TO   6000
 #define MECHA_TASK_LONG_TO     10000
 
-//Software commands
+// Software commands
 #define MECHA_TASK_ID_UI       0x00
 #define MECHA_TASK_UI_CMD_SKIP 0x0000
 #define MECHA_TASK_UI_CMD_WAIT 0x0001
@@ -161,24 +161,24 @@ int IsChassisDexD(void);
 int IsAutoTiltModel(void);
 int IsOutdatedBCModel(void);
 
-/*	Everything is in HEX, unless otherwise specified.
-	The first few digits returned is the status code. 0 = OK (i.e. 0data), non-zero = error.
-	Commands and responses are not case-sensitive.	*/
-//Disc types (returned by disc detect command c16):
+/*  Everything is in HEX, unless otherwise specified.
+    The first few digits returned is the status code. 0 = OK (i.e. 0data), non-zero = error.
+    Commands and responses are not case-sensitive. */
+// Disc types (returned by disc detect command c16):
 enum DISC_TYPE
 {
     DISC_TYPE_NO_DISC = 0x004,
     DISC_TYPE_UNKNOWN,
-    DISC_TYPE_CD8 = 0x010, //CD 8cm mode
-    DISC_TYPE_CD12,        //CD 12cm mode
-    DISC_TYPE_DVDS8,       //DVD-SL 8cm mode
-    DISC_TYPE_DVDD8,       //DVD-DL 8cm mode
-    DISC_TYPE_DVDS12,      //DVD-SL 12cm mode
-    DISC_TYPE_DVDD12,      //DVD-DL 12cm mode
+    DISC_TYPE_CD8 = 0x010, // CD 8cm mode
+    DISC_TYPE_CD12,        // CD 12cm mode
+    DISC_TYPE_DVDS8,       // DVD-SL 8cm mode
+    DISC_TYPE_DVDD8,       // DVD-DL 8cm mode
+    DISC_TYPE_DVDS12,      // DVD-SL 12cm mode
+    DISC_TYPE_DVDD12,      // DVD-DL 12cm mode
     DISC_TYPE_SACD
 };
 
-//Known error codes:
+// Known error codes:
 enum RX_ERROR
 {
     RX_ERROR_CMD_INPUT = 0x2A0,
@@ -190,12 +190,12 @@ enum RX_ERROR
     RX_ERROR_NO_DISC,
     RX_ERROR_DISC_UNKNOWN,
     RX_ERROR_NO_INIT,
-    RX_ERROR_DISC_CD8 = 0x110, //CD 8cm mode
-    RX_ERROR_DISC_CD12,        //CD 12cm mode
-    RX_ERROR_DISC_DVDS8,       //DVD-SL 8cm mode
-    RX_ERROR_DISC_DVDD8,       //DVD-DL 8cm mode
-    RX_ERROR_DISC_DVDS12,      //DVD-SL 12cm mode
-    RX_ERROR_DISC_DVDD12,      //DVD-DL 12cm mode
+    RX_ERROR_DISC_CD8 = 0x110, // CD 8cm mode
+    RX_ERROR_DISC_CD12,        // CD 12cm mode
+    RX_ERROR_DISC_DVDS8,       // DVD-SL 8cm mode
+    RX_ERROR_DISC_DVDD8,       // DVD-DL 8cm mode
+    RX_ERROR_DISC_DVDS12,      // DVD-SL 12cm mode
+    RX_ERROR_DISC_DVDD12,      // DVD-DL 12cm mode
     RX_ERROR_DISC_SACD,
     RX_ERROR_PARAM_OVER = 0x120,
     RX_ERROR_EXECUTION,
@@ -229,34 +229,34 @@ enum RX_ERROR
 #define MECHA_CMD_TRAY               0xc60
 #define MECHA_CMD_TRAY_SW            0xc61
 #define MECHA_CMD_CLEAR_CONF         0xc8d
-#define MECHA_CMD_UPLOAD_NEW         0xc8e //00
+#define MECHA_CMD_UPLOAD_NEW         0xc8e // 00
 #define MECHA_CMD_UPLOAD_TO_RAM      0xc93
 #define MECHA_CMD_DETECT_ADJ         0xc97
 #define MECHA_CMD_WRITE_CHECKSUM     0xc99
 #define MECHA_CMD_READ_CHECKSUM      0xc9a
-#define MECHA_CMD_SETUP_OSD          0xc9b //00 = NTSC, 01 = PAL, presumed to be supported by DEX B and later.
+#define MECHA_CMD_SETUP_OSD          0xc9b // 00 = NTSC, 01 = PAL, presumed to be supported by DEX B and later.
 #define MECHA_CMD_SETUP_SANYO        0xc9e
 #define MECHA_CMD_AUTO_ADJ_ST_1      0xca1
 #define MECHA_CMD_AUTO_ADJ_ST_2      0xca2
 #define MECHA_CMD_AUTO_ADJ_ST_12     0xca3
-#define MECHA_CMD_AUTO_ADJ_ST_2MD    0xca4 //Performed during skew adjustment initialization.
+#define MECHA_CMD_AUTO_ADJ_ST_2MD    0xca4 // Performed during skew adjustment initialization.
 #define MECHA_CMD_AUTO_ADJ_FIX_GAIN  0xca5
 #define MECHA_CMD_RFDC_LEVEL         0xca7
 #define MECHA_CMD_TPP                0xca8
 #define MECHA_CMD_MIRR_CHECK         0xcaa
 #define MECHA_CMD_FE_OFFSET          0xcab
-#define MECHA_CMD_CD_PLAY_1          0xcb0 //1x
-#define MECHA_CMD_CD_PLAY_2          0xcb1 //2x
-#define MECHA_CMD_CD_PLAY_3          0xcb2 //4x
-#define MECHA_CMD_CD_PLAY_4          0xcb3 //5-12x
+#define MECHA_CMD_CD_PLAY_1          0xcb0 // 1x
+#define MECHA_CMD_CD_PLAY_2          0xcb1 // 2x
+#define MECHA_CMD_CD_PLAY_3          0xcb2 // 4x
+#define MECHA_CMD_CD_PLAY_4          0xcb3 // 5-12x
 #define MECHA_CMD_CD_STOP            0xcb4
 #define MECHA_CMD_CD_PAUSE           0xcb5
 #define MECHA_CMD_CD_TRACK_CTL       0xcb6
 #define MECHA_CMD_CD_TRACK_LONG_CTL  0xcb8
-#define MECHA_CMD_CD_PLAY_5          0xcb9 //10-24x
-#define MECHA_CMD_DVD_PLAY_1         0xcc0 //1x
-#define MECHA_CMD_DVD_PLAY_2         0xcc1 //1.6x
-#define MECHA_CMD_DVD_PLAY_3         0xcc2 //1.6-4x
+#define MECHA_CMD_CD_PLAY_5          0xcb9 // 10-24x
+#define MECHA_CMD_DVD_PLAY_1         0xcc0 // 1x
+#define MECHA_CMD_DVD_PLAY_2         0xcc1 // 1.6x
+#define MECHA_CMD_DVD_PLAY_3         0xcc2 // 1.6-4x
 #define MECHA_CMD_DVD_STOP           0xcc3
 #define MECHA_CMD_DVD_PAUSE          0xcc4
 #define MECHA_CMD_DVD_TRACK_CTL      0xcc5
@@ -269,8 +269,8 @@ enum RX_ERROR
 #define MECHA_CMD_GAIN               0xcd3
 #define MECHA_CMD_DSP_ERROR_RATE_CTL 0xcde
 #define MECHA_CMD_DSP_ERROR_RATE     0xcdf
-#define MECHA_CMD_EEPROM_WRITE       0xce0 //ce0aaaadddd	a = address, d = data.
-#define MECHA_CMD_EEPROM_READ        0xce1 //ce1aaaa		a = address
+#define MECHA_CMD_EEPROM_WRITE       0xce0 // ce0aaaadddd    a = address, d = data.
+#define MECHA_CMD_EEPROM_READ        0xce1 // ce1aaaa        a = address
 #define MECHA_CMD_RTC_READ           0xce4
 #define MECHA_CMD_RTC_WRITE          0xce5
 #define MECHA_CMD_ECR_READ           0xce6
@@ -292,73 +292,74 @@ enum RX_ERROR
 #define MECHA_RTC_RICOH              0x00
 #define MECHA_RTC_ROHM               0x01
 
-/*	RTC
-		SccCCssmmhhddDDMMYY
-	Ricoh examples:
-		0001047510201030222	No battery
-		0001000030301030222	No battery
-		0308823151803258401	RTC clear
+/*    RTC
+        SccCCssmmhhddDDMMYY
+    Ricoh examples:
+        0001047510201030222    No battery
+        0001000030301030222    No battery
+        0308823151803258401    RTC clear
 
-	ss Seconds
-	mm Minutes
-	hh Hour
-	dd Day of Week
-	DD Day of Month
-	MM Month (Ricoh: includes century bit; 0x80 -> '99 -> '00)
-	YY Year
+    ss Seconds
+    mm Minutes
+    hh Hour
+    dd Day of Week
+    DD Day of Month
+    MM Month (Ricoh: includes century bit; 0x80 -> '99 -> '00)
+    YY Year
 
-	Ricoh RS5C348AE2:
-		cc: Unknown. Usually just "30" when healthy.
-		CC: status 0x10 set -> No battery
-		CC: status 0x40 set -> Battery down
-	Rohm BU9861FV-WE2:
-		cc: status 0x80 set -> No battery
-		CC: Always 0x00
-		
-	ECR -> GOOD -> 019
+    Ricoh RS5C348AE2:
+        cc: Unknown. Usually just "30" when healthy.
+        CC: status 0x10 set -> No battery
+        CC: status 0x40 set -> Battery down
+    Rohm BU9861FV-WE2:
+        cc: status 0x80 set -> No battery
+        CC: Always 0x00
+
+    ECR -> GOOD -> 019
 */
 
-/*	MECHACON name: TestMode, MD
-	00C10024 -> TestMode193 MD1.36
-	
-	TestMode.193	MD1.36 CXP101064-605R	-> Type 6
-	TestMode.194	MD1.36 CXP101064-602R	-> Type 6
-	TestMode.6		MD1.38 CXP102064-003R	-> Type 8
-	TestMode.19		MD1.39 CXP102064-005R	-> Type 0
-	TestMode.139	CXP103049-xxx for F-chassis
-	
-	Type (reg 0x10) 0xA809 -> Type 1
-	Type (reg 0x10) 0xA829 -> Type 1
-	Type (reg 0x10) 0xB009 -> Type (reg 0x10) 0xB029:
-		MECHA 000603 -> Type 2
-		MECHA 000803 -> Type 3	*/
+/*  MECHACON name: TestMode, MD
+    00C10024 -> TestMode193 MD1.36
+
+    TestMode.193        MD1.36 CXP101064-605R    -> Type 6
+    TestMode.194        MD1.36 CXP101064-602R    -> Type 6
+    TestMode.6          MD1.38 CXP102064-003R    -> Type 8
+    TestMode.19         MD1.39 CXP102064-005R    -> Type 0
+    TestMode.139        CXP103049-xxx for F-chassis
+
+    Type (reg 0x10) 0xA809 -> Type 1
+    Type (reg 0x10) 0xA829 -> Type 1
+    Type (reg 0x10) 0xB009 -> Type (reg 0x10) 0xB029:
+          MECHA 000603 -> Type 2
+          MECHA 000803 -> Type 3
+*/
 
 enum MECHA_TYPE
 {
-    MECHA_TYPE_39 = 0, //A, AB, B, C, D (MD1.39)
-    MECHA_TYPE_F  = 1, //F-chassis (MD1.39, x.3.0.0 - x.3.4.0)
-    MECHA_TYPE_G  = 2, //G-chassis (MD1.39, x.3.6.0)
-    MECHA_TYPE_G2 = 3, //G-chassis with newer MECHACON	 (MD1.39, x.3.8.0)
-    MECHA_TYPE_40 = 4, //H/I-chassis (MD1.40)
-    MECHA_TYPE_36 = 6, //A-chassis	(MD1.36)
-    MECHA_TYPE_38 = 8, //A-chassis (MD1.38)
+    MECHA_TYPE_39 = 0, // A, AB, B, C, D (MD1.39)
+    MECHA_TYPE_F  = 1, // F-chassis (MD1.39, x.3.0.0 - x.3.4.0)
+    MECHA_TYPE_G  = 2, // G-chassis (MD1.39, x.3.6.0)
+    MECHA_TYPE_G2 = 3, // G-chassis with newer MECHACON     (MD1.39, x.3.8.0)
+    MECHA_TYPE_40 = 4, // H/I-chassis (MD1.40)
+    MECHA_TYPE_36 = 6, // A-chassis   (MD1.36)
+    MECHA_TYPE_38 = 8, // A-chassis   (MD1.38)
 };
 
-//B, C and D-chassis share the same MECHACON chip (CXP102064). B-chassis is differentiated from C and D because it's the only model with the auto-tilt motor.
+// B, C and D-chassis share the same MECHACON chip (CXP102064). B-chassis is differentiated from C and D because it's the only model with the auto-tilt motor.
 #define MECHA_CHASSIS_DEX_A     0x0000
 #define MECHA_CHASSIS_DEX_B     0x8c08
-#define MECHA_CHASSIS_DEX_B_OLD 0x0c08 //Old ID for B-chassis DEX (no C-chassis DEX)
-#define MECHA_CHASSIS_DEX_BD    0x8808 //Since B-chassis DEX end up with 0x8c08, this is likely only for D-chassis (no C-chassis CEX).
+#define MECHA_CHASSIS_DEX_B_OLD 0x0c08 // Old ID for B-chassis DEX (no C-chassis DEX)
+#define MECHA_CHASSIS_DEX_BD    0x8808 // Since B-chassis DEX end up with 0x8c08, this is likely only for D-chassis (no C-chassis CEX).
 #define MECHA_CHASSIS_A         0x0001
 #define MECHA_CHASSIS_AB        0x0801
 #define MECHA_CHASSIS_B         0x8c09
-#define MECHA_CHASSIS_BCD       0x8809 //Since B-chassis CEX end up with 0x8c09, this is likely only for C & D-chassis.
-#define MECHA_CHASSIS_BC_OLD    0x0c09 //Old ID for B and C-chassis
+#define MECHA_CHASSIS_BCD       0x8809 // Since B-chassis CEX end up with 0x8c09, this is likely only for C & D-chassis.
+#define MECHA_CHASSIS_BC_OLD    0x0c09 // Old ID for B and C-chassis
 #define MECHA_CHASSIS_F_SONY    0xa809
 #define MECHA_CHASSIS_F_SANYO   0xa829
 #define MECHA_CHASSIS_G_SONY    0xb009
 #define MECHA_CHASSIS_G_SANYO   0xb029
-#define MECHA_CHASSIS_H_SONY    0xb41b //Also used for the DEX H-chassis
+#define MECHA_CHASSIS_H_SONY    0xb41b // Also used for the DEX H-chassis
 #define MECHA_CHASSIS_H_SANYO   0xb43b
 
 const char *MechaGetRtcStatusDesc(int type, int status);

@@ -87,8 +87,8 @@ static int RestoreEEPROM(const char *filename)
     return result;
 }
 
-#define EEPROM_UPDATE_FLAG_SANYO    1 //Supports SANYO OP
-#define EEPROM_UPDATE_FLAG_NEW_SONY 2 //No support for the old T487
+#define EEPROM_UPDATE_FLAG_SANYO    1 // Supports SANYO OP
+#define EEPROM_UPDATE_FLAG_NEW_SONY 2 // No support for the old T487
 
 static int UpdateEEPROM(int chassis)
 {
@@ -127,7 +127,9 @@ static int UpdateEEPROM(int chassis)
         {
             printf("Was the MECHACON replaced (y/n)? ");
             choice = getchar();
-            while (getchar() != '\n') {};
+            while (getchar() != '\n')
+            {
+            };
         } while (choice != 'y' && choice != 'n');
         ReplacedMecha = choice == 'y';
 
@@ -141,7 +143,9 @@ static int UpdateEEPROM(int chassis)
                        "Your choice: ");
                 OpticalBlock = 0;
                 scanf("%d", &OpticalBlock);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (OpticalBlock < 1 || OpticalBlock > 2);
             OpticalBlock--;
         }
@@ -158,7 +162,9 @@ static int UpdateEEPROM(int chassis)
                        "Your choice: ");
                 ObjectLens = 0;
                 scanf("%d", &ObjectLens);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (ObjectLens < 1 || ObjectLens > 2);
             ObjectLens--;
         }
@@ -171,7 +177,9 @@ static int UpdateEEPROM(int chassis)
             {
                 printf("The OSD2 init bit is set. Clear it? (y/n)");
                 choice = getchar();
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (choice != 'y' && choice != 'n');
             ClearOSD2InitBit = choice == 'y';
         }
@@ -210,7 +218,9 @@ static int UpdateEEPROM(int chassis)
             {
                 printf("Proceed with updates? (y/n) ");
                 choice = getchar();
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (choice != 'y' && choice != 'n');
             if (choice == 'y')
             {
@@ -254,9 +264,9 @@ static int SelectChassis(void)
         {&IsChassisF, "F-chassis (SCPH-30000/SCPH-300xx R)"},
         {&IsChassisG, "G-chassis (SCPH-390xx)"},
         {&IsChassisH, "H-chassis (SCPH-500xx)"},
-        {&IsChassisDexA, "A-chassis (DTL-H10000)"},  //A
-        {&IsChassisDexA, "A-chassis (DTL-T10000H)"}, //A2
-        {&IsChassisDexA, "A-chassis (DTL-T10000)"},  //A3
+        {&IsChassisDexA, "A-chassis (DTL-H10000)"},  // A
+        {&IsChassisDexA, "A-chassis (DTL-T10000H)"}, // A2
+        {&IsChassisDexA, "A-chassis (DTL-T10000)"},  // A3
         {&IsChassisDexB, "B-chassis (DTL-H30001/2 with Auto-Tilt motor)"},
         {&IsChassisDexD, "D-chassis (DTL-H30000)"},
         {&IsChassisH, "H-chassis (DTL-H500xx)"}};
@@ -282,7 +292,9 @@ static int SelectChassis(void)
             printf("Choice: ");
             choice = 0;
             scanf("%d", &choice);
-            while (getchar() != '\n') {};
+            while (getchar() != '\n')
+            {
+            };
         } while (choice < 1 || choice > i + 1);
 
         --choice;
@@ -356,7 +368,9 @@ void MenuEEPROM(void)
                    chassis < 0 ? "Unknown" : ChassisNames[chassis]);
             choice = 0;
             scanf("%hd", &choice);
-            while (getchar() != '\n') {};
+            while (getchar() != '\n')
+            {
+            };
         } while (choice < 1 || choice > 17);
 
         switch (choice)
@@ -364,7 +378,9 @@ void MenuEEPROM(void)
             case 1:
                 DisplayCommonConsoleInfo();
                 printf("Press ENTER to continue\n");
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
                 break;
             case 2:
                 printf("Enter dump filename: ");

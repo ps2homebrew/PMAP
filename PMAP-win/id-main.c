@@ -35,7 +35,9 @@ static void InitMechacon(void)
                        "Your choice: ");
                 choice = 0;
                 scanf("%d", &choice);
-                while (getchar() != '\n') {};
+                while (getchar() != '\n')
+                {
+                };
             } while (choice < 1 || choice > 3);
 
             switch (choice)
@@ -88,7 +90,9 @@ static void InitMechacon(void)
                     }
                     choice = 0;
                     scanf("%d", &choice);
-                    while (getchar() != '\n') {};
+                    while (getchar() != '\n')
+                    {
+                    };
                 } while (choice < 1 || choice > NumChoices);
                 if (!dex)
                 {
@@ -148,7 +152,9 @@ static void InitNTSCPALDefaults(void)
                "Your choice: ");
         choice = 0;
         scanf("%d", &choice);
-        while (getchar() != '\n') {};
+        while (getchar() != '\n')
+        {
+        };
     } while (choice < 1 || choice > 3);
 
     switch (choice)
@@ -356,7 +362,7 @@ static int WriteiLinkID(HWND hwnd)
 static int WriteModelName(HWND hwnd)
 {
     int result;
-    char ModelName[17]; //Maximum of 16 characters for the model name. Anything longer will be truncated.
+    char ModelName[17]; // Maximum of 16 characters for the model name. Anything longer will be truncated.
 
     GetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_MODEL_NAME), ModelName, sizeof(ModelName));
     if ((result = EEPROMSetModelName(ModelName) == 0) == 0)
