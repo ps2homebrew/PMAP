@@ -921,7 +921,7 @@ static int MechaAdjGetError(short int argc, char *argv[])
                 {
                     printf("DVD Error Data:\n"
                            "PI Correct:\t\t%#04x\tPO Correct:\t\t%#04x\n"
-                           "PI Non-correct:\t%%#04x\tPO Non-correct:\t%#04x\n"
+                           "PI Non-correct:\t%#04x\tPO Non-correct:\t%#04x\n"
                            "PI Max:\t\t\t%#04x\tPO Max:\t\t\t%#04x\n"
                            "Jitter:\t\t\t%#04x\n",
                            DvdError.PICorrect, DvdError.PINCorrect, DvdError.PIMax,
@@ -1575,11 +1575,14 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
     do
     {
         printf("MD1.%d %c> ", md, prompt);
-        gets(input);
-        if (input[0] != '\0')
-            strcpy(previous, input);
+        if (fgets(input, sizeof(input), stdin))
+            if (input[0] != '\0')
+                strcpy(previous, input);
+            else
+                strcpy(input, previous);
         else
             strcpy(input, previous);
+        argv[0] = NULL;
         for (argc = 0, pTok = strtok(input, " "); pTok != NULL && argc < MECHA_ADJ_MAX_ARGS; argc++)
         {
             argv[argc] = pTok;
