@@ -6,15 +6,16 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/select.h>
+#include <ctype.h>
 
 #include "platform.h"
-#include "mecha.h"
+#include "../base/mecha.h"
 
 static int ComPortFD = -1;
-static unsigned short RxTimeout;
+// static unsigned short RxTimeout;
 static struct termios OldTio;
 
-int PlatformOpenCOMPort(const char *device)
+int PlatOpenCOMPort(const char *device)
 {
     struct termios tio;
     int result;
@@ -42,7 +43,7 @@ int PlatformOpenCOMPort(const char *device)
     return result;
 }
 
-int PlatformReadCOMPort(char *data, int n, unsigned short timeout)
+int PlatReadCOMPort(char *data, int n, unsigned short timeout)
 {
     struct timeval SelTimeout;
     fd_set RdSet;
@@ -57,24 +58,24 @@ int PlatformReadCOMPort(char *data, int n, unsigned short timeout)
         return -1;
 }
 
-int PlatformWriteCOMPort(const char *data)
+int PlatWriteCOMPort(const char *data)
 {
     return write(ComPortFD, data, strlen(data));
 }
 
-void PlatformCloseCOMPort(void)
+void PlatCloseCOMPort(void)
 {
     tcsetattr(ComPortFD, TCSANOW, &OldTio);
     close(ComPortFD);
     ComPortFD = -1;
 }
 
-void PlatformSleep(unsigned short int msec)
+void PlatSleep(unsigned short int msec)
 {
     usleep((unsigned int)msec * 1000);
 }
 
-void PlatformEPrintf(const char *format, ...)
+void PlatShowEMessage(const char *format, ...)
 {
     va_list args;
 
@@ -82,6 +83,22 @@ void PlatformEPrintf(const char *format, ...)
     vprintf(format, args);
     va_end(args);
 }
+
+void PlatShowMessageB(const char *format, ...)
+{
+    va_list args;
+
+    va_start(args, format);
+    vprintf(format, args);
+
+    // Block until the user presses ENTER
+    while (getchar() != '\n')
+    {
+    };
+
+    va_end(args);
+}
+
 
 int pstricmp(const char *s1, const char *s2)
 {

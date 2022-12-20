@@ -24,21 +24,21 @@ jobs:
           name: PMAP
           path: Release/*.exe
 
-  build-linux:
-    name: PMAP linux compilation
-    runs-on: ubuntu-latest
+  # build-linux:
+  #   name: PMAP linux compilation
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          cd PMAP-linux
-          make
-          tar -zcvf pmap.tar.gz pmap
+  #     - name: Build
+  #       run: |
+  #         cd PMAP-linux
+  #         make
+  #         tar -zcvf pmap.tar.gz pmap
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: PMAP
-          path: linux/pmap.tar.gz
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: PMAP
+  #         path: linux/pmap.tar.gz
