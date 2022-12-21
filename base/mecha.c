@@ -94,7 +94,7 @@ int MechaCommandExecuteList(MechaCommandTxHandler_t transmit, MechaCommandRxHand
     char RxBuffer[MECHA_RX_BUFFER_SIZE];
     struct MechaTask *task;
     unsigned short int i;
-    int result, size;
+    int result = 0, size;
 
     for (i = 0, task = tasks; i < TaskCount; i++, task++)
     {
@@ -141,7 +141,7 @@ int MechaCommandExecuteList(MechaCommandTxHandler_t transmit, MechaCommandRxHand
         else
         {
             if (result == -EPIPE)
-                PlatShowEMessage("%02d. %04x %s: 101 - rx-Command timed out\n", task->id, task->command, task->label);
+                PlatShowEMessage("%02d. %04x%s %s: 101 - rx-Command timed out\n", task->id, task->command, task->args, task->label);
             break;
         }
 
@@ -164,27 +164,27 @@ void MechaCommandListClear(void)
 
 int MechaDefaultHandleRes1(MechaTask_t *task, const char *result, short int len)
 {
-    PlatShowEMessage("%02d. %04x %s - Rx-command error: %s\n", task->id, task->command, task->label, result);
+    PlatShowEMessage("%d. %04x%s %s - Rx-command error: %s\n", task->id, task->command, task->args, task->label, result);
     return 1;
 }
 
 int MechaDefaultHandleRes2(MechaTask_t *task, const char *result, short int len)
 {
     if (!pstricmp(result, "2A0"))
-        PlatShowEMessage("%02d. %04x %s: 2A0 - Rx-command error\n", task->id, task->command, task->label);
+        PlatShowEMessage("%02d. %04x%s %s: 2A0 - Rx-command error, %s\n", task->id, task->command, task->args, task->label);
     else if (!pstricmp(result, "2A1"))
-        PlatShowEMessage("%02d. %04x %s: 2A1 - Rx-command argument count error\n", task->id, task->command, task->label);
+        PlatShowEMessage("%02d. %04x%s %s: 2A1 - Rx-command argument count error\n", task->id, task->command, task->args, task->label);
     else if (!pstricmp(result, "2A2"))
-        PlatShowEMessage("%02d. %04x %s: 2A2 - Rx-command argument range error\n", task->id, task->command, task->label);
+        PlatShowEMessage("%02d. %04x%s %s: 2A2 - Rx-command argument range error\n", task->id, task->command, task->args, task->label);
     else
-        PlatShowEMessage("%02d. %04x %s: Unrecognized response: %s\n", task->id, task->command, task->label, result);
+        PlatShowEMessage("%02d. %04x%s %s: Unrecognized response: %s\n", task->id, task->command, task->args, task->label, result);
 
     return 1;
 }
 
 int MechaDefaultHandleResUnknown(MechaTask_t *task, const char *result, short int len)
 {
-    PlatShowEMessage("%02d. %04x %s: Unrecognized response: %s\n", task->id, task->command, task->label, result);
+    PlatShowEMessage("%02d. %04x%s %s: Unrecognized response: %s\n", task->id, task->command, task->args, task->label, result);
     return 1;
 }
 
@@ -508,7 +508,7 @@ static int InitRxHandler(MechaTask_t *task, const char *result, short int len)
                 case MECHA_CMD_TAG_INIT_CHECKSUM_CHK:
                     return MechaCmdInitRxChecksumChkHandler(result, len);
                 default:
-                    PlatShowEMessage("%02d. %04x: Rx-command error: %s\n", task->id, task->command, task->label, result);
+                    PlatShowEMessage("%02d. %04x%s: Rx-command error: %s\n", task->id, task->command, task->args, task->label, result);
                     return 1;
             }
             break;
@@ -519,17 +519,17 @@ static int InitRxHandler(MechaTask_t *task, const char *result, short int len)
                     return MechaCmdInitRxModel2Handler(result, len);
                 default:
                     if (!pstricmp(result, "2A0"))
-                        PlatShowEMessage("%02d. %04x: 2A0 - Rx-command error\n");
+                        PlatShowEMessage("%02d. %04x%s: 2A0 - Rx-command error\n", task->id, task->command, task->args);
                     else if (!pstricmp(result, "2A1"))
-                        PlatShowEMessage("%02d. %04x: 2A1 - Rx-command argument count error\n", task->id, task->command, task->label);
+                        PlatShowEMessage("%02d. %04x%s: 2A1 - Rx-command argument count error\n", task->id, task->command, task->args, task->label);
                     else if (!pstricmp(result, "2A2"))
-                        PlatShowEMessage("%02d. %04x: 2A2 - Rx-command argument range error\n", task->id, task->command, task->label);
+                        PlatShowEMessage("%02d. %04x%s: 2A2 - Rx-command argument range error\n", task->id, task->command, task->args, task->label);
                     else
-                        PlatShowEMessage("%02d. %04x: Unrecognized response: %s\n", task->id, task->command, task->label, result);
+                        PlatShowEMessage("%02d. %04x%s: Unrecognized response: %s\n", task->id, task->command, task->args, task->label, result);
                     return 1;
             }
         default:
-            PlatShowEMessage("%02d. %04x: Unrecognized response: %s\n", task->id, task->command, task->label, result);
+            PlatShowEMessage("%02d. %04x%s: Unrecognized response: %s\n", task->id, task->command, task->args, task->label, result);
             return 1;
     }
 }
@@ -550,9 +550,12 @@ int MechaInitModel(void)
                                        0x0161, 0x0162, 0x0163, 0x0164, 0x0165, 0x0166, 0x0167, 0x0188,
                                        0x0189, 0x018a, 0x018b, 0x018c, 0x018d, 0x018e, 0x018f, 0xffff};
 
-    id = 1;
+    id                              = 1;
     EEPMapClear();
-    if ((result = MechaCommandAdd(MECHA_CMD_READ_MODEL, NULL, id++, MECHA_CMD_TAG_INIT_MODEL, MECHA_TASK_NORMAL_TO, "READ MECHACON MD")) == 0 && (result = MechaCommandAdd(MECHA_CMD_READ_CHECKSUM, "00", id++, MECHA_CMD_TAG_INIT_CHECKSUM_CHK, MECHA_TASK_NORMAL_TO, "EEPROM CHECKSUM CHK")) == 0 && (result = MechaCommandAdd(MECHA_CMD_RTC_READ, NULL, id++, MECHA_CMD_TAG_INIT_RTC_READ, MECHA_TASK_NORMAL_TO, "READ RTC")) == 0 && (result = MechaCommandAdd(MECHA_CMD_READ_MODEL_2, NULL, id++, MECHA_CMD_TAG_INIT_MODEL_2, MECHA_TASK_NORMAL_TO, "READ MECHACON MODEL")) == 0)
+    if ((result = MechaCommandAdd(MECHA_CMD_READ_MODEL, NULL, id++, MECHA_CMD_TAG_INIT_MODEL, MECHA_TASK_NORMAL_TO, "READ MECHACON MD")) == 0 &&
+        (result = MechaCommandAdd(MECHA_CMD_READ_CHECKSUM, "00", id++, MECHA_CMD_TAG_INIT_CHECKSUM_CHK, MECHA_TASK_NORMAL_TO, "EEPROM CHECKSUM CHK")) == 0 &&
+        (result = MechaCommandAdd(MECHA_CMD_RTC_READ, NULL, id++, MECHA_CMD_TAG_INIT_RTC_READ, MECHA_TASK_NORMAL_TO, "READ RTC")) == 0 &&
+        (result = MechaCommandAdd(MECHA_CMD_READ_MODEL_2, NULL, id++, MECHA_CMD_TAG_INIT_MODEL_2, MECHA_TASK_NORMAL_TO, "READ MECHACON MODEL")) == 0)
     {
         for (i = 0; EEPMapToInit[i] != 0xFFFF; i++, id++)
         {
@@ -1140,9 +1143,9 @@ void MechaGetTimeString(char *TimeString)
     TimeInfo->tm_hour += 9;
     mktime(TimeInfo);
 
-    /*						 ssmmhhddDDMMYY
-        Ricoh default:	"308801151803258401"
-        Rohm default:	"300001431800221001"
+    /*                        ssmmhhddDDMMYY
+        Ricoh default:   "308801151803258401"
+        Rohm default:    "300001431800221001"
         The EEPROM tool dated 23 MAR 2003 used these defaults,
         but the combined ELECT tool will use the system time. */
     month = itob(TimeInfo->tm_mon + 1);

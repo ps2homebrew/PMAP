@@ -96,7 +96,8 @@ static int ConnectToConsole(HWND hwnd)
         return EINVAL;
     }
 
-    PortName[3] = '0' + port;
+    PortName[3] = '0' + port + 1;
+
     if ((result = PlatOpenCOMPort(PortName)) != 0)
         MessageBox(hwnd, L"Cannot open the selected port.", L"Cannot open port", MB_OK | MB_ICONERROR);
 
