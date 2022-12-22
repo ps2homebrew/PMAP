@@ -380,16 +380,31 @@ static void MechaParseCEXDEX(void)
 
 static int MechaCmdInitRxModelHandler(const char *data, int len)
 {
-    char temp[5];
 
-    // Model information: TestMode, MD number (i.e. 00C10024 -> TestMode.193, MD1.36).
-    MechaIdentRaw.cfd = (u32)strtoul(&data[1], NULL, 16);
-    strncpy(temp, data + 1, 4);
-    temp[4] = '\0';
-    ConTM   = (u8)strtoul(temp, NULL, 16);
-    strncpy(temp, &data[5], 4);
-    temp[4] = '\0';
-    ConMD   = (u8)strtoul(temp, NULL, 16);
+    // Model information: TestMode, MD number (i.e.      00 C1 00 24 -> TestMode.193, MD1.36).
+    // 5.02 mecha:                                  0 03 03 05 22 40 -> TestMode.0,   MD1.40 from M Renewal Date
+    // 5.12                                         0 03 11 20 20 05
+    //  MechaIdentRaw.cfd = (u32)strtoul(&data[1], NULL, 16);
+    //  MechaIdentRaw.cfd = (u32)strtoul(&data[len-7], NULL, 16);
+
+    strncpy(MechaIdentRaw.cfd, data + 1, len - 1);
+    MechaIdentRaw.cfd[len] = '\0';
+    if (len < 10)
+    {
+        char temp[5];
+        strncpy(temp, data + 1, 4);
+        temp[4] = '\0';
+        ConTM   = (u8)strtoul(temp, NULL, 16);
+        strncpy(temp, &data[5], 4);
+        temp[4] = '\0';
+        ConMD   = (u8)strtoul(temp, NULL, 16);
+    }
+    else
+    // Dragons
+    {
+        ConTM = 0;
+        ConMD = 40;
+    }
 
     return 0;
 }
@@ -624,25 +639,66 @@ const char *MechaGetDesc(void)
 {
     switch (ConType)
     {
+        case MECHA_TYPE_36:
+            if (ConCEXDEX == 0)
+                return "CXP101064-602R";
+            else if (ConCEXDEX == 1)
+                return "CXP101064-605R";
+            else
+                return "unknown (Please contact program creator)";
+        case MECHA_TYPE_38:
+            if (ConCEXDEX == 0)
+                if (!pstricmp(MechaName, "00070100"))
+                    return "CXP102064-003R";
+                else if (!pstricmp(MechaName, "00090100"))
+                    return "CXP102064-751R";
+                else
+                    return "CXP102064-003R,-751R (Please contact program creator)";
+            else if (ConCEXDEX == 1)
+                return "CXP102064-001R,-002R (Please contact program creator)";
+            else
+                return "unknown (Please contact program creator)";
         case MECHA_TYPE_39:
-            if (!pstricmp(MechaName, "00020200"))
+            if (!pstricmp(MechaName, "00000200"))
+                return "CXP102064-004R (Please contact program creator)";
+            else if (!pstricmp(MechaName, "00020200"))
                 return "CXP102064-005R";
-            else if (!pstricmp(MechaName, "000C0200"))
-                return "CXP102064-007R-T6";
             else if (!pstricmp(MechaName, "00040201"))
-                return "CXP102064-101R-T6";
+                return "CXP102064-101R";
+            else if (!pstricmp(MechaName, "00040202"))
+                return "CXP102064-201R";
+            else if (!pstricmp(MechaName, "00040203"))
+                return "CXP102064-301R";
             else if (!pstricmp(MechaName, "00060201"))
-                return "CXP102064-102R-T6";
+                return "CXP102064-102R";
             else if (!pstricmp(MechaName, "00060202"))
                 return "CXP102064-202R";
-            else if (!pstricmp(MechaName, "00040201"))
-                return "CXP102064-101R-T6";
-            else if (!pstricmp(MechaName, "00050201"))
+            else if (!pstricmp(MechaName, "00060203"))
+                return "CXP102064-302R";
+            else if (!pstricmp(MechaName, "000C0200"))
+                return "CXP102064-007R";
+            else if (!pstricmp(MechaName, "000C0201"))
+                return "CXP102064-103R";
+            else if (!pstricmp(MechaName, "000C0202"))
+                return "CXP102064-203R";
+            else if (!pstricmp(MechaName, "000C0203"))
+                return "CXP102064-303R";
+            else if (!pstricmp(MechaName, "000E0200"))
+                return "CXP102064-008R";
+            else if (!pstricmp(MechaName, "000E0201"))
+                return "CXP102064-104R";
+            else if (!pstricmp(MechaName, "000E0202"))
+                return "CXP102064-204R";
+            else if (!pstricmp(MechaName, "000E0203"))
+                return "CXP102064-304R";
+            else if (!pstrincmp(MechaName, "000502", 6))
                 return "CXP102064-702R";
-            else if (!pstricmp(MechaName, "000D0200"))
-                return "CXP102064-752R-T6";
+            else if (!pstrincmp(MechaName, "000702", 6))
+                return "CXP102064-703R";
+            else if (!pstrincmp(MechaName, "000D02", 6))
+                return "CXP102064-752R,-705R";
             else
-                return "CXP102064-xxxR";
+                return "CXP102064-xxxR (Please contact program creator)";
         case MECHA_TYPE_F:
             if (!pstricmp(MechaName, "00000301"))
                 return "CXP103049-101GG";
@@ -651,56 +707,56 @@ const char *MechaGetDesc(void)
             else if (!pstricmp(MechaName, "00000303"))
                 return "CXP103049-301GG";
             else if (!pstricmp(MechaName, "00020300"))
-                return "CXP103049-001GG-TL";
+                return "CXP103049-001GG";
             else if (!pstricmp(MechaName, "00020301"))
-                return "CXP103049-102GG-TL";
+                return "CXP103049-102GG";
             else if (!pstricmp(MechaName, "00020302"))
-                return "CXP103049-202GG-TL";
+                return "CXP103049-202GG";
+            else if (!pstricmp(MechaName, "00020303"))
+                return "CXP103049-302GG";
             else if (!pstricmp(MechaName, "00040304"))
-                return "CXP103049-401GG-TL";
+                return "CXP103049-401GG";
             else
-                return "CXP103049-xxx F-chassis";
+                return "CXP103049-xxx F-chassis (Please contact program creator)";
         case MECHA_TYPE_G:
-            if (!pstricmp(MechaName, "00060301"))
+            if (!pstricmp(MechaName, "00060300"))
+                return "CXP103049-002GG";
+            else if (!pstricmp(MechaName, "00060301"))
                 return "CXP103049-103GG";
             else if (!pstricmp(MechaName, "00060302"))
                 return "CXP103049-203GG";
             else if (!pstricmp(MechaName, "00060303"))
                 return "CXP103049-303GG";
-            else if (!pstricmp(MechaName, "00060300"))
-                return "CXP103049-002GG";
+            else if (!pstricmp(MechaName, "00060304"))
+                return "CXP103049-402GG";
             else if (!pstricmp(MechaName, "00060305"))
                 return "CXP103049-501GG";
             else
-                return "CXP103049-xxx G-chassis";
+                return "CXP103049-xxx G-chassis (Please contact program creator)";
         case MECHA_TYPE_G2:
             if (!pstricmp(MechaName, "00080300"))
                 return "CXP103049-003GG";
             else if (!pstricmp(MechaName, "00080304"))
                 return "CXP103049-403GG";
             else
-                return "CXP103049-xxx G-chassis";
-        case MECHA_TYPE_36:
-            if (ConCEXDEX == 0)
-                return "CXP101064-602R";
-            else if (ConCEXDEX == 1)
-                return "CXP101064-605R";
-            else
-                return "unknown";
-        case MECHA_TYPE_38:
-            if (ConCEXDEX == 0)
-                return "CXP102064-003R,-751R";
-            else if (ConCEXDEX == 1)
-                return "CXP102064-001R,-002R";
-            else
-                return "unknown";
-        case MECHA_TYPE_40:
-            if (!pstrincmp(MechaName, "000005", 6))
+                return "CXP103049-xxx G-chassis (Please contact program creator)";
+        case MECHA_TYPE_40: // better check cxd aka M Renewal Date
+            if (!pstricmp(MechaName, "00060507") || !pstricmp(MechaName, "00070507"))
+                return "CXR706080-106GG";
+            else if (!pstrincmp(MechaName, "000005", 6) || !pstrincmp(MechaName, "000105", 6))
                 return "CXR706080-101GG";
-            else if (!pstrincmp(MechaName, "000205", 6))
+            else if (!pstrincmp(MechaName, "000205", 6) || !pstrincmp(MechaName, "000305", 6))
                 return "CXR706080-102GG";
             else if (!pstrincmp(MechaName, "000405", 6) || !pstrincmp(MechaName, "000505", 6))
                 return "CXR706080-103GG";
+            else if (!pstrincmp(MechaName, "000605", 6) || !pstrincmp(MechaName, "000705", 6))
+                return "CXR706080-104GG";
+            else if (!pstrincmp(MechaName, "010A05", 6) || !pstrincmp(MechaName, "010B05", 6))
+                return "CXR706080-702GG";
+            else if (!pstrincmp(MechaName, "000C05", 6) || !pstrincmp(MechaName, "000D05", 6))
+                return "CXR706080-105GG";
+            else if (!pstrincmp(MechaName, "010E05", 6) || !pstrincmp(MechaName, "010F05", 6))
+                return "CXR706080-703GG/-706GG";
             else
                 return "unknown";
         default:

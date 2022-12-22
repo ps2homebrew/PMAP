@@ -18,7 +18,7 @@ void DisplayRawIdentData(void)
     RawData = MechaGetRawIdent();
 
     printf("\nTestMode.%d MD1.%d\n"
-           "CFD:\t\t%#08x\n"
+           "CFD:\t\t0x%s\n"
            "CFC:\t\t%#08x\n"
            "Version:\t%#04x\n",
            tm, md, RawData->cfd, RawData->cfc, RawData->VersionID);

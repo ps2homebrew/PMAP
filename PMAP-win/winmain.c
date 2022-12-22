@@ -35,7 +35,7 @@ static void InitRawConVerInfoMenu(HWND hwnd)
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MD_VER), buffer);
     sprintf(buffer, "0x%08x", RawData->cfc);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
-    sprintf(buffer, "0x%08x", RawData->cfd);
+    sprintf(buffer, "0x%p", RawData->cfd);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFD), buffer);
     sprintf(buffer, "0x%04x", RawData->VersionID);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CON_VER), buffer);
@@ -88,7 +88,7 @@ static void ToggleMainDialogControls(HWND hwndDlg, int connected)
 static int ConnectToConsole(HWND hwnd)
 {
     char PortName[] = "COM1";
-    int port, result;
+    int result, port = 0;
 
     if ((port = SendMessage(GetDlgItem(hwnd, IDC_COMBO_PORT), CB_GETCURSEL, 0, 0)) == CB_ERR)
     {

@@ -365,7 +365,8 @@ static int WriteModelName(HWND hwnd)
     char ModelName[17]; // Maximum of 16 characters for the model name. Anything longer will be truncated.
 
     GetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_MODEL_NAME), ModelName, sizeof(ModelName));
-    if ((result = EEPROMSetModelName(ModelName) == 0) == 0)
+    result = EEPROMSetModelName(ModelName);
+    if (result)
         MessageBox(hwnd, L"Model Name updated successfully.",
                    L"Update Completed",
                    MB_ICONINFORMATION | MB_OK);

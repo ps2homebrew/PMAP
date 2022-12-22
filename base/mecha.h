@@ -7,7 +7,8 @@
 
 struct MechaIdentRaw
 {
-    u32 cfc, cfd;
+    u32 cfc;
+    char cfd[11];
     u16 VersionID; // As the updates for B, C and D chassis are seen to be changing this ID, it's probably not a hardware model number. Known within the SONY tools as ADD0x010
 };
 
