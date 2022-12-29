@@ -1581,6 +1581,7 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
     {
         printf("MD1.%d %c> ", md, prompt);
         fgets(input, sizeof(input), stdin);
+        input[strlen(input) - 1] = '\0';
         if (input[0] != '\0')
             strcpy(previous, input);
         else
