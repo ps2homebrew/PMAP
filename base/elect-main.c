@@ -18,7 +18,9 @@ static int ElectPromptT10K(void)
     {
         printf("DTL-T10000 (YEDS-18)? [y,n] ");
         input = getchar();
-        getchar();
+        while (getchar() != '\n')
+        {
+        };
     } while (input != 'y' && input != 'n');
 
     return (input == 'y');
@@ -47,7 +49,9 @@ void MenuELECT(void)
                "\nContinue with automatic ELECT adjustment? [y/n]");
 
         choice = getchar();
-        getchar();
+        while (getchar() != '\n')
+        {
+        };
     } while (choice != 'y' && choice != 'n');
 
     if (choice == 'y')

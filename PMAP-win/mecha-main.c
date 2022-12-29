@@ -1580,39 +1580,41 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
     do
     {
         printf("MD1.%d %c> ", md, prompt);
-        fgets(input, sizeof(input), stdin);
-        input[strlen(input) - 1] = '\0';
-        if (input[0] != '\0')
-            strcpy(previous, input);
-        else
-            strcpy(input, previous);
-        argv[0] = NULL;
-        for (argc = 0, pTok = strtok(input, " "); pTok != NULL && argc < MECHA_ADJ_MAX_ARGS; argc++)
+        if (fgets(input, sizeof(input), stdin))
         {
-            argv[argc] = pTok;
-            pTok       = strtok(NULL, " ");
-        }
-
-        for (pCmd = commands; pCmd->command != NULL; pCmd++)
-        {
-            if (!pstricmp(pCmd->command, argv[0]))
-                break;
-        }
-
-        if (pCmd->command != NULL)
-        {
-            if ((result = pCmd->function(argc, argv)) < 0)
+            input[strlen(input) - 1] = '\0';
+            if (input[0] != '\0')
+                strcpy(previous, input);
+            else
+                strcpy(input, previous);
+            argv[0] = NULL;
+            for (argc = 0, pTok = strtok(input, " "); pTok != NULL && argc < MECHA_ADJ_MAX_ARGS; argc++)
             {
-                if (result == -EINVAL)
-                    printf(MECHA_ADJ_SYNTAX_ERR);
+                argv[argc] = pTok;
+                pTok       = strtok(NULL, " ");
+            }
+
+            for (pCmd = commands; pCmd->command != NULL; pCmd++)
+            {
+                if (!pstricmp(pCmd->command, argv[0]))
+                    break;
+            }
+
+            if (pCmd->command != NULL)
+            {
+                if ((result = pCmd->function(argc, argv)) < 0)
+                {
+                    if (result == -EINVAL)
+                        printf(MECHA_ADJ_SYNTAX_ERR);
+                }
+                else
+                {
+                    done = result;
+                }
             }
             else
-            {
-                done = result;
-            }
+                printf("Unrecognized command. For help, type HELP.\n");
         }
-        else
-            printf("Unrecognized command. For help, type HELP.\n");
     } while (!done);
 }
 

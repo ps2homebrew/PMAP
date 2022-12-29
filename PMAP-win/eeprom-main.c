@@ -110,10 +110,10 @@ static int UpdateEEPROM(HWND hwndDlg)
                        "\t2. SANYO\n"
                        "Your choice: ");
                 OpticalBlock = 0;
-                scanf("%d", &OpticalBlock);
-                while (getchar() != '\n')
-                {
-                };
+                if (scanf("%d", &OpticalBlock) > 0)
+                    while (getchar() != '\n')
+                    {
+                    };
             } while (OpticalBlock < 1 || OpticalBlock > 2);
             OpticalBlock--;
         }
@@ -129,10 +129,10 @@ static int UpdateEEPROM(HWND hwndDlg)
                        "\t2. T609K\n"
                        "Your choice: ");
                 ObjectLens = 0;
-                scanf("%d", &ObjectLens);
-                while (getchar() != '\n')
-                {
-                };
+                if (scanf("%d", &ObjectLens) > 0)
+                    while (getchar() != '\n')
+                    {
+                    };
             } while (ObjectLens < 1 || ObjectLens > 2);
             ObjectLens--;
         }

@@ -34,10 +34,10 @@ static void InitMechacon(void)
                        "\t3. Quit\n"
                        "Your choice: ");
                 choice = 0;
-                scanf("%d", &choice);
-                while (getchar() != '\n')
-                {
-                };
+                if (scanf("%d", &choice) > 0)
+                    while (getchar() != '\n')
+                    {
+                    };
             } while (choice < 1 || choice > 3);
 
             switch (choice)
@@ -89,10 +89,10 @@ static void InitMechacon(void)
                         NumChoices = 8;
                     }
                     choice = 0;
-                    scanf("%d", &choice);
-                    while (getchar() != '\n')
-                    {
-                    };
+                    if (scanf("%d", &choice) > 0)
+                        while (getchar() != '\n')
+                        {
+                        };
                 } while (choice < 1 || choice > NumChoices);
                 if (!dex)
                 {
@@ -151,10 +151,10 @@ static void InitNTSCPALDefaults(void)
                "\t3. Quit\n"
                "Your choice: ");
         choice = 0;
-        scanf("%d", &choice);
-        while (getchar() != '\n')
-        {
-        };
+        if (scanf("%d", &choice) > 0)
+            while (getchar() != '\n')
+            {
+            };
     } while (choice < 1 || choice > 3);
 
     switch (choice)

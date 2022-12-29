@@ -142,10 +142,10 @@ static int UpdateEEPROM(int chassis)
                        "\t2. SANYO\n"
                        "Your choice: ");
                 OpticalBlock = 0;
-                scanf("%d", &OpticalBlock);
-                while (getchar() != '\n')
-                {
-                };
+                if (scanf("%d", &OpticalBlock))
+                    while (getchar() != '\n')
+                    {
+                    };
             } while (OpticalBlock < 1 || OpticalBlock > 2);
             OpticalBlock--;
         }
@@ -161,10 +161,10 @@ static int UpdateEEPROM(int chassis)
                        "\t2. T609K\n"
                        "Your choice: ");
                 ObjectLens = 0;
-                scanf("%d", &ObjectLens);
-                while (getchar() != '\n')
-                {
-                };
+                if (scanf("%d", &ObjectLens))
+                    while (getchar() != '\n')
+                    {
+                    };
             } while (ObjectLens < 1 || ObjectLens > 2);
             ObjectLens--;
         }
@@ -291,10 +291,10 @@ static int SelectChassis(void)
         {
             printf("Choice: ");
             choice = 0;
-            scanf("%d", &choice);
-            while (getchar() != '\n')
-            {
-            };
+            if (scanf("%d", &choice) > 0)
+                while (getchar() != '\n')
+                {
+                };
         } while (choice < 1 || choice > i + 1);
 
         --choice;
@@ -367,10 +367,10 @@ void MenuEEPROM(void)
                    "\nYour choice: ",
                    chassis < 0 ? "Unknown" : ChassisNames[chassis]);
             choice = 0;
-            scanf("%hd", &choice);
-            while (getchar() != '\n')
-            {
-            };
+            if (scanf("%hd", &choice) > 0)
+                while (getchar() != '\n')
+                {
+                };
         } while (choice < 1 || choice > 18);
 
         switch (choice)
