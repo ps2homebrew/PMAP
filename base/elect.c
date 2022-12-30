@@ -934,7 +934,8 @@ static int ElectJudgeChecksum(const char *result, int len)
 static int ElectJudgeFCSSearchData(const char *data, int len)
 {
     char number[5];
-    unsigned int value, divisor, result;
+    unsigned int value, divisor;
+    int result;
 
     if (len == 9)
     {
@@ -944,7 +945,7 @@ static int ElectJudgeFCSSearchData(const char *data, int len)
         value     = (unsigned int)strtoul(&data[5], NULL, 16);
         result    = value * 100 / divisor - 100;
 
-        if (result >= -10 && result <= 10)
+        if ((result >= -10) && (result <= 10))
         {
             PlatDPrintf("FCS Search Data OK: %d\n", result);
             return 0;
