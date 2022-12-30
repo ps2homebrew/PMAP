@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     }
 
     // TODO!
-    // PlatDebugInit();
+    PlatDebugInit();
 
     done = 0;
     do

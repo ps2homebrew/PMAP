@@ -55,8 +55,8 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
         sprintf(cmd, "%03x%s\r\n", command, args);
     else
         sprintf(cmd, "%03x\r\n", command);
-    PlatDPrintf("PlatWriteCOMPort: %s\n", cmd);
-    printf("PlatWriteCOMPort: %s\n", cmd);
+    PlatDPrintf("PlatWriteCOMPort: %s", cmd);
+    printf("PlatWriteCOMPort: %s", cmd);
     if (PlatWriteCOMPort(cmd) == strlen(cmd))
     {
         for (size = 0; size < BufferSize - 1; size++)
