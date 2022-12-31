@@ -66,7 +66,9 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
             // ce000020000256, where last 3 symbols seems random and depends on previous command output
             // cant find where it losts null character, so just limit it now
         case MECHA_CMD_EEPROM_WRITE:
-            cmd[11] = '\0';
+            cmd[11] = '\r';
+            cmd[12] = '\n';
+            cmd[13] = '\0';
             printf("     ---- cmd ---- : %s", cmd);
             break;
     }
