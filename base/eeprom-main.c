@@ -234,7 +234,7 @@ static int UpdateEEPROM(int chassis)
         }
         else
         {
-            printf("An error occurred. Wrong chassis selected?\n");
+            printf("An error occurred. Wrong chassis selected?, result = %d\n", result);
         }
 
         return result;

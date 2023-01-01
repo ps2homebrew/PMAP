@@ -69,7 +69,6 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
             cmd[11] = '\r';
             cmd[12] = '\n';
             cmd[13] = '\0';
-            printf("     ---- cmd ---- : %s", cmd);
             break;
     }
     PlatDPrintf("PlatWriteCOMPort: %s", cmd);

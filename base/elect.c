@@ -156,6 +156,7 @@ static const ElectMechaTaskPrep_t AutoAdj139Commands[] = { // Test CD SCD-2700/Y
     {54, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {55, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
     {-1, -1, -1, -1, NULL, NULL}};
+
 static const ElectMechaTaskPrep_t AutoAdjFCommands[]   = { // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
