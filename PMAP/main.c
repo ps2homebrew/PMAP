@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     {
         do
         {
-            printf("\nP.M.A.P (v1.11.1beta)\n"
+            printf("\nP.M.A.P (v1.12)\n"
                    "=============================\n"
                    "\t1.\tEEPROM management\n"
                    "\t2.\tAutomatic ELECT adjustment\n"

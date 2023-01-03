@@ -21,8 +21,31 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: PMAP
-          path: Release/*.exe
+          name: PMAP.exe
+          path: Release/PMAP.exe
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: PMAP-win.exe
+          path: Release/PMAP-win.exe
+
+      - name: Create release
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          title: "Latest development build"
+          files: Release/PMAP.exe
+
+      - name: Create release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: "${{ contains(github.ref, '-rc') }}"
+          title: PMAP-${{ github.ref }}
+          files: Release/PMAP.exe
 
   # build-linux:
   #   name: PMAP linux compilation

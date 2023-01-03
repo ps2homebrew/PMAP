@@ -1,3 +1,14 @@
+2022/01/03    v1.12
+*Corrected argument parsing for F-chassis and A-chassis
+*Corrected EEPROM management for G-chassis
+*Corrected some non-escaped menus
+*Out-of-range CD/DVD DiscDetect Ratio will be just a warning, not an error
+*Enabled verbose logging of all issued serial commands+arguments and mechacon responses into pmap.log file
+*Added argument logging into all cmd messages
+*Corrected CD FCS SEARCH CHECK calculation. It was in range 0..10 cause the value for storing was unsigned, changed to -10..10
+*Refactored cfd handle logic from uint to char. On Dragons (H-Chassis+) cfd return Mechacon Renewal date in a different format
+*Now all v5 mechacon chip are detected correctly.
+
 2016/10/19    v1.11
 *Corrected CD/DVD detection ratio formula.
 
