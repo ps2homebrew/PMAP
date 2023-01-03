@@ -56,21 +56,6 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
     else
         sprintf(cmd, "%03x\r\n", command);
 
-    switch (command)
-    {
-            // TODO: fix the reason of that
-            // ugly hack for lost NULL character, cant find out where it is lost
-            // on F-chassis AutoAdjFCommands 'DISC DETECT EEPROM-CDmin WR' should send
-            // ce000020000
-            // but instead it sends
-            // ce000020000256, where last 3 symbols seems random and depends on previous command output
-            // cant find where it losts null character, so just limit it now
-        case MECHA_CMD_EEPROM_WRITE:
-            cmd[11] = '\r';
-            cmd[12] = '\n';
-            cmd[13] = '\0';
-            break;
-    }
     PlatDPrintf("PlatWriteCOMPort: %s", cmd);
 
     if (PlatWriteCOMPort(cmd) == strlen(cmd))
