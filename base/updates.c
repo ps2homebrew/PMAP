@@ -829,8 +829,6 @@ int MechaUpdateChassisF(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         Where applicable, the code for both OPs are merged. */
     if (lens == MECHA_LENS_T609K && opt == MECHA_OP_SANYO)
     { // Not supported.
-        PlatDPrintf("no official support for a SANYO Optical Block with T609K lens\n");
-        printf("no official support for a SANYO Optical Block with T609K lens\n");
         return -1;
     }
     // The tool checks to ensure that only either a SANYO or SONY OP was selected.
@@ -1078,7 +1076,7 @@ int MechaUpdateChassisG(int ClearOSD2InitBit, int ReplacedMecha, int lens, int o
         return -1;
     }
     // The tool checks and supports only the first and second versions of the G-chassis.
-    if (ConMD != MECHA_TYPE_G && ConMD != MECHA_TYPE_G2)
+    if (ConType != MECHA_TYPE_G && ConType != MECHA_TYPE_G2)
     { // Not supported.
         return -1;
     }
