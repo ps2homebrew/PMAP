@@ -610,8 +610,9 @@ static int ElectJudgeDiscDetectRatio(const char *result, int len)
                 }
                 else
                 {
+                    PlatDPrintf("CD/DVD DiscDetect Ratio NG: %f\n", ratio);
                     PlatShowEMessage("CD/DVD DiscDetect Ratio NG: %f\n", ratio);
-                    return 1;
+                    return 0;
                 }
             case MECHA_TYPE_G:
             case MECHA_TYPE_G2:
@@ -624,8 +625,9 @@ static int ElectJudgeDiscDetectRatio(const char *result, int len)
                 }
                 else
                 {
+                    PlatDPrintf("CD/DVD DiscDetect Ratio NG: %f\n", ratio);
                     PlatShowEMessage("CD/DVD DiscDetect Ratio NG: %f\n", ratio);
-                    return 1;
+                    return 0;
                 }
             default:
                 PlatShowEMessage("CD/DVD DiscDetect Ratio NG: Unsupported chassis.\n");
