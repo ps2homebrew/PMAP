@@ -286,10 +286,11 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
     {
         switch (reg10)
         {
-            case MECHA_CHASSIS_F_SONY:
-                if (reg12 == 0x6b8b && reg13 == 0x4f6f)
+            case MECHA_CHASSIS_DEX_A:
+            case MECHA_CHASSIS_A:
+                if (reg12 == 0x98c9 && reg13 == 0x7878)
                     ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && reg13 == 0x6f4f)
+                else if (reg12 == 0x97c9 && reg13 == 0x7777)
                     ConLens = MECHA_LENS_T487;
                 else
                     ConLens = 0xFF;
@@ -302,20 +303,30 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_DEX_A:
-            case MECHA_CHASSIS_A:
-                if (reg12 == 0x98c9 && reg13 == 0x7878)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x97c9 && reg13 == 0x7777)
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
+            case MECHA_CHASSIS_DEX_B_OLD:
+            case MECHA_CHASSIS_BC_OLD:
             case MECHA_CHASSIS_DEX_B:
             case MECHA_CHASSIS_B:
                 if (reg12 == 0x6d8f && reg13 == 0x6f6f)
                     ConLens = MECHA_LENS_T609K;
                 else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f))
+                    ConLens = MECHA_LENS_T487;
+                else
+                    ConLens = 0xFF;
+                break;
+            case MECHA_CHASSIS_DEX_BD:
+            case MECHA_CHASSIS_BCD: // B/C/D-chassis
+                if ((reg12 == 0x6d8f || reg12 == 0x6b8b) && reg13 == 0x6f6f)
+                    ConLens = MECHA_LENS_T609K;
+                else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f || reg13 == 0x6f5f))
+                    ConLens = MECHA_LENS_T487;
+                else
+                    ConLens = 0xFF;
+                break;
+            case MECHA_CHASSIS_F_SONY:
+                if (reg12 == 0x6b8b && reg13 == 0x4f6f)
+                    ConLens = MECHA_LENS_T609K;
+                else if (reg12 == 0x4d8f && reg13 == 0x6f4f)
                     ConLens = MECHA_LENS_T487;
                 else
                     ConLens = 0xFF;
@@ -326,25 +337,7 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_BCD: // B/C/D-chassis
-                if (reg12 == 0x6d8f && reg13 == 0x6f6f)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f))
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
-            case MECHA_CHASSIS_DEX_BD:
-                if (reg12 == 0x6b8b && reg13 == 0x6f6f)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && reg13 == 0x6f5f)
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
             case MECHA_CHASSIS_G_SONY:
-                ConLens = MECHA_LENS_T609K;
-                break;
             case MECHA_CHASSIS_G_SANYO:
                 ConLens = MECHA_LENS_T609K;
                 break;
