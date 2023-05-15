@@ -754,6 +754,18 @@ const char *MechaGetDesc(void)
                 return "CXR706080-105GG";
             else if (!pstrincmp(MechaName, "010E05", 6) || !pstrincmp(MechaName, "010F05", 6))
                 return "CXR706080-703GG/-706GG";
+            else if (!pstrincmp(MechaName, "000006", 6) || !pstrincmp(MechaName, "000106", 6))
+                return "CXR716080-101GG";
+            else if (!pstrincmp(MechaName, "000206", 6) || !pstrincmp(MechaName, "000306", 6))
+                return "CXR716080-102GG";
+            else if (!pstrincmp(MechaName, "000406", 6) || !pstrincmp(MechaName, "000506", 6))
+                return "CXR716080-103GG";
+            else if (!pstrincmp(MechaName, "000606", 6) || !pstrincmp(MechaName, "000706", 6))
+                return "CXR716080-104GG";
+            else if (!pstrincmp(MechaName, "000a06", 6) || !pstrincmp(MechaName, "000b06", 6))
+                return "CXR716080-106GG";
+            else if (!pstrincmp(MechaName, "000c06", 6) || !pstrincmp(MechaName, "000d06", 6))
+                return "CXR726080-301GB";
             else
                 return "unknown";
         default:
