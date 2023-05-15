@@ -154,7 +154,7 @@ int IsChassisC(void);
 int IsChassisD(void);
 int IsChassisF(void);
 int IsChassisG(void);
-int IsChassisH(void);
+int IsChassisDragon(void);
 int IsChassisDexA(void);
 int IsChassisDexB(void);
 int IsChassisDexD(void);
@@ -362,6 +362,7 @@ enum MECHA_TYPE
 #define MECHA_CHASSIS_G_SANYO   0xb029
 #define MECHA_CHASSIS_H_SONY    0xb41b // Also used for the DEX H-chassis
 #define MECHA_CHASSIS_H_SANYO   0xb43b
+#define MECHA_CHASSIS_SLIM      0xbc2b // slim version
 
 const char *MechaGetRtcStatusDesc(int type, int status);
 const char *MechaGetRTCName(int rtc);

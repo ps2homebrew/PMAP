@@ -1022,7 +1022,7 @@ int IsChassisG(void)
     return 0;
 }
 
-int IsChassisH(void)
+int IsChassisDragon(void)
 {
     if (ConMD == 40)
     {
@@ -1030,11 +1030,14 @@ int IsChassisH(void)
         {
             case MECHA_CHASSIS_H_SONY:
             case MECHA_CHASSIS_H_SANYO:
+            case MECHA_CHASSIS_SLIM:
                 return 1;
+            default:
+                return 0;
         }
     }
     else if (ConMD > 40)
-        PlatShowEMessage("IsChassisH: Unknown MD version.\n");
+        PlatShowEMessage("IsChassisDragon: Unknown MD version.\n");
 
     return 0;
 }
