@@ -341,7 +341,7 @@ enum MECHA_TYPE
     MECHA_TYPE_F  = 1, // F-chassis (MD1.39, x.3.0.0 - x.3.4.0)
     MECHA_TYPE_G  = 2, // G-chassis (MD1.39, x.3.6.0)
     MECHA_TYPE_G2 = 3, // G-chassis with newer MECHACON     (MD1.39, x.3.8.0)
-    MECHA_TYPE_40 = 4, // H/I-chassis (MD1.40)
+    MECHA_TYPE_40 = 4, // Dragon      (MD1.40)
     MECHA_TYPE_36 = 6, // A-chassis   (MD1.36)
     MECHA_TYPE_38 = 8, // A-chassis   (MD1.38)
 };
