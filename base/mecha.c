@@ -251,7 +251,10 @@ static void MechaParseOP(void)
         return;
     }
 
-    ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
+    if (idReg == 0xb41b)
+        ConOP = MECHA_OP_SONY; // hardcode SONY OP for slims, CDratio range 700..1320, DVDratio range 1.8-3.0
+    else
+        ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
 
     // Old version from EEPROM 2003/03/13:
     /* switch (reg10)
