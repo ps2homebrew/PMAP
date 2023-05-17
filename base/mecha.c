@@ -13,7 +13,7 @@ static struct MechaTask tasks[MAX_MECHA_TASKS];
 static unsigned char TaskCount = 0;
 char MechaName[9], RTCData[19];
 static struct MechaIdentRaw MechaIdentRaw;
-unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat;
+unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat, ConSlim;
 
 int MechaCommandAdd(unsigned short int command, const char *args, unsigned char id, unsigned char tag, unsigned short int timeout, const char *label)
 {
@@ -428,6 +428,10 @@ static int MechaCmdInitRxModel2Handler(const char *data, int len)
             i.e. 00080304 -> PS2, v3.8, Asia    */
         strcpy(MechaName, &data[1]);
         MechaIdentRaw.cfc = (u32)strtoul(&data[1], NULL, 16);
+        if (data[5] == '6')
+            ConSlim = 1;
+        else
+            ConSlim = 0;
     }
     else
     {
