@@ -32,7 +32,7 @@ static int DumpEEPROM(const char *filename)
 
             if ((result = EEPROMReadWord(i, &data)) != 0)
             {
-                printf("EEPROM error %d:%d\n", i, result);
+                printf("EEPROM read error %d:%d\n", i, result);
                 break;
             }
             if (fwrite(&data, sizeof(u16), 1, dump) != 1)
@@ -73,7 +73,7 @@ static int RestoreEEPROM(const char *filename)
 
             if ((result = EEPROMWriteWord(i, data)) != 0)
             {
-                printf("EEPROM error %d:%d\n", i, result);
+                printf("EEPROM write error %d:%d\n", i, result);
                 break;
             }
         }
