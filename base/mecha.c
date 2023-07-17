@@ -251,10 +251,11 @@ static void MechaParseOP(void)
         return;
     }
 
-    if (idReg == 0xb41b)
+    ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
+
+    if (ConSlim)
         ConOP = MECHA_OP_SONY; // hardcode SONY OP for slims, CDratio range 700..1320, DVDratio range 1.8-3.0
-    else
-        ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
+
 
     // Old version from EEPROM 2003/03/13:
     /* switch (reg10)
@@ -428,7 +429,7 @@ static int MechaCmdInitRxModel2Handler(const char *data, int len)
             i.e. 00080304 -> PS2, v3.8, Asia    */
         strcpy(MechaName, &data[1]);
         MechaIdentRaw.cfc = (u32)strtoul(&data[1], NULL, 16);
-        if (data[5] == '6')
+        if (data[6] == '6')
             ConSlim = 1;
         else
             ConSlim = 0;
