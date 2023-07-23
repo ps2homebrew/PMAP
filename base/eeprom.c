@@ -154,6 +154,9 @@ int EEPROMWriteWord(unsigned short int word, u16 data)
             result = (int)strtoul(buffer, NULL, 16);
     }
 
+    if (ConMD == 40)
+        result = 0;
+
     return result;
 }
 

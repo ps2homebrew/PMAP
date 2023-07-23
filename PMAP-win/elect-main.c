@@ -54,7 +54,7 @@ static void InitWindow(HWND hwnd)
             SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"G: CXP103049 x.3.8.0");
             break;
         case MECHA_TYPE_40:
-            SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"H-chassis");
+            SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Dragons");
             break;
         default:
             SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Unknown");

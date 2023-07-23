@@ -154,7 +154,7 @@ int IsChassisC(void);
 int IsChassisD(void);
 int IsChassisF(void);
 int IsChassisG(void);
-int IsChassisH(void);
+int IsChassisDragon(void);
 int IsChassisDexA(void);
 int IsChassisDexB(void);
 int IsChassisDexD(void);
@@ -341,7 +341,7 @@ enum MECHA_TYPE
     MECHA_TYPE_F  = 1, // F-chassis (MD1.39, x.3.0.0 - x.3.4.0)
     MECHA_TYPE_G  = 2, // G-chassis (MD1.39, x.3.6.0)
     MECHA_TYPE_G2 = 3, // G-chassis with newer MECHACON     (MD1.39, x.3.8.0)
-    MECHA_TYPE_40 = 4, // H/I-chassis (MD1.40)
+    MECHA_TYPE_40 = 4, // Dragon      (MD1.40)
     MECHA_TYPE_36 = 6, // A-chassis   (MD1.36)
     MECHA_TYPE_38 = 8, // A-chassis   (MD1.38)
 };
@@ -362,6 +362,7 @@ enum MECHA_TYPE
 #define MECHA_CHASSIS_G_SANYO   0xb029
 #define MECHA_CHASSIS_H_SONY    0xb41b // Also used for the DEX H-chassis
 #define MECHA_CHASSIS_H_SANYO   0xb43b
+#define MECHA_CHASSIS_SLIM      0xbc2b // slim version
 
 const char *MechaGetRtcStatusDesc(int type, int status);
 const char *MechaGetRTCName(int rtc);

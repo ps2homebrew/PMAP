@@ -13,7 +13,7 @@ static struct MechaTask tasks[MAX_MECHA_TASKS];
 static unsigned char TaskCount = 0;
 char MechaName[9], RTCData[19];
 static struct MechaIdentRaw MechaIdentRaw;
-unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat;
+unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat, ConSlim;
 
 int MechaCommandAdd(unsigned short int command, const char *args, unsigned char id, unsigned char tag, unsigned short int timeout, const char *label)
 {
@@ -253,6 +253,10 @@ static void MechaParseOP(void)
 
     ConOP = (idReg & 0x20) ? MECHA_OP_SANYO : MECHA_OP_SONY;
 
+    if (ConSlim)
+        ConOP = MECHA_OP_SONY; // hardcode SONY OP for slims, CDratio range 700..1320, DVDratio range 1.8-3.0
+
+
     // Old version from EEPROM 2003/03/13:
     /* switch (reg10)
     {
@@ -286,10 +290,11 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
     {
         switch (reg10)
         {
-            case MECHA_CHASSIS_F_SONY:
-                if (reg12 == 0x6b8b && reg13 == 0x4f6f)
+            case MECHA_CHASSIS_DEX_A:
+            case MECHA_CHASSIS_A:
+                if (reg12 == 0x98c9 && reg13 == 0x7878)
                     ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && reg13 == 0x6f4f)
+                else if (reg12 == 0x97c9 && reg13 == 0x7777)
                     ConLens = MECHA_LENS_T487;
                 else
                     ConLens = 0xFF;
@@ -302,20 +307,30 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_DEX_A:
-            case MECHA_CHASSIS_A:
-                if (reg12 == 0x98c9 && reg13 == 0x7878)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x97c9 && reg13 == 0x7777)
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
+            case MECHA_CHASSIS_DEX_B_OLD:
+            case MECHA_CHASSIS_BC_OLD:
             case MECHA_CHASSIS_DEX_B:
             case MECHA_CHASSIS_B:
                 if (reg12 == 0x6d8f && reg13 == 0x6f6f)
                     ConLens = MECHA_LENS_T609K;
                 else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f))
+                    ConLens = MECHA_LENS_T487;
+                else
+                    ConLens = 0xFF;
+                break;
+            case MECHA_CHASSIS_DEX_BD:
+            case MECHA_CHASSIS_BCD: // B/C/D-chassis
+                if ((reg12 == 0x6d8f || reg12 == 0x6b8b) && reg13 == 0x6f6f)
+                    ConLens = MECHA_LENS_T609K;
+                else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f || reg13 == 0x6f5f))
+                    ConLens = MECHA_LENS_T487;
+                else
+                    ConLens = 0xFF;
+                break;
+            case MECHA_CHASSIS_F_SONY:
+                if (reg12 == 0x6b8b && reg13 == 0x4f6f)
+                    ConLens = MECHA_LENS_T609K;
+                else if (reg12 == 0x4d8f && reg13 == 0x6f4f)
                     ConLens = MECHA_LENS_T487;
                 else
                     ConLens = 0xFF;
@@ -326,25 +341,7 @@ static void MechaParseLens(u16 reg10, u16 reg12, u16 reg13)
                 else
                     ConLens = 0xFF;
                 break;
-            case MECHA_CHASSIS_BCD: // B/C/D-chassis
-                if (reg12 == 0x6d8f && reg13 == 0x6f6f)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && (reg13 == 0x4f4f || reg13 == 0x6f4f))
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
-            case MECHA_CHASSIS_DEX_BD:
-                if (reg12 == 0x6b8b && reg13 == 0x6f6f)
-                    ConLens = MECHA_LENS_T609K;
-                else if (reg12 == 0x4d8f && reg13 == 0x6f5f)
-                    ConLens = MECHA_LENS_T487;
-                else
-                    ConLens = 0xFF;
-                break;
             case MECHA_CHASSIS_G_SONY:
-                ConLens = MECHA_LENS_T609K;
-                break;
             case MECHA_CHASSIS_G_SANYO:
                 ConLens = MECHA_LENS_T609K;
                 break;
@@ -432,6 +429,10 @@ static int MechaCmdInitRxModel2Handler(const char *data, int len)
             i.e. 00080304 -> PS2, v3.8, Asia    */
         strcpy(MechaName, &data[1]);
         MechaIdentRaw.cfc = (u32)strtoul(&data[1], NULL, 16);
+        if (data[6] == '6')
+            ConSlim = 1;
+        else
+            ConSlim = 0;
     }
     else
     {
@@ -761,6 +762,18 @@ const char *MechaGetDesc(void)
                 return "CXR706080-105GG";
             else if (!pstrincmp(MechaName, "010E05", 6) || !pstrincmp(MechaName, "010F05", 6))
                 return "CXR706080-703GG/-706GG";
+            else if (!pstrincmp(MechaName, "000006", 6) || !pstrincmp(MechaName, "000106", 6))
+                return "CXR716080-101GG";
+            else if (!pstrincmp(MechaName, "000206", 6) || !pstrincmp(MechaName, "000306", 6))
+                return "CXR716080-102GG";
+            else if (!pstrincmp(MechaName, "000406", 6) || !pstrincmp(MechaName, "000506", 6))
+                return "CXR716080-103GG";
+            else if (!pstrincmp(MechaName, "000606", 6) || !pstrincmp(MechaName, "000706", 6))
+                return "CXR716080-104GG";
+            else if (!pstrincmp(MechaName, "000a06", 6) || !pstrincmp(MechaName, "000b06", 6))
+                return "CXR716080-106GG";
+            else if (!pstrincmp(MechaName, "000c06", 6) || !pstrincmp(MechaName, "000d06", 6))
+                return "CXR726080-301GB";
             else
                 return "unknown";
         default:
@@ -1017,7 +1030,7 @@ int IsChassisG(void)
     return 0;
 }
 
-int IsChassisH(void)
+int IsChassisDragon(void)
 {
     if (ConMD == 40)
     {
@@ -1025,11 +1038,14 @@ int IsChassisH(void)
         {
             case MECHA_CHASSIS_H_SONY:
             case MECHA_CHASSIS_H_SANYO:
+            case MECHA_CHASSIS_SLIM:
                 return 1;
+            default:
+                return 0;
         }
     }
     else if (ConMD > 40)
-        PlatShowEMessage("IsChassisH: Unknown MD version.\n");
+        PlatShowEMessage("IsChassisDragon: Unknown MD version.\n");
 
     return 0;
 }
