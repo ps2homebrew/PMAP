@@ -329,7 +329,7 @@ void MenuEEPROM(void)
         "H-chassis (DTL-H500xx)"};
     unsigned char done;
     short int choice, chassis;
-    char filename[32];
+    char filename[256];
 
     done = 0;
     do
@@ -383,14 +383,36 @@ void MenuEEPROM(void)
                 };
                 break;
             case 2:
-                printf("Enter dump filename: ");
-                if (fgets(filename, sizeof(filename), stdin))
+            {
+                char useDefault;
+                char default_filename[256];
+                u32 serial = 0;
+                u8 emcs    = 0;
+
+                if (EEPROMInitSerial() == 0)
+                    EEPROMGetSerial(&serial, &emcs);
+
+                const char *model = EEPROMGetModelName();
+
+                // Format the filename
+                sprintf(default_filename, "%s_%07u.bin", model, serial);
+
+                printf("Default filename: %s\n", default_filename);
+                printf("Do you want to use the default filename? (Y/N): ");
+                scanf(" %c", &useDefault);
+
+                if (useDefault == 'Y' || useDefault == 'y')
+                    strcpy(filename, default_filename);
+                else
                 {
-                    filename[strlen(filename) - 1] = '\0';
-                    // gets(filename);
-                    printf("Dump %s.\n", DumpEEPROM(filename) == 0 ? "completed" : "failed");
+                    printf("Enter dump filename: ");
+                    if (fgets(filename, sizeof(filename), stdin))
+                        filename[strlen(filename) - 1] = '\0';
                 }
-                break;
+
+                printf("Dump %s.\n", DumpEEPROM(filename) == 0 ? "completed" : "failed");
+            }
+            break;
             case 3:
                 printf("Enter dump filename: ");
                 if (fgets(filename, sizeof(filename), stdin))
