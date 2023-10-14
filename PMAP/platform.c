@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <Windows.h>
+#include <time.h>
 
 #include "platform.h"
 #include "mecha.h"
@@ -135,7 +136,22 @@ void PlatShowMessageB(const char *format, ...)
 
 void PlatDebugInit(void)
 {
-    DebugOutputFile = fopen("pmap.log", "w");
+    // Get the current time
+    time_t rawtime;
+    struct tm *timeinfo;
+    char timestamp[20]; // Adjust the size according to your needs
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    // Format the timestamp (e.g., "2023-10-14_12-34-56")
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d_%H-%M-%S", timeinfo);
+
+    // Create the filename with timestamp
+    char filename[256]; // Adjust the size according to your needs
+    sprintf(filename, "pmap_%s.log", timestamp);
+
+    DebugOutputFile = fopen(filename, "w");
 }
 
 void PlatDebugDeinit(void)
