@@ -394,8 +394,11 @@ void MenuEEPROM(void)
 
                 const char *model = EEPROMGetModelName();
 
+                const struct MechaIdentRaw *RawData;
+                RawData = MechaGetRawIdent();
+
                 // Format the filename
-                sprintf(default_filename, "%s_%07u.bin", model, serial);
+                sprintf(default_filename, "%s_%07u_%s_%#08x.bin", model, serial, RawData->cfd, RawData->cfc);
 
                 printf("Default filename: %s\n", default_filename);
                 printf("Do you want to use the default filename? (Y/N): ");
