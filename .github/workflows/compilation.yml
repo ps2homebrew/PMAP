@@ -47,6 +47,25 @@ jobs:
           title: PMAP-${{ github.ref }}
           files: Release/PMAP.exe
 
+  build-macos:
+    name: PMAP macos compilation
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          cd PMAP-macos
+          make
+          tar -zcvf PMAP-macos.tar.gz pmap
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: PMAP-macos
+          path: PMAP-macos/PMAP-macos.tar.gz
+
   # build-linux:
   #   name: PMAP linux compilation
   #   runs-on: ubuntu-latest
