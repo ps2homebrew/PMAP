@@ -85,6 +85,9 @@
     <ClCompile Include="..\base\mecha-main.c" />
     <ClCompile Include="..\base\mecha.c" />
     <ClCompile Include="..\base\updates.c" />
+    <!-- Conditionally include source files based on ID_MANAGEMENT -->
+    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\eeprom-id.c" />
+    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\id-main.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="platform.c" />
   </ItemGroup>
@@ -94,6 +97,8 @@
     <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
+    <!-- Conditionally include source files based on ID_MANAGEMENT -->
+    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\eeprom-id.h" />
     <ClInclude Include="platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
