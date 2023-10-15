@@ -672,7 +672,7 @@ static int ElectJudgeCDTELoopGain(const char *result, int len)
     else
     {
         PlatShowEMessage("CD TE LOOP GAIN NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -791,7 +791,7 @@ static int ElectJudgeDVDSLTELoopGain(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-SL TE LOOP GAIN NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -906,7 +906,7 @@ static int ElectJudgeDVDDLL0TELoopGain(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L0 TE LOOP GAIN NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -970,7 +970,7 @@ static int ElectJudgeDVDDLL1TELoopGain(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L1 TE LOOP GAIN NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1168,7 +1168,7 @@ static int ElectJudgeCDRFDCLevel(const char *data, int len)
     else
     {
         PlatShowEMessage("CD RFDC level NG: %d\n", result);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1192,7 +1192,7 @@ static int ElectJudgeDVDSLRFDCLevel(const char *data, int len)
     else
     {
         PlatShowEMessage("DVD-SL RFDC level NG: %d\n", result);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1216,7 +1216,7 @@ static int ElectJudgeDVDDLL0RFDCLevel(const char *data, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L0 RFDC level NG: %d\n", result);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1240,7 +1240,7 @@ static int ElectJudgeDVDDLL1RFDCLevel(const char *data, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L1 RFDC level NG: %d\n, result");
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1250,13 +1250,21 @@ static int ElectJudgeCDTPP(const char *data, int len)
     unsigned short int value1, value2, value3;
     int sub32, Tbal;
 
+    // example data 0995F7D
+    // Extract the first two characters from the data (99)
     strncpy(number, &data[1], 2);
     number[2] = '\0';
     value1    = (unsigned short int)strtoul(number, NULL, 16);
+
+    // Extract the next two characters from the data (5F)
     strncpy(number, &data[3], 2);
     number[2] = '\0';
     value2    = (unsigned short int)strtoul(number, NULL, 16);
+
+    // Extract the last two characters from the data (7D)
     value3    = (unsigned short int)strtoul(&data[5], NULL, 16);
+
+    // Subtract value2 from value1 (3A)
     value1 -= value2;
 
     if (value1 >= 0x35 && value1 <= 0x7E) // TPP check
@@ -1274,13 +1282,13 @@ static int ElectJudgeCDTPP(const char *data, int len)
         else
         {
             PlatShowEMessage("CD TPP Tbal NG: %ld\n", Tbal);
-            return 1;
+            return (ConSlim == 1) ? 0 : 1;
         }
     }
     else
     {
         PlatShowEMessage("CD TPP NG: %d\n", value1);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
