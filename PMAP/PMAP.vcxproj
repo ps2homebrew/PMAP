@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -86,8 +86,8 @@
     <ClCompile Include="..\base\mecha.c" />
     <ClCompile Include="..\base\updates.c" />
     <!-- Conditionally include source files based on ID_MANAGEMENT -->
-    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\eeprom-id.c" />
-    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\id-main.c" />
+    <ClCompile Include="..\base\eeprom-id.c" />
+    <ClCompile Include="..\base\id-main.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="platform.c" />
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
     <!-- Conditionally include source files based on ID_MANAGEMENT -->
-    <ClCompile Condition="'$(ID_MANAGEMENT)'=='1'" Include="..\base\eeprom-id.h" />
+    <ClInclude Include="..\base\eeprom-id.h" />
     <ClInclude Include="platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

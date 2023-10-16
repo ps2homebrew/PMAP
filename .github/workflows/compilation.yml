@@ -29,17 +29,6 @@ jobs:
           name: PMAP-win.exe
           path: Release/PMAP-win.exe
 
-      - name: Clean
-        run: msbuild /t:Clean
-
-      - name: Build id
-        run: msbuild /p:PlatformToolset=v142 /p:Configuration=Release /p:PreprocessorDefinitions=ID_MANAGEMENT=1;%(PreprocessorDefinitions)
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: PMAP-win-id
-          path: Release/PMAP.exe
-
       - name: Create release
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         uses: marvinpinto/action-automatic-releases@latest
