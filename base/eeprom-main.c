@@ -402,7 +402,11 @@ void MenuEEPROM(void)
 
                 printf("Default filename: %s\n", default_filename);
                 printf("Do you want to use the default filename? (Y/N): ");
-                scanf(" %c", &useDefault);
+
+                if (scanf(" %c", &useDefault) > 0)
+                    while (getchar() != '\n')
+                    {
+                    };
 
                 if (useDefault == 'Y' || useDefault == 'y')
                     strcpy(filename, default_filename);

@@ -131,7 +131,7 @@ int MechaInitMechacon(int model, int IsDex)
     // Format: RRYYMMDDHHMMSSrrrr, where R = MagicGate region, Y = Year (from 2000), M = Month (1-12), D = Day of month (1-31), H = Hour (0-23), M = minute (0-59), S = second (0-59), r = random number (first 4 digits from the right).
     // The time and date format is made with Ctime::Format %y%m%d%H%M%S
     sprintf(data, "%02x%02d%02d%02d%02d%02d%02d%04d", region->region, tm->tm_year - 100, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, rand() % 10000);
-    printf("Shimuke: %s (%ul)\n", data, strlen(data));
+    printf("Shimuke: %s (%zu)\n", data, strlen(data));
     MechaCommandAdd(MECHA_CMD_INIT_SHIMUKE, data, id++, 0, 6000, "WR INIT SHIMUKE");
     MechaCommandAdd(MECHA_TASK_UI_CMD_WAIT, NULL, MECHA_TASK_ID_UI, 0, 100, "EEPROM WAIT 100ms");
     //	}

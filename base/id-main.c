@@ -286,10 +286,10 @@ void MenuID(void)
                    "\t6. Quit\n"
                    "Your choice: ");
             choice = 0;
-            scanf("%d", &choice);
-            while (getchar() != '\n')
-            {
-            };
+            if (scanf("%d", &choice) > 0)
+                while (getchar() != '\n')
+                {
+                };
         } while (choice < 1 || choice > 6);
         putchar('\n');
 

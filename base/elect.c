@@ -1343,9 +1343,9 @@ static int JudgeDVDSLDeFocusOffset(const char *data, int len)
 
     offset = (unsigned int)strtoul(&data[5], NULL, 16);
     if (offset == 0x100)
-        offset = -(~offset & 0xFF);
+        offset = -((int)((~offset) & 0xFF));
     else
-        offset &= 0xFF;
+        offset = (int)(offset & 0xFF);
 
     result = offset / (ConFocusOffset << 2) * 100.0f;
 
