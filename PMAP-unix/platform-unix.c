@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "platform.h"
 #include "../base/mecha.h"
@@ -265,10 +266,34 @@ void PlatDPrintf(const char *format, ...)
 
 int pstricmp(const char *s1, const char *s2)
 {
-    return strcasecmp(s1, s2);
+    char s1char, s2char;
+
+    for (s1char = *s1, s2char = *s2; *s1 != '\0' && *s2 != '\0'; s1++, s2++, s1char = *s1, s2char = *s2)
+    {
+        if (isalpha(s1char))
+            s1char = toupper(s1char);
+        if (isalpha(s2char))
+            s2char = toupper(s2char);
+        if (s1char != s2char)
+            break;
+    }
+
+    return (s1char - s2char);
 }
 
-int pstrincmp(const char *s1, const char *s2, int n)
+int pstrincmp(const char *s1, const char *s2, int len)
 {
-    return strncasecmp(s1, s2, (size_t)n);
+    char s1char, s2char;
+
+    for (s1char = *s1, s2char = *s2; *s1 != '\0' && *s2 != '\0' && len > 0; s1++, s2++, s1char = *s1, s2char = *s2, len--)
+    {
+        if (isalpha(s1char))
+            s1char = toupper(s1char);
+        if (isalpha(s2char))
+            s2char = toupper(s2char);
+        if (s1char != s2char)
+            break;
+    }
+
+    return ((len == 0) ? 0 : s1char - s2char);
 }

@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <Windows.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "platform.h"
 #include "mecha.h"
@@ -12,8 +13,30 @@ static HANDLE ComPortHandle = INVALID_HANDLE_VALUE;
 static unsigned short RxTimeout;
 static FILE *DebugOutputFile = NULL;
 
+void ListSerialDevices()
+{
+    WIN32_FIND_DATA findFileData;
+    HANDLE hFind = FindFirstFile("COM*", &findFileData);
+
+    if (hFind == INVALID_HANDLE_VALUE)
+    {
+        printf("No COM ports found.\n");
+        return;
+    }
+
+    printf("Available serial devices:\n");
+
+    do
+    {
+        printf("COM%s\n", findFileData.cFileName);
+    } while (FindNextFile(hFind, &findFileData) != 0);
+
+    FindClose(hFind);
+}
+
 int PlatOpenCOMPort(const char *device)
 {
+    ListSerialDevices();
     COMMTIMEOUTS CommTimeout;
     DCB DeviceControlBlock;
     int result;
@@ -44,6 +67,9 @@ int PlatOpenCOMPort(const char *device)
     }
     else
         result = EMFILE;
+
+    if (result != 0)
+        PlatCloseCOMPort();
 
     return result;
 }
@@ -81,13 +107,27 @@ int PlatWriteCOMPort(const char *data)
     else
         result = -EIO;
 
+    if (result < 0)
+    {
+        printf("Write to COM port failed.\n");
+    }
+
     return result;
 }
 
 void PlatCloseCOMPort(void)
 {
-    CloseHandle(ComPortHandle);
-    ComPortHandle = INVALID_HANDLE_VALUE;
+    if (ComPortHandle != INVALID_HANDLE_VALUE)
+    {
+        printf("Closing COM port...\n");
+        CloseHandle(ComPortHandle);
+        ComPortHandle = INVALID_HANDLE_VALUE;
+        printf("COM port closed.\n");
+    }
+    else
+    {
+        printf("COM port is already closed.\n");
+    }
 }
 
 void PlatSleep(unsigned short int msec)
@@ -149,7 +189,7 @@ void PlatDebugInit(void)
 
     // Create the filename with timestamp
     char filename[256]; // Adjust the size according to your needs
-    sprintf(filename, "pmap_%s.log", timestamp);
+    snprintf(filename, sizeof(filename), "pmap_%s.log", timestamp);
 
     DebugOutputFile = fopen(filename, "w");
 }
