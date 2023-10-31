@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -96,7 +96,7 @@
     <ClInclude Include="..\base\elect.h" />
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
-    <ClCompile Include="..\base\eeprom-id.h" />
+    <ClInclude Include="..\base\eeprom-id.h" />
     <ClInclude Include="..\base\platform.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
