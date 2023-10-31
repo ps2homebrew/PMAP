@@ -235,11 +235,11 @@ static INT_PTR CALLBACK MainDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
                 case IDC_BUTTON_ELECT_ADJ:
                     MenuELECT();
                     break;
-#ifdef ID_MANAGEMENT
+                    // #ifdef ID_MANAGEMENT
                 case IDC_BUTTON_ID_MAN:
                     MenuID();
                     break;
-#endif
+                    // #endif
                 case IDC_BUTTON_SHOW_VER:
                     DialogBox(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_CON_VER), hwndDlg, &ShowRawConVerInfoDlg);
                     break;
