@@ -82,18 +82,21 @@
     <ClCompile Include="..\base\elect.c" />
     <ClCompile Include="..\base\mecha.c" />
     <ClCompile Include="..\base\updates.c" />
+    <ClCompile Include="..\base\eeprom-id.c" />
     <ClCompile Include="eeprom-main.c" />
     <ClCompile Include="elect-main.c" />
     <ClCompile Include="mecha-main.c" />
+    <ClCompile Include="id-main.c" />
     <ClCompile Include="..\PMAP-wincli\platform-win.c" />
     <ClCompile Include="winmain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\eeprom.h" />
     <ClInclude Include="..\base\elect.h" />
-    <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
+    <ClCompile Include="..\base\eeprom-id.h" />
     <ClInclude Include="..\base\platform.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
