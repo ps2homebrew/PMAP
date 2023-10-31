@@ -11,7 +11,7 @@
 .vs
 Debug
 Release
-PMAP-macos/pmap
+PMAP-unix/pmap
 PMAP-linux/pmap
 
 !.github

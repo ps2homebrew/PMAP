@@ -57,13 +57,13 @@ jobs:
 
       - name: Build
         run: |
-          cd PMAP-macos
+          cd PMAP-unix
           make
           tar -zcvf PMAP-macos.tar.gz pmap
 
       - name: Build id
         run: |
-          cd PMAP-macos
+          cd PMAP-unix
           make clean
           make ID_MANAGEMENT=1
           tar -zcvf PMAP-macos-id.tar.gz pmap
@@ -71,12 +71,12 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: PMAP-macos
-          path: PMAP-macos/PMAP-macos.tar.gz
+          path: PMAP-unix/PMAP-macos.tar.gz
 
       - uses: actions/upload-artifact@v3
         with:
           name: PMAP-macos-id
-          path: PMAP-macos/PMAP-macos-id.tar.gz
+          path: PMAP-unix/PMAP-macos-id.tar.gz
 
   build-linux:
     name: PMAP linux compilation
@@ -88,13 +88,13 @@ jobs:
 
       - name: Build
         run: |
-          cd PMAP-macos
+          cd PMAP-unix
           make
           tar -zcvf PMAP-linux.tar.gz pmap
 
       - name: Build id
         run: |
-          cd PMAP-macos
+          cd PMAP-unix
           make clean
           make ID_MANAGEMENT=1
           tar -zcvf PMAP-linux-id.tar.gz pmap
@@ -102,9 +102,9 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: PMAP-linux
-          path: PMAP-macos/PMAP-linux.tar.gz
+          path: PMAP-unix/PMAP-linux.tar.gz
 
       - uses: actions/upload-artifact@v3
         with:
           name: PMAP-linux-id
-          path: PMAP-macos/PMAP-linux-id.tar.gz
+          path: PMAP-unix/PMAP-linux-id.tar.gz
