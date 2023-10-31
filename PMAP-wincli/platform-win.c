@@ -15,22 +15,18 @@ static FILE *DebugOutputFile = NULL;
 
 void ListSerialDevices()
 {
-    int portNum = 0;
-    char portName[8];
+    char targetPath[256];
+    char dosDeviceName[256];
+    char comPortName[] = "COM";
 
-    // Loop through COM ports (COM1 to COM256)
-    for (portNum = 1; portNum <= 256; portNum++)
+    for (int portNum = 1; portNum <= 256; portNum++)
     {
-        sprintf(portName, "COM%d", portNum);
+        sprintf(dosDeviceName, "%s%d", comPortName, portNum);
 
-        // Attempt to open the COM port
-        HANDLE hPort = CreateFile(portName, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-
-        if (hPort != INVALID_HANDLE_VALUE)
+        if (QueryDosDevice(dosDeviceName, targetPath, sizeof(targetPath)) != 0)
         {
-            // The port exists, so print its name
-            printf("Found COM Port: %s\n", portName);
-            CloseHandle(hPort);
+            printf("Found COM Port: %s\n", dosDeviceName);
+            printf("Target Path: %s\n", targetPath);
         }
     }
 }
