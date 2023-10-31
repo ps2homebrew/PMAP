@@ -21,12 +21,12 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: PMAP-win
+          name: PMAP-wincli
           path: Release/PMAP.exe
 
       - uses: actions/upload-artifact@v3
         with:
-          name: PMAP-win.exe
+          name: PMAP-wingui
           path: Release/PMAP-win.exe
 
       - name: Create release
