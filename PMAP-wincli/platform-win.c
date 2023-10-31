@@ -15,25 +15,24 @@ static FILE *DebugOutputFile = NULL;
 
 void ListSerialDevices()
 {
-    WIN32_FIND_DATA findFileData;
-    HANDLE hFind = FindFirstFile(L"COM*", &findFileData); // Use the wide-character version of FindFirstFile
+    int portNum = 0;
+    char portName[8];
 
-    if (hFind == INVALID_HANDLE_VALUE)
+    // Loop through COM ports (COM1 to COM256)
+    for (portNum = 1; portNum <= 256; portNum++)
     {
-        printf("No COM ports found.\n");
-        return;
+        sprintf(portName, "COM%d", portNum);
+
+        // Attempt to open the COM port
+        HANDLE hPort = CreateFile(portName, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+
+        if (hPort != INVALID_HANDLE_VALUE)
+        {
+            // The port exists, so print its name
+            printf("Found COM Port: %s\n", portName);
+            CloseHandle(hPort);
+        }
     }
-
-    printf("Available serial devices:\n");
-
-    do
-    {
-        char comPortName[MAX_PATH];
-        WideCharToMultiByte(CP_ACP, 0, findFileData.cFileName, -1, comPortName, sizeof(comPortName), NULL, NULL); // Convert from wide to ANSI/ASCII
-        printf("COM%s\n", comPortName);
-    } while (FindNextFile(hFind, &findFileData) != 0);
-
-    FindClose(hFind);
 }
 
 int PlatOpenCOMPort(const char *device)
