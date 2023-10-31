@@ -5,9 +5,9 @@
 #include <errno.h>
 
 #include "platform.h"
-#include "../base/main.h"
-#include "../base/mecha.h"
-#include "../base/eeprom.h"
+#include "main.h"
+#include "mecha.h"
+#include "eeprom.h"
 
 void DisplayRawIdentData(void)
 {

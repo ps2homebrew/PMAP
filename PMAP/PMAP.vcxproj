@@ -88,7 +88,7 @@
     <!-- Conditionally include source files based on ID_MANAGEMENT -->
     <ClCompile Include="..\base\eeprom-id.c" />
     <ClCompile Include="..\base\id-main.c" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="..\base\main.c" />
     <ClCompile Include="platform.c" />
   </ItemGroup>
   <ItemGroup>
