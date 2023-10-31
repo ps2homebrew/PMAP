@@ -16,7 +16,7 @@ static FILE *DebugOutputFile = NULL;
 void ListSerialDevices()
 {
     WIN32_FIND_DATA findFileData;
-    HANDLE hFind = FindFirstFile("COM*", &findFileData);
+    HANDLE hFind = FindFirstFile(L"COM*", &findFileData); // Use the wide-character version of FindFirstFile
 
     if (hFind == INVALID_HANDLE_VALUE)
     {
@@ -28,7 +28,9 @@ void ListSerialDevices()
 
     do
     {
-        printf("COM%s\n", findFileData.cFileName);
+        char comPortName[MAX_PATH];
+        WideCharToMultiByte(CP_ACP, 0, findFileData.cFileName, -1, comPortName, sizeof(comPortName), NULL, NULL); // Convert from wide to ANSI/ASCII
+        printf("COM%s\n", comPortName);
     } while (FindNextFile(hFind, &findFileData) != 0);
 
     FindClose(hFind);
