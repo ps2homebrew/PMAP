@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -68,7 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,7 +85,7 @@
     <ClCompile Include="eeprom-main.c" />
     <ClCompile Include="elect-main.c" />
     <ClCompile Include="mecha-main.c" />
-    <ClCompile Include="platform.c" />
+    <ClCompile Include="..\PMAP-wincli\platform-win.c" />
     <ClCompile Include="winmain.c" />
   </ItemGroup>
   <ItemGroup>
