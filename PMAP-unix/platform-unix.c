@@ -11,7 +11,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#include "platform.h"
+#include "../base/platform.h"
 #include "../base/mecha.h"
 
 static int ComPortHandle = -1;
@@ -179,7 +179,6 @@ void PlatCloseCOMPort(void)
         printf("COM port is already closed.\n");
     }
 }
-
 
 void PlatSleep(unsigned short int msec)
 {

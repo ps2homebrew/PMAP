@@ -94,7 +94,7 @@
     <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
-    <ClInclude Include="platform.h" />
+    <ClInclude Include="..\base\platform.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,7 @@
     <ClCompile Include="..\base\eeprom-id.c" />
     <ClCompile Include="..\base\id-main.c" />
     <ClCompile Include="..\base\main.c" />
-    <ClCompile Include="platform.c" />
+    <ClCompile Include="platform-win.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\base\eeprom.h" />
@@ -99,7 +99,7 @@
     <ClInclude Include="..\base\updates.h" />
     <!-- Conditionally include source files based on ID_MANAGEMENT -->
     <ClInclude Include="..\base\eeprom-id.h" />
-    <ClInclude Include="platform.h" />
+    <ClInclude Include="..\base\platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
