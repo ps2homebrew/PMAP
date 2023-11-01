@@ -14,7 +14,7 @@
 extern HINSTANCE g_hInstance;
 extern HWND g_mainWin;
 
-extern unsigned char ElectConIsT10K, ConType;
+extern unsigned char ElectConIsT10K, ConType, ConSlim;
 
 static void ToggleMainDialogControls(HWND hwnd, BOOL enabled)
 {
@@ -54,7 +54,10 @@ static void InitWindow(HWND hwnd)
             SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"G: CXP103049 x.3.8.0");
             break;
         case MECHA_TYPE_40:
-            SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Dragons");
+            if (ConSlim)
+                SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Slims");
+            else
+                SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"H,I,J,X: CXR706080");
             break;
         default:
             SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Unknown");
@@ -81,9 +84,7 @@ static INT_PTR CALLBACK ElectDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
             {
                 case IDC_BTN_START:
                     if (IsChassisDexA())
-                    {
                         ElectConIsT10K = (IsDlgButtonChecked(hwndDlg, IDC_CHK_T10K) == BST_CHECKED);
-                    }
                     else
                         ElectConIsT10K = 0;
                     ToggleMainDialogControls(hwndDlg, FALSE);

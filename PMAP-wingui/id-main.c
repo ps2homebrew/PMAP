@@ -16,7 +16,7 @@ extern HWND g_mainWin;
 
 extern unsigned char ConType, ConCEXDEX;
 
-static void InitMechacon(void)
+/* static void InitMechacon(void)
 {
     int choice, done, dex, NumChoices;
 
@@ -59,18 +59,20 @@ static void InitMechacon(void)
                     if (!dex)
                     {
                         printf("Select model Name:\n"
-                               "\t1. SCPH-50000\n"
-                               "\t2. SCPH-50001\n"
-                               "\t3. SCPH-50002\n"
-                               "\t4. SCPH-50003\n"
-                               "\t5. SCPH-50004\n"
-                               "\t6. SCPH-50005\n"
-                               "\t7. SCPH-50006\n"
-                               "\t8. SCPH-50007\n"
-                               "\t9. SCPH-50008\n"
-                               "\t10. SCPH-50009\n"
-                               "\t11. SCPH-50010\n"
-                               "\t12. Quit\n"
+                               "\t1. SCPH-xx000 (Japan)\n"
+                               "\t2. SCPH-xx001 (USA)\n"
+                               "\t3. SCPH-xx002 (Australia)\n"
+                               "\t4. SCPH-xx003 (Great Britian)\n"
+                               "\t5. SCPH-xx004 (Europe)\n"
+                               "\t6. SCPH-xx005 (Korea)\n"
+                               "\t7. SCPH-xx006 (Hong Kong)\n"
+                               "\t8. SCPH-xx007 (Taiwan)\n"
+                               "\t9. SCPH-xx008 (Russia)\n"
+                               "\t10. SCPH-50009 (China)\n"
+                               "\t11. SCPH-xx010 (SCPH-50010: Canada, Slims: Mexico)\n"
+                               "\t12. SCPH-x0011 (SCPH-50011: Mexico, SCPH-70011: USA)\n"
+                               "\t13. SCPH-70012 (Canada)\n"
+                               "\t14. Quit\n"
                                "Your choice: ");
                         NumChoices = 12;
                     }
@@ -109,9 +111,11 @@ static void InitMechacon(void)
                         case 9:
                         case 10:
                         case 11:
+                        case 12:
+                        case 13:
                             printf("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
                             break;
-                        case 12:
+                        case 14:
                             done = 1;
                     }
                 }
@@ -166,7 +170,7 @@ static void InitNTSCPALDefaults(void)
             printf("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
             break;
     }
-}
+} */
 
 static INT_PTR CALLBACK InitNTSCPALDefsDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {

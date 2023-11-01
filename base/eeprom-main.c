@@ -263,13 +263,13 @@ static int SelectChassis(void)
         {&IsChassisD, "D-chassis (SCPH-300xx/SCPH-350xx)"},
         {&IsChassisF, "F-chassis (SCPH-30000/SCPH-300xx R)"},
         {&IsChassisG, "G-chassis (SCPH-390xx)"},
-        {&IsChassisDragon, "Dragon (SCPH-500xx--SCPH-900xx)"},
+        {&IsChassisDragon, "Dragon (SCPH-5x0xx--SCPH-900xx)"},
         {&IsChassisDexA, "A-chassis (DTL-H10000)"},  // A
         {&IsChassisDexA, "A-chassis (DTL-T10000H)"}, // A2
         {&IsChassisDexA, "A-chassis (DTL-T10000)"},  // A3
         {&IsChassisDexB, "B-chassis (DTL-H30001/2 with Auto-Tilt motor)"},
-        {&IsChassisDexD, "D-chassis (DTL-H30000)"},
-        {&IsChassisDragon, "Dragon (DTL-500xx--DTL-900xx)"}};
+        {&IsChassisDexD, "D-chassis (DTL-H30x0x)"},
+        {&IsChassisDragon, "Dragon (DTL-5x0xx--DTL-900xx)"}};
     int SelectCount, LastSelectIndex, i, choice;
 
     DisplayCommonConsoleInfo();
