@@ -34,11 +34,11 @@ static void InitRawConVerInfoMenu(HWND hwnd)
 
     sprintf(buffer, "TestMode.%d MD1.%d", tm, md);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MD_VER), buffer);
-    sprintf(buffer, "0x%08x", RawData->cfc);
-    SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
-    sprintf(buffer, "0x%p", RawData->cfd);
+    sprintf(buffer, "0x%s", RawData->cfd);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFD), buffer);
-    sprintf(buffer, "0x%04x", RawData->VersionID);
+    sprintf(buffer, "0x%#08x", RawData->cfc);
+    SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
+    sprintf(buffer, "0x%#04x", RawData->VersionID);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CON_VER), buffer);
 }
 
