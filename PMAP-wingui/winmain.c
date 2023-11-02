@@ -36,9 +36,9 @@ static void InitRawConVerInfoMenu(HWND hwnd)
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MD_VER), buffer);
     sprintf(buffer, "0x%s", RawData->cfd);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFD), buffer);
-    sprintf(buffer, "0x%#08x", RawData->cfc);
+    sprintf(buffer, "%#08x", RawData->cfc);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
-    sprintf(buffer, "0x%#04x", RawData->VersionID);
+    sprintf(buffer, "%#04x", RawData->VersionID);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CON_VER), buffer);
 }
 
