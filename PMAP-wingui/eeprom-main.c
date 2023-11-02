@@ -228,6 +228,8 @@ static INT_PTR CALLBACK EepDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
         case WM_COMMAND:
             switch (LOWORD(wParam))
             {
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     EndDialog(hwndDlg, TRUE);
                     break;

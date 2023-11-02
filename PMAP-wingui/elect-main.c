@@ -91,6 +91,8 @@ static INT_PTR CALLBACK ElectDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
                     ElectAutoAdjust();
                     ToggleMainDialogControls(hwndDlg, TRUE);
                     break;
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     EndDialog(hwndDlg, TRUE);
                     break;
