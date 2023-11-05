@@ -63,7 +63,7 @@ static void InitWindow(HWND hwnd)
             SetWindowText(GetDlgItem(hwnd, IDC_ELECT_MECHACON), L"Unknown");
     }
 
-    ToggleMainDialogControls(hwnd, FALSE);
+    ToggleMainDialogControls(hwnd, TRUE);
 }
 
 static INT_PTR CALLBACK ElectDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)

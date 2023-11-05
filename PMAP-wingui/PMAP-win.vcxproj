@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -68,7 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\PMAP-wincli;..\base;.;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -87,7 +87,7 @@
     <ClCompile Include="elect-main.c" />
     <ClCompile Include="mecha-main.c" />
     <ClCompile Include="id-main.c" />
-    <ClCompile Include="..\PMAP-wincli\platform-win.c" />
+    <ClCompile Include="platform-wingui.c" />
     <ClCompile Include="winmain.c" />
   </ItemGroup>
   <ItemGroup>
