@@ -3,7 +3,7 @@ name: CI-compile
 on:
   push:
   pull_request:
-
+ 
 jobs:
   build-win:
     name: PMAP windows compilation
