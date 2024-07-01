@@ -46,13 +46,13 @@ static void InitWindow(HWND hwnd)
                                 L"D-chassis (SCPH-300xx/SCPH-350xx)",
                                 L"F-chassis (SCPH-30000/SCPH-300xx R)",
                                 L"G-chassis (SCPH-390xx)",
-                                L"H-chassis (SCPH-500xx)",
+                                L"Dragon (SCPH-5x0xx--SCPH-900xx)",
                                 L"A-chassis (DTL-H10000)",  // A
                                 L"A-chassis (DTL-T10000H)", // A2
                                 L"A-chassis (DTL-T10000)",  // A3
                                 L"B-chassis (DTL-H30001/2 with Auto-Tilt motor)",
                                 L"D-chassis (DTL-H30x0x)",
-                                L"H-chassis (DTL-H500xx)",
+                                L"Dragon (DTL-5x0xx--DTL-900xx)",
                                 NULL};
 
     combo                    = GetDlgItem(hwnd, IDC_CMB_CHASSIS);
@@ -228,6 +228,8 @@ static INT_PTR CALLBACK EepDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
         case WM_COMMAND:
             switch (LOWORD(wParam))
             {
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     EndDialog(hwndDlg, TRUE);
                     break;

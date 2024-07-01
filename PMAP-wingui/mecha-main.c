@@ -1665,6 +1665,8 @@ static INT_PTR CALLBACK MechaDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
                     // Test mechanics
                     // MechaTestMain();
 
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     EndDialog(hwndDlg, TRUE);
                     break;

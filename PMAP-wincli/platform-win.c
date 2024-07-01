@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <Windows.h>
+#include <time.h>
+#include <ctype.h>
 
 #include "platform.h"
 #include "mecha.h"
@@ -11,8 +13,27 @@ static HANDLE ComPortHandle = INVALID_HANDLE_VALUE;
 static unsigned short RxTimeout;
 static FILE *DebugOutputFile = NULL;
 
+void ListSerialDevices()
+{
+    char targetPath[256];
+    char dosDeviceName[256];
+    char comPortName[] = "COM";
+
+    for (int portNum = 1; portNum <= 256; portNum++)
+    {
+        sprintf(dosDeviceName, "%s%d", comPortName, portNum);
+
+        if (QueryDosDevice(dosDeviceName, targetPath, sizeof(targetPath)) != 0)
+        {
+            printf("Found COM Port: %s\n", dosDeviceName);
+            printf("Target Path: %s\n", targetPath);
+        }
+    }
+}
+
 int PlatOpenCOMPort(const char *device)
 {
+    ListSerialDevices();
     COMMTIMEOUTS CommTimeout;
     DCB DeviceControlBlock;
     int result;
@@ -43,6 +64,9 @@ int PlatOpenCOMPort(const char *device)
     }
     else
         result = EMFILE;
+
+    if (result != 0)
+        PlatCloseCOMPort();
 
     return result;
 }
@@ -80,13 +104,27 @@ int PlatWriteCOMPort(const char *data)
     else
         result = -EIO;
 
+    if (result < 0)
+    {
+        printf("Write to COM port failed.\n");
+    }
+
     return result;
 }
 
 void PlatCloseCOMPort(void)
 {
-    CloseHandle(ComPortHandle);
-    ComPortHandle = INVALID_HANDLE_VALUE;
+    if (ComPortHandle != INVALID_HANDLE_VALUE)
+    {
+        printf("Closing COM port...\n");
+        CloseHandle(ComPortHandle);
+        ComPortHandle = INVALID_HANDLE_VALUE;
+        printf("COM port closed.\n");
+    }
+    else
+    {
+        printf("COM port is already closed.\n");
+    }
 }
 
 void PlatSleep(unsigned short int msec)
@@ -135,7 +173,22 @@ void PlatShowMessageB(const char *format, ...)
 
 void PlatDebugInit(void)
 {
-    DebugOutputFile = fopen("pmap.log", "w");
+    // Get the current time
+    time_t rawtime;
+    struct tm *timeinfo;
+    char timestamp[20]; // Adjust the size according to your needs
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    // Format the timestamp (e.g., "2023-10-14_12-34-56")
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d_%H-%M-%S", timeinfo);
+
+    // Create the filename with timestamp
+    char filename[256]; // Adjust the size according to your needs
+    snprintf(filename, sizeof(filename), "pmap_%s.log", timestamp);
+
+    DebugOutputFile = fopen(filename, "w");
 }
 
 void PlatDebugDeinit(void)
