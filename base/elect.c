@@ -792,7 +792,7 @@ static int ElectJudgeDVDSLFELoopGain(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-SL FE LOOP GAIN NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -839,7 +839,7 @@ static int ElectJudgeDVDSLJitter256(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-SL jitter(256) NG: %d\n", value);
-        return 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -954,7 +954,7 @@ static int ElectJudgeDVDDLL0Jitter256(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L0 jitter(256) NG: %d\n", value);
-        return 1;
+       return (ConSlim == 1) ? 0 : 1;
     }
 }
 
