@@ -26,7 +26,7 @@ int PlatOpenCOMPort(const char *device)
     if (ComPortHandle == -1)
     {
         // List available serial devices
-        printf("Available serial devices in /dev/:\n");
+        PlatShowMessage("Available serial devices in /dev/:\n");
         DIR *dir;
         const struct dirent *entry;
 
@@ -37,24 +37,24 @@ int PlatOpenCOMPort(const char *device)
             {
                 if (strncmp(entry->d_name, "cu.", 3) == 0)
                 {
-                    printf("/dev/%s\n", entry->d_name);
+                    PlatShowMessage("/dev/%s\n", entry->d_name);
                 }
             }
             closedir(dir);
         }
 
-        printf("Opening COM port: %s\n", device);
+        PlatShowMessage("Opening COM port: %s\n", device);
 
         ComPortHandle = open(device, O_RDWR | O_NOCTTY | O_NDELAY);
 
         if (ComPortHandle != -1)
         {
-            printf("COM port opened successfully.\n");
+            PlatShowMessage("COM port opened successfully.\n");
 
             fcntl(ComPortHandle, F_SETFL, 0);
             if (tcgetattr(ComPortHandle, &options) == -1)
             {
-                printf("Failed to get terminal attributes. Error code: %d\n", errno);
+                PlatShowMessage("Failed to get terminal attributes. Error code: %d\n", errno);
                 close(ComPortHandle);
                 ComPortHandle = -1;
                 return errno;
@@ -73,7 +73,7 @@ int PlatOpenCOMPort(const char *device)
 
             if (tcsetattr(ComPortHandle, TCSANOW, &options) == -1)
             {
-                printf("Failed to set terminal attributes. Error code: %d\n", errno);
+                PlatShowMessage("Failed to set terminal attributes. Error code: %d\n", errno);
                 close(ComPortHandle);
                 ComPortHandle = -1;
                 return errno;
@@ -81,7 +81,7 @@ int PlatOpenCOMPort(const char *device)
 
             if (tcflush(ComPortHandle, TCIOFLUSH) == -1)
             {
-                printf("Failed to flush terminal I/O. Error code: %d\n", errno);
+                PlatShowMessage("Failed to flush terminal I/O. Error code: %d\n", errno);
                 close(ComPortHandle);
                 ComPortHandle = -1;
                 return errno;
@@ -89,18 +89,18 @@ int PlatOpenCOMPort(const char *device)
 
             RxTimeout = MECHA_TASK_NORMAL_TO;
 
-            printf("COM port configuration set.\n");
+            PlatShowMessage("COM port configuration set.\n");
             result = 0;
         }
         else
         {
             result = errno;
-            printf("Failed to open COM port. Error code: %d\n", result);
+            PlatShowMessage("Failed to open COM port. Error code: %d\n", result);
         }
     }
     else
     {
-        printf("COM port is already open.\n");
+        PlatShowMessage("COM port is already open.\n");
         result = EMFILE;
     }
 
@@ -113,7 +113,7 @@ int PlatReadCOMPort(char *data, int n, unsigned short timeout)
 
     if (ComPortHandle == -1)
     {
-        printf("COM port is not open.\n");
+        PlatShowMessage("COM port is not open.\n");
         return -1; // Return an error code indicating that the COM port is not open.
     }
 
@@ -135,18 +135,18 @@ int PlatReadCOMPort(char *data, int n, unsigned short timeout)
 
         if (result < 0)
         {
-            printf("Read from COM port failed.\n");
+            PlatShowMessage("Read from COM port failed.\n");
         }
     }
     else if (result == 0)
     {
         // Timeout
-        printf("Read from COM port timed out.\n");
+        PlatShowMessage("Read from COM port timed out.\n");
     }
     else
     {
         // Error
-        printf("Select function error.\n");
+        PlatShowMessage("Select function error.\n");
     }
 
     return result;
@@ -159,7 +159,7 @@ int PlatWriteCOMPort(const char *data)
 
     if (result < 0)
     {
-        printf("Write to COM port failed.\n");
+        PlatShowMessage("Write to COM port failed.\n");
     }
 
     return result;
@@ -169,14 +169,14 @@ void PlatCloseCOMPort(void)
 {
     if (ComPortHandle != -1)
     {
-        printf("Closing COM port...\n");
+        PlatShowMessage("Closing COM port...\n");
         close(ComPortHandle);
         ComPortHandle = -1;
-        printf("COM port closed.\n");
+        PlatShowMessage("COM port closed.\n");
     }
     else
     {
-        printf("COM port is already closed.\n");
+        PlatShowMessage("COM port is already closed.\n");
     }
 }
 

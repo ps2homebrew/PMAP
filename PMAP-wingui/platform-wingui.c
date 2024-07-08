@@ -27,8 +27,8 @@ static FILE *DebugOutputFile = NULL;
 
         if (QueryDosDevice(dosDeviceName, targetPath, sizeof(targetPath)) != 0)
         {
-            printf("Found COM Port: %s\n", dosDeviceName);
-            printf("Target Path: %s\n", targetPath);
+            PlatShowMessage("Found COM Port: %s\n", dosDeviceName);
+            PlatShowMessage("Target Path: %s\n", targetPath);
         }
     }
 } */
@@ -108,7 +108,7 @@ int PlatWriteCOMPort(const char *data)
 
     if (result < 0)
     {
-        printf("Write to COM port failed.\n");
+        PlatShowMessage("Write to COM port failed.\n");
     }
 
     return result;
@@ -118,14 +118,14 @@ void PlatCloseCOMPort(void)
 {
     if (ComPortHandle != INVALID_HANDLE_VALUE)
     {
-        printf("Closing COM port...\n");
+        PlatShowMessage("Closing COM port...\n");
         CloseHandle(ComPortHandle);
         ComPortHandle = INVALID_HANDLE_VALUE;
-        printf("COM port closed.\n");
+        PlatShowMessage("COM port closed.\n");
     }
     else
     {
-        printf("COM port is already closed.\n");
+        PlatShowMessage("COM port is already closed.\n");
     }
 }
 

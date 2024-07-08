@@ -16,7 +16,7 @@ static int ElectPromptT10K(void)
     char input;
     do
     {
-        printf("DTL-T10000 (YEDS-18)? [y,n] ");
+        PlatShowMessage("DTL-T10000 (YEDS-18)? [y,n] ");
         input = getchar();
         while (getchar() != '\n')
         {
@@ -39,7 +39,7 @@ void MenuELECT(void)
 
     do
     {
-        printf("\nElectric Circuit Adjustment\n"
+        PlatShowMessage("\nElectric Circuit Adjustment\n"
                "This tool allows you to re-calibrate the electric circuit of the CD/DVD drive.\n"
                "You need to do this if you:\n"
                "\t1. Change/remove the OPtical (OP) block\n"

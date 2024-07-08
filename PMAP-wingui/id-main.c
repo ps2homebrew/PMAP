@@ -27,7 +27,7 @@ extern unsigned char ConType, ConCEXDEX;
         {
             do
             {
-                printf("MECHACON initialization for H/I-chassis\n"
+                PlatShowMessage("MECHACON initialization for H/I-chassis\n"
                        "Select type:\n"
                        "\t1. CEX\n"
                        "\t2. DEX\n"
@@ -58,7 +58,7 @@ extern unsigned char ConType, ConCEXDEX;
                 {
                     if (!dex)
                     {
-                        printf("Select model Name:\n"
+                        PlatShowMessage("Select model Name:\n"
                                "\t1. SCPH-xx000 (Japan)\n"
                                "\t2. SCPH-xx001 (USA)\n"
                                "\t3. SCPH-xx002 (Australia)\n"
@@ -78,7 +78,7 @@ extern unsigned char ConType, ConCEXDEX;
                     }
                     else
                     {
-                        printf("Select model Name:\n"
+                        PlatShowMessage("Select model Name:\n"
                                "\t1. DTL-H50000\n"
                                "\t2. DTL-H50001\n"
                                "\t3. DTL-H50002\n"
@@ -113,7 +113,7 @@ extern unsigned char ConType, ConCEXDEX;
                         case 11:
                         case 12:
                         case 13:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
                             break;
                         case 14:
                             done = 1;
@@ -130,7 +130,7 @@ extern unsigned char ConType, ConCEXDEX;
                         case 5:
                         case 6:
                         case 7:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
                             break;
                         case 8:
                             done = 1;
@@ -140,7 +140,7 @@ extern unsigned char ConType, ConCEXDEX;
         }
     }
     else
-        printf("MechaInit: Unsupported chassis.\n");
+        PlatShowMessage("MechaInit: Unsupported chassis.\n");
 }
 
 static void InitNTSCPALDefaults(void)
@@ -149,7 +149,7 @@ static void InitNTSCPALDefaults(void)
 
     do
     {
-        printf("NTSC/PAL selection:\n"
+        PlatShowMessage("NTSC/PAL selection:\n"
                "\t1. NTSC\n"
                "\t2. PAL\n"
                "\t3. Quit\n"
@@ -164,10 +164,10 @@ static void InitNTSCPALDefaults(void)
     switch (choice)
     {
         case 1:
-            printf("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
             break;
         case 2:
-            printf("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
             break;
     }
 } */

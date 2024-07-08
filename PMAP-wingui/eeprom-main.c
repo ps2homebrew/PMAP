@@ -105,7 +105,7 @@ static int UpdateEEPROM(HWND hwndDlg)
         {
             do
             {
-                printf("Please select the optical block:\n"
+                PlatShowMessage("Please select the optical block:\n"
                        "\t1. SONY\n"
                        "\t2. SANYO\n"
                        "Your choice: ");
@@ -124,7 +124,7 @@ static int UpdateEEPROM(HWND hwndDlg)
         {
             do
             {
-                printf("Please select the object lens:\n"
+                PlatShowMessage("Please select the object lens:\n"
                        "\t1. T487\n"
                        "\t2. T609K\n"
                        "Your choice: ");
@@ -143,7 +143,7 @@ static int UpdateEEPROM(HWND hwndDlg)
         {
             do
             {
-                printf("The OSD2 init bit is set. Clear it? (y/n)");
+                PlatShowMessage("The OSD2 init bit is set. Clear it? (y/n)");
                 choice = getchar();
                 while (getchar() != '\n')
                 {
@@ -154,35 +154,35 @@ static int UpdateEEPROM(HWND hwndDlg)
 
         if ((result = selected->update(ClearOSD2InitBit, ReplacedMecha, ObjectLens, OpticalBlock)) > 0)
         {
-            printf("Actions available:\n");
+            PlatShowMessage("Actions available:\n");
             if (result & UPDATE_REGION_EEP_ECR)
-                printf("\tEEPROM ECR\n");
+                PlatShowMessage("\tEEPROM ECR\n");
             if (result & UPDATE_REGION_DISCDET)
-                printf("\tDisc detect\n");
+                PlatShowMessage("\tDisc detect\n");
             if (result & UPDATE_REGION_SERVO)
-                printf("\tServo\n");
+                PlatShowMessage("\tServo\n");
             if (result & UPDATE_REGION_TILT)
-                printf("\tAuto-tilt\n");
+                PlatShowMessage("\tAuto-tilt\n");
             if (result & UPDATE_REGION_TRAY)
-                printf("\tTray\n");
+                PlatShowMessage("\tTray\n");
             if (result & UPDATE_REGION_EEGS)
-                printf("\tEE & GS\n");
+                PlatShowMessage("\tEE & GS\n");
             if (result & UPDATE_REGION_ECR)
-                printf("\tRTC ECR\n");
+                PlatShowMessage("\tRTC ECR\n");
             if (result & UPDATE_REGION_RTC)
             {
-                printf("\tRTC:\n");
+                PlatShowMessage("\tRTC:\n");
                 if (result & UPDATE_REGION_RTC_CTL12)
-                    printf("\t\tRTC CTL1,2 ERROR\n");
+                    PlatShowMessage("\t\tRTC CTL1,2 ERROR\n");
                 if (result & UPDATE_REGION_RTC_TIME)
-                    printf("\t\tRTC TIME ERROR\n");
+                    PlatShowMessage("\t\tRTC TIME ERROR\n");
             }
             if (result & UPDATE_REGION_DEFAULTS)
-                printf("\tMechacon defaults\n");
+                PlatShowMessage("\tMechacon defaults\n");
 
             do
             {
-                printf("Proceed with updates? (y/n) ");
+                PlatShowMessage("Proceed with updates? (y/n) ");
                 choice = getchar();
                 while (getchar() != '\n')
                 {
@@ -200,14 +200,14 @@ static int UpdateEEPROM(HWND hwndDlg)
         }
         else
         {
-            printf("An error occurred. Wrong chassis selected?\n");
+            PlatShowMessage("An error occurred. Wrong chassis selected?\n");
         }
 
         return result;
     }
     else
     {
-        printf("Unsupported chassis selected.\n");
+        PlatShowMessage("Unsupported chassis selected.\n");
         return -EINVAL;
     }
 }

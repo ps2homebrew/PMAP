@@ -22,7 +22,7 @@ static void InitMechacon(void)
         {
             do
             {
-                printf("MECHACON initialization for H/I-chassis\n"
+                PlatShowMessage("MECHACON initialization for H/I-chassis\n"
                        "Select type:\n"
                        "\t1. CEX\n"
                        "\t2. DEX\n"
@@ -53,7 +53,7 @@ static void InitMechacon(void)
                 {
                     if (!dex)
                     {
-                        printf("Select model Name:\n"
+                        PlatShowMessage("Select model Name:\n"
                                "\t1. SCPH-xx000 (Japan)\n"
                                "\t2. SCPH-xx001 (USA)\n"
                                "\t3. SCPH-xx002 (Australia)\n"
@@ -73,7 +73,7 @@ static void InitMechacon(void)
                     }
                     else
                     {
-                        printf("Select model Name:\n"
+                        PlatShowMessage("Select model Name:\n"
                                "\t1. DTL-H50000\n"
                                "\t2. DTL-H50001\n"
                                "\t3. DTL-H50002\n"
@@ -108,7 +108,7 @@ static void InitMechacon(void)
                         case 11:
                         case 12:
                         case 13:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
                             break;
                         case 14:
                             done = 1;
@@ -125,7 +125,7 @@ static void InitMechacon(void)
                         case 5:
                         case 6:
                         case 7:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
                             break;
                         case 8:
                             done = 1;
@@ -135,7 +135,7 @@ static void InitMechacon(void)
         }
     }
     else
-        printf("MechaInit: Unsupported chassis.\n");
+        PlatShowMessage("MechaInit: Unsupported chassis.\n");
 }
 
 static void WriteiLinkID(void)
@@ -145,7 +145,7 @@ static void WriteiLinkID(void)
     unsigned short int NewiLinkIDInput[8];
 
     EEPROMGetiLinkID(iLinkID);
-    printf("Current i.Link ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
+    PlatShowMessage("Current i.Link ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
            "Enter new ID:\t\t",
            iLinkID[0], iLinkID[1], iLinkID[2], iLinkID[3], iLinkID[4], iLinkID[5], iLinkID[6], iLinkID[7]);
     if (scanf("%02hx %02hx %02hx %02hx %02hx %02hx %02hx %02hx",
@@ -154,11 +154,11 @@ static void WriteiLinkID(void)
     {
         for (i = 0; i < 8; i++)
             iLinkID[i] = (u8)NewiLinkIDInput[i];
-        printf("iLink ID update %s\n", (EEPROMSetiLinkID(iLinkID) == 0) ? "completed" : "failed");
+        PlatShowMessage("iLink ID update %s\n", (EEPROMSetiLinkID(iLinkID) == 0) ? "completed" : "failed");
     }
     else
     {
-        printf("Operation aborted.\n");
+        PlatShowMessage("Operation aborted.\n");
     }
 
     while (getchar() != '\n')
@@ -173,7 +173,7 @@ static void WriteConsoleID(void)
     unsigned short int NewConsoleIDInput[8];
 
     EEPROMGetConsoleID(ConsoleID);
-    printf("Current console ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
+    PlatShowMessage("Current console ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
            "Enter new ID:\t\t",
            ConsoleID[0], ConsoleID[1], ConsoleID[2], ConsoleID[3], ConsoleID[4], ConsoleID[5], ConsoleID[6], ConsoleID[7]);
     if (scanf("%02hx %02hx %02hx %02hx %02hx %02hx %02hx %02hx",
@@ -182,11 +182,11 @@ static void WriteConsoleID(void)
     {
         for (i = 0; i < 8; i++)
             ConsoleID[i] = (u8)NewConsoleIDInput[i];
-        printf("Console ID update %s\n", (EEPROMSetConsoleID(ConsoleID) == 0) ? "completed" : "failed");
+        PlatShowMessage("Console ID update %s\n", (EEPROMSetConsoleID(ConsoleID) == 0) ? "completed" : "failed");
     }
     else
     {
-        printf("Operation aborted.\n");
+        PlatShowMessage("Operation aborted.\n");
     }
 
     while (getchar() != '\n')
@@ -202,19 +202,19 @@ static void WriteModelName(void)
     switch (ConType)
     {
         case MECHA_TYPE_36:
-            printf("This model does not support a model name.\n");
+            PlatShowMessage("This model does not support a model name.\n");
             return;
     }
 
     ModelName = EEPROMGetModelName();
-    printf("Current model name:\t%s\n"
+    PlatShowMessage("Current model name:\t%s\n"
            "Maximum length is 16\n"
            "Enter new name:\t\t",
            ModelName[0] == 0x00 ? "<No model name>" : ModelName);
     if (fgets(NewModelName, sizeof(NewModelName), stdin))
     {
         NewModelName[16] = '\0';
-        printf("Model name update %s\n", (EEPROMSetModelName(NewModelName) == 0) ? "completed" : "failed");
+        PlatShowMessage("Model name update %s\n", (EEPROMSetModelName(NewModelName) == 0) ? "completed" : "failed");
     }
 }
 
@@ -224,7 +224,7 @@ static void DisplayIDInfo(void)
 
     EEPROMGetiLinkID(iLinkID);
     EEPROMGetConsoleID(ConsoleID);
-    printf("i.Link ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
+    PlatShowMessage("i.Link ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n"
            "Console ID:\t%02x %02x %02x %02x %02x %02x %02x %02x\n",
            iLinkID[0], iLinkID[1], iLinkID[2], iLinkID[3], iLinkID[4], iLinkID[5], iLinkID[6], iLinkID[7],
            ConsoleID[0], ConsoleID[1], ConsoleID[2], ConsoleID[3], ConsoleID[4], ConsoleID[5], ConsoleID[6], ConsoleID[7]);
@@ -236,7 +236,7 @@ static void InitNTSCPALDefaults(void)
 
     do
     {
-        printf("NTSC/PAL selection:\n"
+        PlatShowMessage("NTSC/PAL selection:\n"
                "\t1. NTSC\n"
                "\t2. PAL\n"
                "\t3. Quit\n"
@@ -251,10 +251,10 @@ static void InitNTSCPALDefaults(void)
     switch (choice)
     {
         case 1:
-            printf("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
             break;
         case 2:
-            printf("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
             break;
     }
 }
@@ -277,7 +277,7 @@ void MenuID(void)
         {
             DisplayCommonConsoleInfo();
             DisplayIDInfo();
-            printf("ID Managenent:\n"
+            PlatShowMessage("ID Managenent:\n"
                    "\t1. Write i.Link ID\n"
                    "\t2. Write console ID\n"
                    "\t3. Write model name (AB-chassis and later only)\n"

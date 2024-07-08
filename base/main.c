@@ -17,7 +17,7 @@ void DisplayRawIdentData(void)
     MechaGetMode(&tm, &md);
     RawData = MechaGetRawIdent();
 
-    printf("\nTestMode.%d MD1.%d\n"
+    PlatShowMessage("\nTestMode.%d MD1.%d\n"
            "CFD:\t\t0x%s\n"
            "CFC:\t\t%#08x\n"
            "Version:\t%#04x\n",
@@ -31,40 +31,40 @@ void DisplayCommonConsoleInfo(void)
     u8 emcs, tm, md;
 
     MechaGetMode(&tm, &md);
-    printf("\nTestMode.%d MD1.%d\tChecksum: %s\n"
+    PlatShowMessage("\nTestMode.%d MD1.%d\tChecksum: %s\n"
            "MECHA:\t\t%s (%s)\n",
            tm, md, MechaGetEEPROMStat() ? "OK" : "NG",
            MechaGetDesc(), MechaGetCEXDEX() == 0 ? "DEX" : "CEX");
-    printf("Serial:\t\t");
+    PlatShowMessage("Serial:\t\t");
     if (EEPROMInitSerial() == 0)
     {
         EEPROMGetSerial(&serial, &emcs);
-        printf("%07u\t\t"
+        PlatShowMessage("%07u\t\t"
                "EMCS:\t%02x\n",
                serial, emcs);
     }
     else
-        printf("<no serial number>\n");
-    printf("MODELID:\t%04x\t\tTV:\t%s\n", EEPROMGetModelID(), MechaGetTVSystemDesc(EEPROMGetTVSystem()));
-    printf("Model:\t\t");
+        PlatShowMessage("<no serial number>\n");
+    PlatShowMessage("MODELID:\t%04x\t\tTV:\t%s\n", EEPROMGetModelID(), MechaGetTVSystemDesc(EEPROMGetTVSystem()));
+    PlatShowMessage("Model:\t\t");
     if (EEPROMInitModelName() == 0)
     {
         ModelName = EEPROMGetModelName();
-        printf("%s\n", ModelName);
+        PlatShowMessage("%s\n", ModelName);
     }
     else
-        printf("<no model name>\n");
-    printf("RTC:\t\t%s (%s)\n"
+        PlatShowMessage("<no model name>\n");
+    PlatShowMessage("RTC:\t\t%s (%s)\n"
            "OP:\t\t%s\t\tLens:\t%s\n",
            MechaGetRTCName(MechaGetRTCType()), MechaGetRtcStatusDesc(MechaGetRTCType(), MechaGetRTCStat()),
            MechaGetOPTypeName(MechaGetOP()), MechaGetLensTypeName(MechaGetLens()));
     if (EEPROMGetEEPROMStatus() == 1)
-        printf("EEPROM was erased (defaults must now be loaded).\n");
+        PlatShowMessage("EEPROM was erased (defaults must now be loaded).\n");
 }
 
 void DisplayConnHelp(void)
 {
-    printf("There was a problem communicating with the PlayStation 2 console.\n"
+    PlatShowMessage("There was a problem communicating with the PlayStation 2 console.\n"
            "Check the connections, press the RESET button and try again.\n\n");
 }
 
@@ -75,13 +75,13 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        printf("Syntax error. Syntax: PMAP <COM port>\n");
+        PlatShowMessage("Syntax error. Syntax: PMAP <COM port>\n");
         return EINVAL;
     }
 
     if (PlatOpenCOMPort(argv[1]) != 0)
     {
-        printf("Cannot open %s.\n", argv[1]);
+        PlatShowMessage("Cannot open %s.\n", argv[1]);
         return ENODEV;
     }
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     {
         do
         {
-            printf("\nP.M.A.P (v1.2)\n"
+            PlatShowMessage("\nP.M.A.P (v1.2)\n"
                    "=============================\n"
                    "\t1.\tEEPROM management\n"
                    "\t2.\tAutomatic ELECT adjustment\n"
