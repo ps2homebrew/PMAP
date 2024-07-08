@@ -28,7 +28,7 @@ int PlatOpenCOMPort(const char *device)
         // List available serial devices
         printf("Available serial devices in /dev/:\n");
         DIR *dir;
-        struct dirent *entry;
+        const struct dirent *entry;
 
         dir = opendir("/dev");
         if (dir != NULL)

@@ -325,7 +325,7 @@ void MenuEEPROM(void)
         "A-chassis (DTL-T10000H)",
         "A-chassis (DTL-T10000)",
         "B-chassis (DTL-H30001/2)",
-        "D-chassis (DTL-H30000)"
+        "D-chassis (DTL-H30000)",
         "H-chassis (DTL-H500xx)"};
     unsigned char done;
     short int choice, chassis;
@@ -398,7 +398,7 @@ void MenuEEPROM(void)
                 RawData = MechaGetRawIdent();
 
                 // Format the filename
-                sprintf(default_filename, "%s_%07u_%s_%#08x.bin", model, serial, RawData->cfd, RawData->cfc);
+                snprintf(default_filename, sizeof(default_filename), "%s_%07u_%s_%#08x.bin", model, serial, RawData->cfd, RawData->cfc);
 
                 printf("Default filename: %s\n", default_filename);
                 printf("Do you want to use the default filename? (Y/N): ");

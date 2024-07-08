@@ -130,7 +130,8 @@ int MechaInitMechacon(int model, int IsDex)
     tm = localtime(&TimeNow);
     // Format: RRYYMMDDHHMMSSrrrr, where R = MagicGate region, Y = Year (from 2000), M = Month (1-12), D = Day of month (1-31), H = Hour (0-23), M = minute (0-59), S = second (0-59), r = random number (first 4 digits from the right).
     // The time and date format is made with Ctime::Format %y%m%d%H%M%S
-    sprintf(data, "%02x%02d%02d%02d%02d%02d%02d%04d", region->region, tm->tm_year - 100, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, rand() % 10000);
+    // sprintf(data, "%02x%02d%02d%02d%02d%02d%02d%04d", region->region, tm->tm_year - 100, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, rand() % 10000);
+    snprintf(data, 19, "%02x%02d%02d%02d%02d%02d%02d%04d", region->region, tm->tm_year - 100, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, rand() % 10000);
     printf("Shimuke: %s (%zu)\n", data, strlen(data));
     MechaCommandAdd(MECHA_CMD_INIT_SHIMUKE, data, id++, 0, 6000, "WR INIT SHIMUKE");
     MechaCommandAdd(MECHA_TASK_UI_CMD_WAIT, NULL, MECHA_TASK_ID_UI, 0, 100, "EEPROM WAIT 100ms");
@@ -170,40 +171,40 @@ int EEPROMInitID(void)
     id = 1;
     if (ConMD == 40)
     {
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_NEW_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_NEW_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_0, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_NEW_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_NEW_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_1, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_NEW_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_NEW_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_2, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_NEW_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_NEW_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_3, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_NEW_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_NEW_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_0, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_NEW_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_NEW_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_1, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_NEW_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_NEW_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_2, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_NEW_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_NEW_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_3, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
     }
     else
     {
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_0, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_1, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_2, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_ILINK_ID_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_ILINK_ID_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_ILINK_ID_3, MECHA_TASK_NORMAL_TO, "i.Link ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_0, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_1, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_2, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
-        sprintf(address, "%04x", EEPROM_MAP_CON_ID_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_CON_ID_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_INIT_ID_CON_ID_3, MECHA_TASK_NORMAL_TO, "CONSOLE ID READ");
     }
 
@@ -230,24 +231,24 @@ int EEPROMSetiLinkID(const u8 *NewiLinkID)
     id = 1;
     if (ConMD == 40)
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_0, iLinkID[1], iLinkID[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_0, iLinkID[1], iLinkID[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_1, iLinkID[3], iLinkID[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_1, iLinkID[3], iLinkID[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_2, iLinkID[5], iLinkID[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_2, iLinkID[5], iLinkID[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_3, iLinkID[7], iLinkID[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_NEW_3, iLinkID[7], iLinkID[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
     }
     else
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_0, iLinkID[1], iLinkID[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_0, iLinkID[1], iLinkID[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_1, iLinkID[3], iLinkID[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_1, iLinkID[3], iLinkID[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_2, iLinkID[5], iLinkID[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_2, iLinkID[5], iLinkID[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_3, iLinkID[7], iLinkID[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_ILINK_ID_3, iLinkID[7], iLinkID[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "i.Link ID WRITE");
     }
     MechaAddPostEEPROMWrCmds(id);
@@ -265,24 +266,24 @@ int EEPROMSetConsoleID(const u8 *NewConID)
     id = 1;
     if (ConMD == 40)
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_0, ConsoleID[1], ConsoleID[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_0, ConsoleID[1], ConsoleID[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_1, ConsoleID[3], ConsoleID[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_1, ConsoleID[3], ConsoleID[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_2, ConsoleID[5], ConsoleID[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_2, ConsoleID[5], ConsoleID[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_3, ConsoleID[7], ConsoleID[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_NEW_3, ConsoleID[7], ConsoleID[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
     }
     else
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_0, ConsoleID[1], ConsoleID[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_0, ConsoleID[1], ConsoleID[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_1, ConsoleID[3], ConsoleID[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_1, ConsoleID[3], ConsoleID[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_2, ConsoleID[5], ConsoleID[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_2, ConsoleID[5], ConsoleID[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_CON_ID_3, ConsoleID[7], ConsoleID[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_CON_ID_3, ConsoleID[7], ConsoleID[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "CONSOLE ID WRITE");
     }
     MechaAddPostEEPROMWrCmds(id);
@@ -301,40 +302,40 @@ int EEPROMSetModelName(const char *ModelName)
     id = 1;
     if (ConMD == 40)
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_0, ConModelName[1], ConModelName[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_0, ConModelName[1], ConModelName[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_1, ConModelName[3], ConModelName[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_1, ConModelName[3], ConModelName[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_2, ConModelName[5], ConModelName[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_2, ConModelName[5], ConModelName[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_3, ConModelName[7], ConModelName[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_3, ConModelName[7], ConModelName[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_4, ConModelName[9], ConModelName[8]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_4, ConModelName[9], ConModelName[8]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_5, ConModelName[11], ConModelName[10]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_5, ConModelName[11], ConModelName[10]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_6, ConModelName[13], ConModelName[12]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_6, ConModelName[13], ConModelName[12]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_7, ConModelName[15], ConModelName[14]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_NEW_7, ConModelName[15], ConModelName[14]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
     }
     else
     {
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_0, ConModelName[1], ConModelName[0]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_0, ConModelName[1], ConModelName[0]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_1, ConModelName[3], ConModelName[2]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_1, ConModelName[3], ConModelName[2]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_2, ConModelName[5], ConModelName[4]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_2, ConModelName[5], ConModelName[4]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_3, ConModelName[7], ConModelName[6]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_3, ConModelName[7], ConModelName[6]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_4, ConModelName[9], ConModelName[8]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_4, ConModelName[9], ConModelName[8]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_5, ConModelName[11], ConModelName[10]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_5, ConModelName[11], ConModelName[10]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_6, ConModelName[13], ConModelName[12]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_6, ConModelName[13], ConModelName[12]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
-        sprintf(arg, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_7, ConModelName[15], ConModelName[14]);
+        snprintf(arg, 9, "%04x%02x%02x", EEPROM_MAP_MODEL_NAME_7, ConModelName[15], ConModelName[14]);
         MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, arg, id++, 0, MECHA_TASK_NORMAL_TO, "MODEL NAME WRITE");
     }
     MechaAddPostEEPROMWrCmds(id);

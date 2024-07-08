@@ -26,7 +26,8 @@ typedef struct ElectMechaTaskPrep
     const char *args;
 } ElectMechaTaskPrep_t;
 
-static const ElectMechaTaskPrep_t AutoAdjACommands[]    = { // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
+static const ElectMechaTaskPrep_t AutoAdjACommands[] = {
+    // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {3, 0, 3000, MECHA_CMD_SLED_POS_HOME, "CD SLED HOME POSITION", NULL},
@@ -91,9 +92,11 @@ static const ElectMechaTaskPrep_t AutoAdjACommands[]    = { // Test CD SCD-2700/
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {57, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {58, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdj139Commands[]  = { // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
+static const ElectMechaTaskPrep_t AutoAdj139Commands[] = {
+    // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {3, 0, 3000, MECHA_CMD_SLED_POS_HOME, "CD SLED HOME POSITION", NULL},
@@ -155,9 +158,11 @@ static const ElectMechaTaskPrep_t AutoAdj139Commands[]  = { // Test CD SCD-2700/
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {54, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {55, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdjFCommands[]    = { // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
+static const ElectMechaTaskPrep_t AutoAdjFCommands[] = {
+    // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {3, 0, 3000, MECHA_CMD_SLED_POS_HOME, "CD SLED HOME POSITION", NULL},
@@ -221,9 +226,11 @@ static const ElectMechaTaskPrep_t AutoAdjFCommands[]    = { // Test CD SCD-2700,
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {57, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {58, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdjGCommands[]    = { // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
+static const ElectMechaTaskPrep_t AutoAdjGCommands[] = {
+    // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {3, 0, 3000, MECHA_CMD_SLED_POS_HOME, "CD SLED HOME POSITION", NULL},
@@ -294,9 +301,11 @@ static const ElectMechaTaskPrep_t AutoAdjGCommands[]    = { // Test CD SCD-2700/
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {64, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {65, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdjG2Commands[]   = { // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
+static const ElectMechaTaskPrep_t AutoAdjG2Commands[] = {
+    // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {3, 0, 3000, MECHA_CMD_SLED_POS_HOME, "CD SLED HOME POSITION", NULL},
@@ -372,9 +381,11 @@ static const ElectMechaTaskPrep_t AutoAdjG2Commands[]   = { // Test CD SCD-2700,
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {68, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {69, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdj140Commands[]  = { // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
+static const ElectMechaTaskPrep_t AutoAdj140Commands[] = {
+    // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {0, 0, 1000, MECHA_TASK_UI_CMD_WAIT, "CD WAIT 1s", NULL},
@@ -476,9 +487,11 @@ static const ElectMechaTaskPrep_t AutoAdj140Commands[]  = { // Test CD SCD-2700,
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {76, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {77, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
-static const ElectMechaTaskPrep_t AutoAdjSlimCommands[] = { // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
+static const ElectMechaTaskPrep_t AutoAdjSlimCommands[] = {
+    // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
     {1, 0, 1000, MECHA_CMD_DISC_MODE_CD_12, "DISC MODE CD 12cm", NULL},
     {2, 0, 3000, MECHA_CMD_FOCUS_UPDOWN, "FOCUS UP/DOWN END", "00"},
     {0, 0, 1000, MECHA_TASK_UI_CMD_WAIT, "CD WAIT 1s", NULL},
@@ -569,7 +582,8 @@ static const ElectMechaTaskPrep_t AutoAdjSlimCommands[] = { // Test CD SCD-2700,
     {74, 0, 3000, MECHA_CMD_SLED_POS_HOME, "DVD-DL SLED HOME POSITION", NULL},
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Open lid, remove disc, close lid and press ENTER", NULL},
     {77, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {-1, -1, -1, -1, NULL, NULL}};
+    {0, 0, 0, 0, NULL, NULL},
+};
 
 static int ElectJudgeOPTypeError(const char *result, int len)
 {
@@ -954,7 +968,7 @@ static int ElectJudgeDVDDLL0Jitter256(const char *result, int len)
     else
     {
         PlatShowEMessage("DVD-DL-L0 jitter(256) NG: %d\n", value);
-       return (ConSlim == 1) ? 0 : 1;
+        return (ConSlim == 1) ? 0 : 1;
     }
 }
 
@@ -1440,13 +1454,13 @@ static int ElectTxHandler(MechaTask_t *task)
             }
             return 0;
         case MECHA_CMD_TAG_ELECT_DVDSL_WR_WORK0_NEW:
-            sprintf(&task->args[4], "%04x", DiscDetectValue136);
+            snprintf(&task->args[4], 5, "%04x", DiscDetectValue136);
             return 0;
         case MECHA_CMD_TAG_ELECT_DISC_DET_CDMIN_WR:
-            sprintf(&task->args[4], "%04x", CDminCalc);
+            snprintf(&task->args[4], 5, "%04x", CDminCalc);
             return 0;
         case MECHA_CMD_TAG_ELECT_DISC_DET_DVDMAX_WR:
-            sprintf(&task->args[4], "%04x", DVDmaxCalc);
+            snprintf(&task->args[4], 5, "%04x", DVDmaxCalc);
             return 0;
         case MECHA_CMD_TAG_ELECT_DVDSL_MIRR_EEPROM_WR:
             if (DisableEEPMIRRWrite)
