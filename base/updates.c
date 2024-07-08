@@ -21,7 +21,7 @@ struct UpdateData
 static int AddUpdateItem(u16 word, u16 value, unsigned char index)
 {
     char args[16];
-    sprintf(args, "%04x%04x", word, value);
+    snprintf(args, 9, "%04x%04x", word, value);
     return MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, args, index, 0, MECHA_TASK_NORMAL_TO, "EEPROM WRITE");
 }
 

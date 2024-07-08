@@ -242,38 +242,38 @@ static void InitMenu(HWND hwnd)
     EEPROMGetiLinkID(iLinkID);
     EEPROMGetConsoleID(ConsoleID);
 
-    sprintf(value, "%02x", ConsoleID[0]);
+    snprintf(value, 3, "%02x", ConsoleID[0]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_0), value);
-    sprintf(value, "%02x", ConsoleID[1]);
+    snprintf(value, 3, "%02x", ConsoleID[1]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_1), value);
-    sprintf(value, "%02x", ConsoleID[2]);
+    snprintf(value, 3, "%02x", ConsoleID[2]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_2), value);
-    sprintf(value, "%02x", ConsoleID[3]);
+    snprintf(value, 3, "%02x", ConsoleID[3]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_3), value);
-    sprintf(value, "%02x", ConsoleID[4]);
+    snprintf(value, 3, "%02x", ConsoleID[4]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_4), value);
-    sprintf(value, "%02x", ConsoleID[5]);
+    snprintf(value, 3, "%02x", ConsoleID[5]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_5), value);
-    sprintf(value, "%02x", ConsoleID[6]);
+    snprintf(value, 3, "%02x", ConsoleID[6]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_6), value);
-    sprintf(value, "%02x", ConsoleID[7]);
+    snprintf(value, 3, "%02x", ConsoleID[7]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_7), value);
 
-    sprintf(value, "%02x", iLinkID[0]);
+    snprintf(value, 3, "%02x", iLinkID[0]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_0), value);
-    sprintf(value, "%02x", iLinkID[1]);
+    snprintf(value, 3, "%02x", iLinkID[1]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_1), value);
-    sprintf(value, "%02x", iLinkID[2]);
+    snprintf(value, 3, "%02x", iLinkID[2]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_2), value);
-    sprintf(value, "%02x", iLinkID[3]);
+    snprintf(value, 3, "%02x", iLinkID[3]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_3), value);
-    sprintf(value, "%02x", iLinkID[4]);
+    snprintf(value, 3, "%02x", iLinkID[4]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_4), value);
-    sprintf(value, "%02x", iLinkID[5]);
+    snprintf(value, 3, "%02x", iLinkID[5]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_5), value);
-    sprintf(value, "%02x", iLinkID[6]);
+    snprintf(value, 3, "%02x", iLinkID[6]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_6), value);
-    sprintf(value, "%02x", iLinkID[7]);
+    snprintf(value, 3, "%02x", iLinkID[7]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_7), value);
 
     if (ConType != MECHA_TYPE_36)

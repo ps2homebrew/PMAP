@@ -23,7 +23,7 @@ static FILE *DebugOutputFile = NULL;
 
     for (int portNum = 1; portNum <= 256; portNum++)
     {
-        sprintf(dosDeviceName, "%s%d", comPortName, portNum);
+        snprintf(dosDeviceName, sizeof(dosDeviceName), "%s%d", comPortName, portNum);
 
         if (QueryDosDevice(dosDeviceName, targetPath, sizeof(targetPath)) != 0)
         {

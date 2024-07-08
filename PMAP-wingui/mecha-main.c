@@ -1005,14 +1005,14 @@ static int MechaAdjSled(short int argc, char *argv[])
             {
                 if (!pstricmp(argv[2], "IN"))
                 { // Micro reverse
-                    sprintf(args, "00%04x", StepAmount);
+                    snprintf(args, 7, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
                 { // Micro forward
-                    sprintf(args, "01%04x", StepAmount);
+                    snprintf(args, 7, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, "010064", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;
@@ -1029,14 +1029,14 @@ static int MechaAdjSled(short int argc, char *argv[])
             {
                 if (!pstricmp(argv[2], "IN"))
                 { // Biphs reverse
-                    sprintf(args, "00%04x", StepAmount);
+                    snprintf(args, 7, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
                 { // Biphs forward
-                    sprintf(args, "01%04x", StepAmount);
+                    snprintf(args, 7, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         printf("Error %d\n", result);
                     SledIsAtHome = 0;

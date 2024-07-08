@@ -52,9 +52,9 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
     int result = 0;
 
     if (args != NULL)
-        sprintf(cmd, "%03x%s\r\n", command, args);
+        snprintf(cmd, sizeof(cmd), "%03x%s\r\n", command, args);
     else
-        sprintf(cmd, "%03x\r\n", command);
+        snprintf(cmd, sizeof(cmd), "%03x\r\n", command);
 
     PlatDPrintf("PlatWriteCOMPort: %s", cmd);
 
@@ -579,7 +579,7 @@ int MechaInitModel(void)
     {
         for (i = 0; EEPMapToInit[i] != 0xFFFF; i++, id++)
         {
-            sprintf(address, "%04x", EEPMapToInit[i]);
+            snprintf(address, 5, "%04x", EEPMapToInit[i]);
             if ((result = MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id, MECHA_CMD_TAG_INIT_EEP_READ, MECHA_TASK_NORMAL_TO, "READ EEPROM")) != 0)
                 break;
         }
@@ -812,7 +812,7 @@ int MechaAddPostUpdateCmds(unsigned char ClearOSD2InitBit, unsigned char id)
     {
         if (ClearOSD2InitBit)
         {
-            sprintf(value, "%04x%04x", EEPROM_MAP_OSD2_17, EEPMapRead(EEPROM_MAP_OSD2_17) & ~0x80);
+            snprintf(value, 9, "%04x%04x", EEPROM_MAP_OSD2_17, EEPMapRead(EEPROM_MAP_OSD2_17) & ~0x80);
             MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, value, id++, 0, MECHA_TASK_NORMAL_TO, "CLEAR OSD2 INIT BIT");
         }
 
@@ -840,7 +840,7 @@ int MechaAddPostUpdateCmds(unsigned char ClearOSD2InitBit, unsigned char id)
     {
         if (ClearOSD2InitBit)
         {
-            sprintf(value, "%04x%04x", EEPROM_MAP_OSD2_17_NEW, EEPMapRead(EEPROM_MAP_OSD2_17_NEW) & ~0x80);
+            snprintf(value, 9, "%04x%04x", EEPROM_MAP_OSD2_17_NEW, EEPMapRead(EEPROM_MAP_OSD2_17_NEW) & ~0x80);
             MechaCommandAdd(MECHA_CMD_EEPROM_WRITE, value, id++, 0, MECHA_TASK_NORMAL_TO, "CLEAR OSD2 INIT BIT");
         }
 
@@ -1228,6 +1228,6 @@ void MechaGetTimeString(char *TimeString)
     if (TimeInfo->tm_year + 1900 >= 2000)
         month |= 0x80; //'99 -> '00 Century bit
     year = itob(TimeInfo->tm_year % 100);
-    sprintf(TimeString, "%02x%02x%02x%02x%02x%02x%02x", itob(TimeInfo->tm_sec), itob(TimeInfo->tm_min), itob(TimeInfo->tm_hour), itob(TimeInfo->tm_wday),
+    snprintf(TimeString, 15, "%02x%02x%02x%02x%02x%02x%02x", itob(TimeInfo->tm_sec), itob(TimeInfo->tm_min), itob(TimeInfo->tm_hour), itob(TimeInfo->tm_wday),
             itob(TimeInfo->tm_mday), month, year);
 }
