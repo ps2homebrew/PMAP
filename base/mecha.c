@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "platform.h"
 #include "mecha.h"
@@ -14,6 +15,19 @@ static unsigned char TaskCount = 0;
 char MechaName[9], RTCData[19];
 static struct MechaIdentRaw MechaIdentRaw;
 unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat, ConSlim;
+
+int is_valid_data(const char *data, int size)
+{
+    // Validate the received data
+    for (int i = 0; i < size; i++)
+    {
+        if (!isprint((unsigned char)data[i]))
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int MechaCommandAdd(unsigned short int command, const char *args, unsigned char id, unsigned char tag, unsigned short int timeout, const char *label)
 {
@@ -144,9 +158,18 @@ int MechaCommandExecuteList(MechaCommandTxHandler_t transmit, MechaCommandRxHand
         }
         else
         {
+
             if (result == -EPIPE)
+            {
+                if (!is_valid_data(RxBuffer, size))
+                {
+                    PlatShowEMessage("Error: Connection problems, received invalid data for task ID %02d.\n", task->id);
+                    result = -1; // Indicate an error
+                    break;
+                }
+
                 PlatShowEMessage("%02d. %04x%s %s: 101 - rx-Command timed out\n", task->id, task->command, task->args, task->label);
-            break;
+            }
         }
 
         if (receive != NULL)
@@ -1229,5 +1252,5 @@ void MechaGetTimeString(char *TimeString)
         month |= 0x80; //'99 -> '00 Century bit
     year = itob(TimeInfo->tm_year % 100);
     snprintf(TimeString, 15, "%02x%02x%02x%02x%02x%02x%02x", itob(TimeInfo->tm_sec), itob(TimeInfo->tm_min), itob(TimeInfo->tm_hour), itob(TimeInfo->tm_wday),
-            itob(TimeInfo->tm_mday), month, year);
+             itob(TimeInfo->tm_mday), month, year);
 }
