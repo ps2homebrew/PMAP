@@ -144,9 +144,7 @@ void PlatShowEMessage(const char *format, ...)
     if (DebugOutputFile != NULL)
         vfprintf(DebugOutputFile, format, args);
 
-    MessageBoxA(g_mainWin, (LPCSTR)buffer,
-                L"Error",
-                MB_OK | MB_ICONERROR);
+    MessageBoxA(g_mainWin, buffer, "Error", MB_OK | MB_ICONERROR);
 
     va_end(args);
 }
@@ -161,9 +159,7 @@ void PlatShowMessage(const char *format, ...)
     if (DebugOutputFile != NULL)
         vfprintf(DebugOutputFile, format, args);
 
-    MessageBoxA(g_mainWin, (LPCSTR)buffer,
-                L"Information",
-                MB_OK | MB_ICONINFORMATION);
+    MessageBoxA(g_mainWin, buffer, "Information", MB_OK | MB_ICONINFORMATION);
     va_end(args);
 }
 
@@ -177,9 +173,7 @@ void PlatShowMessageB(const char *format, ...)
     if (DebugOutputFile != NULL)
         vfprintf(DebugOutputFile, format, args);
 
-    MessageBoxA(g_mainWin, (LPCSTR)buffer,
-                L"Information",
-                MB_OK | MB_ICONINFORMATION);
+    MessageBoxA(g_mainWin, buffer, "Information", MB_OK | MB_ICONINFORMATION);
     va_end(args);
 }
 
