@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3346DB95-2EEB-4496-89B2-F2B9936B075D}</ProjectGuid>
+    <ProjectGuid>{0E04D283-E9CF-4B50-AB74-887A62600457}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PMAPwin</RootNamespace>
+    <RootNamespace>PMAP</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -51,11 +51,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -67,11 +67,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ID_MANAGEMENT=1;WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\base;.;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -82,23 +82,24 @@
     <ClCompile Include="..\base\elect.c" />
     <ClCompile Include="..\base\mecha.c" />
     <ClCompile Include="..\base\updates.c" />
-    <ClCompile Include="eeprom-main.c" />
-    <ClCompile Include="elect-main.c" />
-    <ClCompile Include="mecha-main.c" />
-    <ClCompile Include="platform.c" />
-    <ClCompile Include="winmain.c" />
+    <!-- Conditionally include source files based on ID_MANAGEMENT -->
+    <ClCompile Include="..\base\eeprom-id.c" />
+    <ClCompile Include="..\base\eeprom-main.c" />
+    <ClCompile Include="..\base\elect-main.c" />
+    <ClCompile Include="..\base\mecha-main.c" />
+    <ClCompile Include="..\base\id-main.c" />
+    <ClCompile Include="..\base\main.c" />
+    <ClCompile Include="platform-win.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\eeprom.h" />
     <ClInclude Include="..\base\elect.h" />
-    <ClInclude Include="..\base\main.h" />
     <ClInclude Include="..\base\mecha.h" />
     <ClInclude Include="..\base\updates.h" />
-    <ClInclude Include="platform.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="dialogs.rc" />
+    <!-- Conditionally include source files based on ID_MANAGEMENT -->
+    <ClInclude Include="..\base\eeprom-id.h" />
+    <ClInclude Include="..\base\platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

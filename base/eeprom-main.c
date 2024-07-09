@@ -16,13 +16,13 @@ static int DumpEEPROM(const char *filename)
     int i, progress, result;
     u16 data;
 
-    printf("\nDumping EEPROM:\n");
+    PlatShowMessage("\nDumping EEPROM:\n");
     if ((dump = fopen(filename, "wb")) != NULL)
     {
         for (i = 0; i < 1024 / 2; i++)
         {
             putchar('\r');
-            printf("Progress: ");
+            PlatShowMessage("Progress: ");
             putchar('[');
             for (progress = 0; progress <= (i * 20 / 512); progress++)
                 putchar('#');
@@ -32,7 +32,7 @@ static int DumpEEPROM(const char *filename)
 
             if ((result = EEPROMReadWord(i, &data)) != 0)
             {
-                printf("EEPROM read error %d:%d\n", i, result);
+                PlatShowMessage("EEPROM read error %d:%d\n", i, result);
                 break;
             }
             if (fwrite(&data, sizeof(u16), 1, dump) != 1)
@@ -54,13 +54,13 @@ static int RestoreEEPROM(const char *filename)
     int i, progress, result;
     u16 data;
 
-    printf("\nRestoring EEPROM:\n");
+    PlatShowMessage("\nRestoring EEPROM:\n");
     if ((dump = fopen(filename, "rb")) != NULL)
     {
         for (i = 0; i < 1024 / 2; i++)
         {
             putchar('\r');
-            printf("Progress: ");
+            PlatShowMessage("Progress: ");
             putchar('[');
             for (progress = 0; progress <= (i * 20 / 512); progress++)
                 putchar('#');
@@ -73,7 +73,7 @@ static int RestoreEEPROM(const char *filename)
 
             if ((result = EEPROMWriteWord(i, data)) != 0)
             {
-                printf("EEPROM write error %d:%d\n", i, result);
+                PlatShowMessage("EEPROM write error %d:%d\n", i, result);
                 break;
             }
         }
@@ -118,14 +118,14 @@ static int UpdateEEPROM(int chassis)
         {&MechaUpdateChassisDexH, EEPROM_UPDATE_FLAG_SANYO | EEPROM_UPDATE_FLAG_NEW_SONY},
     };
 
-    printf("Update EEPROM\n\n");
+    PlatShowMessage("Update EEPROM\n\n");
     if (chassis >= 0)
     {
         selected = &data[chassis];
 
         do
         {
-            printf("Was the MECHACON replaced (y/n)? ");
+            PlatShowMessage("Was the MECHACON replaced (y/n)? ");
             choice = getchar();
             while (getchar() != '\n')
             {
@@ -137,7 +137,7 @@ static int UpdateEEPROM(int chassis)
         {
             do
             {
-                printf("Please select the optical block:\n"
+                PlatShowMessage("Please select the optical block:\n"
                        "\t1. SONY\n"
                        "\t2. SANYO\n"
                        "Your choice: ");
@@ -156,7 +156,7 @@ static int UpdateEEPROM(int chassis)
         {
             do
             {
-                printf("Please select the object lens:\n"
+                PlatShowMessage("Please select the object lens:\n"
                        "\t1. T487\n"
                        "\t2. T609K\n"
                        "Your choice: ");
@@ -175,7 +175,7 @@ static int UpdateEEPROM(int chassis)
         {
             do
             {
-                printf("The OSD2 init bit is set. Clear it? (y/n)");
+                PlatShowMessage("The OSD2 init bit is set. Clear it? (y/n)");
                 choice = getchar();
                 while (getchar() != '\n')
                 {
@@ -188,35 +188,35 @@ static int UpdateEEPROM(int chassis)
 
         if ((result = selected->update(ClearOSD2InitBit, ReplacedMecha, ObjectLens, OpticalBlock)) > 0)
         {
-            printf("Actions available:\n");
+            PlatShowMessage("Actions available:\n");
             if (result & UPDATE_REGION_EEP_ECR)
-                printf("\tEEPROM ECR\n");
+                PlatShowMessage("\tEEPROM ECR\n");
             if (result & UPDATE_REGION_DISCDET)
-                printf("\tDisc detect\n");
+                PlatShowMessage("\tDisc detect\n");
             if (result & UPDATE_REGION_SERVO)
-                printf("\tServo\n");
+                PlatShowMessage("\tServo\n");
             if (result & UPDATE_REGION_TILT)
-                printf("\tAuto-tilt\n");
+                PlatShowMessage("\tAuto-tilt\n");
             if (result & UPDATE_REGION_TRAY)
-                printf("\tTray\n");
+                PlatShowMessage("\tTray\n");
             if (result & UPDATE_REGION_EEGS)
-                printf("\tEE & GS\n");
+                PlatShowMessage("\tEE & GS\n");
             if (result & UPDATE_REGION_ECR)
-                printf("\tRTC ECR\n");
+                PlatShowMessage("\tRTC ECR\n");
             if (result & UPDATE_REGION_RTC)
             {
-                printf("\tRTC:\n");
+                PlatShowMessage("\tRTC:\n");
                 if (result & UPDATE_REGION_RTC_CTL12)
-                    printf("\t\tRTC CTL1,2 ERROR\n");
+                    PlatShowMessage("\t\tRTC CTL1,2 ERROR\n");
                 if (result & UPDATE_REGION_RTC_TIME)
-                    printf("\t\tRTC TIME ERROR\n");
+                    PlatShowMessage("\t\tRTC TIME ERROR\n");
             }
             if (result & UPDATE_REGION_DEFAULTS)
-                printf("\tMechacon defaults\n");
+                PlatShowMessage("\tMechacon defaults\n");
 
             do
             {
-                printf("Proceed with updates? (y/n) ");
+                PlatShowMessage("Proceed with updates? (y/n) ");
                 choice = getchar();
                 while (getchar() != '\n')
                 {
@@ -234,14 +234,14 @@ static int UpdateEEPROM(int chassis)
         }
         else
         {
-            printf("An error occurred. Wrong chassis selected?, result = %d\n", result);
+            PlatShowMessage("An error occurred. Wrong chassis selected?, result = %d\n", result);
         }
 
         return result;
     }
     else
     {
-        printf("Unsupported chassis selected.\n");
+        PlatShowMessage("Unsupported chassis selected.\n");
         return -EINVAL;
     }
 }
@@ -263,22 +263,22 @@ static int SelectChassis(void)
         {&IsChassisD, "D-chassis (SCPH-300xx/SCPH-350xx)"},
         {&IsChassisF, "F-chassis (SCPH-30000/SCPH-300xx R)"},
         {&IsChassisG, "G-chassis (SCPH-390xx)"},
-        {&IsChassisDragon, "Dragon (SCPH-500xx--SCPH-900xx)"},
+        {&IsChassisDragon, "Dragon (SCPH-5x0xx--SCPH-900xx)"},
         {&IsChassisDexA, "A-chassis (DTL-H10000)"},  // A
         {&IsChassisDexA, "A-chassis (DTL-T10000H)"}, // A2
         {&IsChassisDexA, "A-chassis (DTL-T10000)"},  // A3
         {&IsChassisDexB, "B-chassis (DTL-H30001/2 with Auto-Tilt motor)"},
-        {&IsChassisDexD, "D-chassis (DTL-H30000)"},
-        {&IsChassisDragon, "Dragon (DTL-500xx--DTL-900xx)"}};
+        {&IsChassisDexD, "D-chassis (DTL-H30x0x)"},
+        {&IsChassisDragon, "Dragon (DTL-5x0xx--DTL-900xx)"}};
     int SelectCount, LastSelectIndex, i, choice;
 
     DisplayCommonConsoleInfo();
-    printf("Chassis:\n");
+    PlatShowMessage("Chassis:\n");
     for (i = 0, SelectCount = 0, LastSelectIndex = -1; i < MECHA_CHASSIS_MODEL_COUNT; i++)
     {
         if (data[i].probe() != 0)
         {
-            printf("\t%2d. %s\n", i + 1, data[i].label);
+            PlatShowMessage("\t%2d. %s\n", i + 1, data[i].label);
             SelectCount++;
             LastSelectIndex = i;
         }
@@ -286,10 +286,10 @@ static int SelectChassis(void)
 
     if (SelectCount > 1)
     {
-        printf("\t%2d. None\n", i + 1);
+        PlatShowMessage("\t%2d. None\n", i + 1);
         do
         {
-            printf("Choice: ");
+            PlatShowMessage("Choice: ");
             choice = 0;
             if (scanf("%d", &choice) > 0)
                 while (getchar() != '\n')
@@ -325,11 +325,11 @@ void MenuEEPROM(void)
         "A-chassis (DTL-T10000H)",
         "A-chassis (DTL-T10000)",
         "B-chassis (DTL-H30001/2)",
-        "D-chassis (DTL-H30000)"
+        "D-chassis (DTL-H30000)",
         "H-chassis (DTL-H500xx)"};
     unsigned char done;
     short int choice, chassis;
-    char filename[32];
+    char filename[256];
 
     done = 0;
     do
@@ -340,11 +340,11 @@ void MenuEEPROM(void)
             return;
         }
         if (IsOutdatedBCModel())
-            printf("B/C-chassis: EEPROM update required.\n");
+            PlatShowMessage("B/C-chassis: EEPROM update required.\n");
         chassis = SelectChassis();
         do
         {
-            printf("\nSelected chassis: %s\n"
+            PlatShowMessage("\nSelected chassis: %s\n"
                    "EEPROM operations:\n"
                    "\t1. Display console information\n"
                    "\t2. Dump EEPROM\n"
@@ -377,93 +377,122 @@ void MenuEEPROM(void)
         {
             case 1:
                 DisplayCommonConsoleInfo();
-                printf("Press ENTER to continue\n");
+                PlatShowMessage("Press ENTER to continue\n");
                 while (getchar() != '\n')
                 {
                 };
                 break;
             case 2:
-                printf("Enter dump filename: ");
-                if (fgets(filename, sizeof(filename), stdin))
+            {
+                char useDefault;
+                char default_filename[256];
+                u32 serial = 0;
+                u8 emcs    = 0;
+
+                if (EEPROMInitSerial() == 0)
+                    EEPROMGetSerial(&serial, &emcs);
+
+                const char *model = EEPROMGetModelName();
+
+                const struct MechaIdentRaw *RawData;
+                RawData = MechaGetRawIdent();
+
+                // Format the filename
+                snprintf(default_filename, sizeof(default_filename), "%s_%07u_%s_%#08x.bin", model, serial, RawData->cfd, RawData->cfc);
+
+                PlatShowMessage("Default filename: %s\n", default_filename);
+                PlatShowMessage("Do you want to use the default filename? (Y/N): ");
+
+                if (scanf(" %c", &useDefault) > 0)
+                    while (getchar() != '\n')
+                    {
+                    };
+
+                if (useDefault == 'Y' || useDefault == 'y')
+                    strcpy(filename, default_filename);
+                else
                 {
-                    filename[strlen(filename) - 1] = '\0';
-                    // gets(filename);
-                    printf("Dump %s.\n", DumpEEPROM(filename) == 0 ? "completed" : "failed");
+                    PlatShowMessage("Enter dump filename: ");
+                    if (fgets(filename, sizeof(filename), stdin))
+                        filename[strlen(filename) - 1] = '\0';
                 }
-                break;
+
+                PlatShowMessage("Dump %s.\n", DumpEEPROM(filename) == 0 ? "completed" : "failed");
+            }
+            break;
             case 3:
-                printf("Enter dump filename: ");
+                PlatShowMessage("Enter dump filename: ");
                 if (fgets(filename, sizeof(filename), stdin))
                 {
                     filename[strlen(filename) - 1] = '\0';
                     // gets(filename);
-                    printf("Restore %s.\n", RestoreEEPROM(filename) == 0 ? "completed" : "failed");
+                    PlatShowMessage("Restore %s.\n", RestoreEEPROM(filename) == 0 ? "completed" : "failed");
                 }
                 break;
             case 4:
 #ifdef ID_MANAGEMENT
-                printf("EEPROM erase %s.\n", EEPROMClear() == 0 ? "completed" : "failed");
+                PlatShowMessage("EEPROM erase %s.\n", EEPROMClear() == 0 ? "completed" : "failed");
 #else
-                printf("Function disabled.\n");
+                PlatShowMessage("Function disabled.\n");
 #endif
                 break;
             case 5:
 #ifdef ID_MANAGEMENT
-                printf("Defaults (all) load: %s.\n", EEPROMDefaultAll() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (all) load: %s.\n", EEPROMDefaultAll() == 0 ? "completed" : "failed");
 #else
-                printf("Function disabled.\n");
+                PlatShowMessage("Function disabled.\n");
 #endif
                 break;
             case 6:
-                printf("Defaults (disc detect) load: %s.\n", EEPROMDefaultDiscDetect() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (disc detect) load: %s.\n", EEPROMDefaultDiscDetect() == 0 ? "completed" : "failed");
                 break;
             case 7:
-                printf("Defaults (servo) load: %s.\n", EEPROMDefaultServo() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (servo) load: %s.\n", EEPROMDefaultServo() == 0 ? "completed" : "failed");
                 break;
             case 8:
-                printf("Defaults (tilt) load: %s.\n", EEPROMDefaultTilt() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (tilt) load: %s.\n", EEPROMDefaultTilt() == 0 ? "completed" : "failed");
                 break;
             case 9:
-                printf("Defaults (tray) load: %s.\n", EEPROMDefaultTray() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (tray) load: %s.\n", EEPROMDefaultTray() == 0 ? "completed" : "failed");
                 break;
             case 10:
-                printf("Defaults (EEGS) load: %s.\n", EEPROMDefaultEEGS() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (EEGS) load: %s.\n", EEPROMDefaultEEGS() == 0 ? "completed" : "failed");
                 break;
             case 11:
-                printf("Defaults (OSD) load: %s.\n", EEPROMDefaultOSD() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (OSD) load: %s.\n", EEPROMDefaultOSD() == 0 ? "completed" : "failed");
                 break;
             case 12:
-                printf("Defaults (RTC) load: %s.\n", EEPROMDefaultRTC() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (RTC) load: %s.\n", EEPROMDefaultRTC() == 0 ? "completed" : "failed");
                 break;
             case 13:
-                printf("Defaults (DVD Player) load: %s.\n", EEPROMDefaultDVDVideo() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (DVD Player) load: %s.\n", EEPROMDefaultDVDVideo() == 0 ? "completed" : "failed");
                 break;
             case 14:
 #ifdef ID_MANAGEMENT
-                printf("Defaults (ID) load: %s.\n", EEPROMDefaultID() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (ID) load: %s.\n", EEPROMDefaultID() == 0 ? "completed" : "failed");
 #else
-                printf("Function disabled.\n");
+                PlatShowMessage("Function disabled.\n");
 #endif
                 break;
             case 15:
 #ifdef ID_MANAGEMENT
-                printf("Defaults (Model Name) load: %s.\n", EEPROMDefaultModelName() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (Model Name) load: %s.\n", EEPROMDefaultModelName() == 0 ? "completed" : "failed");
 #else
-                printf("Function disabled.\n");
+                PlatShowMessage("Function disabled.\n");
 #endif
                 break;
             case 16:
-                printf("Defaults (Sanyo OP) load: %s.\n", EEPROMDefaultSanyoOP() == 0 ? "completed" : "failed");
+                PlatShowMessage("Defaults (Sanyo OP) load: %s.\n", EEPROMDefaultSanyoOP() == 0 ? "completed" : "failed");
                 break;
             case 17:
-                printf("EEPROM update: %s.\n", UpdateEEPROM(chassis) == 0 ? "completed" : "failed");
+                PlatShowMessage("EEPROM update: %s.\n", UpdateEEPROM(chassis) == 0 ? "completed" : "failed");
                 break;
             case 18:
                 done = 1;
                 break;
         }
 
-        printf("\nIf the EEPROM was updated, please reboot the MECHACON\n"
+        PlatShowMessage("\nIf the EEPROM was updated, please reboot the MECHACON\n"
                "by leaving this menu before pressing the RESET button.\n");
     } while (!done);
 }

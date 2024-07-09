@@ -123,7 +123,7 @@ int EEPROMReadWord(unsigned short int word, u16 *data)
     int result;
     char args[5], buffer[16];
 
-    sprintf(args, "%04x", word);
+    snprintf(args, 5, "%04x", word);
     if ((result = MechaCommandExecute(MECHA_CMD_EEPROM_READ, MECHA_TASK_NORMAL_TO, args, buffer, sizeof(buffer))) == 9)
     {
         *data  = (u16)strtoul(buffer + 5, NULL, 16);
@@ -143,7 +143,7 @@ int EEPROMWriteWord(unsigned short int word, u16 data)
     char args[9], buffer[16];
     int result;
 
-    sprintf(args, "%04x%04x", word, data);
+    snprintf(args, 9, "%04x%04x", word, data);
     if ((result = MechaCommandExecute(MECHA_CMD_EEPROM_WRITE, MECHA_TASK_NORMAL_TO, args, buffer, sizeof(buffer))) == 9)
     {
         result = 0;
@@ -503,16 +503,16 @@ int EEPROMInitSerial(void)
     ConEmcs   = 0;
     if (ConMD == 40)
     {
-        sprintf(address, "%04x", EEPROM_MAP_SERIAL_NEW_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_SERIAL_NEW_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_SERIAL_0, MECHA_TASK_NORMAL_TO, "SERIAL READ");
-        sprintf(address, "%04x", EEPROM_MAP_SERIAL_NEW_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_SERIAL_NEW_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_SERIAL_1, MECHA_TASK_NORMAL_TO, "SERIAL READ");
     }
     else
     {
-        sprintf(address, "%04x", EEPROM_MAP_SERIAL_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_SERIAL_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_SERIAL_0, MECHA_TASK_NORMAL_TO, "SERIAL READ");
-        sprintf(address, "%04x", EEPROM_MAP_SERIAL_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_SERIAL_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_SERIAL_1, MECHA_TASK_NORMAL_TO, "SERIAL READ");
     }
 
@@ -534,40 +534,40 @@ int EEPROMInitModelName(void)
     memset(ConModelName, 0, sizeof(ConModelName));
     if (ConMD == 40)
     {
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_0, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_1, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_2, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_3, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_4);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_4);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_4, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_5);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_5);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_5, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_6);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_6);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_6, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_NEW_7);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_NEW_7);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_7, MECHA_TASK_NORMAL_TO, "M NAME READ");
     }
     else
     {
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_0);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_0);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_0, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_1);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_1);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_1, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_2);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_2);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_2, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_3);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_3);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_3, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_4);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_4);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_4, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_5);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_5);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_5, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_6);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_6);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_6, MECHA_TASK_NORMAL_TO, "M NAME READ");
-        sprintf(address, "%04x", EEPROM_MAP_MODEL_NAME_7);
+        snprintf(address, 5, "%04x", EEPROM_MAP_MODEL_NAME_7);
         MechaCommandAdd(MECHA_CMD_EEPROM_READ, address, id++, MECHA_CMD_TAG_EEPROM_MODEL_NAME_7, MECHA_TASK_NORMAL_TO, "M NAME READ");
     }
     if ((result = MechaCommandExecuteList(NULL, &EEPROMRxHandler)) == 0)

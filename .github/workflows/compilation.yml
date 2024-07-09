@@ -11,57 +11,121 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Build
         run: msbuild /p:PlatformToolset=v142 /p:Configuration=Release
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: PMAP.exe
+          name: PMAP-wincli
           path: Release/PMAP.exe
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: PMAP-win.exe
+          name: PMAP-wingui
           path: Release/PMAP-win.exe
 
-      - name: Create release
+  build-macos:
+    name: PMAP macos compilation
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          cd PMAP-unix
+          make
+          tar -zcvf PMAP-macos.tar.gz pmap
+
+      - name: Build id
+        run: |
+          cd PMAP-unix
+          make clean
+          make ID_MANAGEMENT=1
+          tar -zcvf PMAP-macos-id.tar.gz pmap
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PMAP-macos
+          path: PMAP-unix/PMAP-macos.tar.gz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PMAP-macos-id
+          path: PMAP-unix/PMAP-macos-id.tar.gz
+
+  build-linux:
+    name: PMAP linux compilation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          cd PMAP-unix
+          make
+          tar -zcvf PMAP-linux.tar.gz pmap
+
+      - name: Build id
+        run: |
+          cd PMAP-unix
+          make clean
+          make ID_MANAGEMENT=1
+          tar -zcvf PMAP-linux-id.tar.gz pmap
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PMAP-linux
+          path: PMAP-unix/PMAP-linux.tar.gz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PMAP-linux-id
+          path: PMAP-unix/PMAP-linux-id.tar.gz
+
+  create-release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: [build-win, build-macos, build-linux]
+    steps:
+      - uses: actions/download-artifact@v4
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Create release for master/main
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           title: "Latest development build"
-          files: Release/PMAP.exe
+          files: |
+            ./PMAP-wincli/PMAP.exe
+            ./PMAP-wingui/PMAP-win.exe
+            ./PMAP-macos/PMAP-macos.tar.gz
+            ./PMAP-macos-id/PMAP-macos-id.tar.gz
+            ./PMAP-linux/PMAP-linux.tar.gz
+            ./PMAP-linux-id/PMAP-linux-id.tar.gz
 
-      - name: Create release
+      - name: Create release for tagged versions
         if: startsWith(github.ref, 'refs/tags/v')
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: "${{ contains(github.ref, '-rc') }}"
           title: PMAP-${{ github.ref }}
-          files: Release/PMAP.exe
-
-  # build-linux:
-  #   name: PMAP linux compilation
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v3
-
-  #     - name: Build
-  #       run: |
-  #         cd PMAP-linux
-  #         make
-  #         tar -zcvf pmap.tar.gz pmap
-
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: PMAP
-  #         path: linux/pmap.tar.gz
+          files: |
+            ./release/win/PMAP.exe
+            ./release/win/PMAP-win.exe
+            ./release/macos/PMAP-macos.tar.gz
+            ./release/macos/PMAP-macos-id.tar.gz
+            ./release/linux/PMAP-linux.tar.gz
+            ./release/linux/PMAP-linux-id.tar.gz

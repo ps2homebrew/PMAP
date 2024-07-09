@@ -9,6 +9,7 @@
 #include "main.h"
 #include "mecha.h"
 #include "eeprom.h"
+#include "eeprom-id.h"
 #include "resource.h"
 
 HINSTANCE g_hInstance;
@@ -31,13 +32,13 @@ static void InitRawConVerInfoMenu(HWND hwnd)
     MechaGetMode(&tm, &md);
     RawData = MechaGetRawIdent();
 
-    sprintf(buffer, "TestMode.%d MD1.%d", tm, md);
+    snprintf(buffer, sizeof(buffer), "TestMode.%d MD1.%d", tm, md);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MD_VER), buffer);
-    sprintf(buffer, "0x%08x", RawData->cfc);
-    SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
-    sprintf(buffer, "0x%p", RawData->cfd);
+    snprintf(buffer, sizeof(buffer), "0x%s", RawData->cfd);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFD), buffer);
-    sprintf(buffer, "0x%04x", RawData->VersionID);
+    snprintf(buffer, sizeof(buffer), "%#08x", RawData->cfc);
+    SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CFC), buffer);
+    snprintf(buffer, sizeof(buffer), "%#04x", RawData->VersionID);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CON_VER), buffer);
 }
 
@@ -114,7 +115,7 @@ static void InitConsoleInfo(HWND hwnd)
     char buffer[32];
 
     MechaGetMode(&tm, &md);
-    sprintf(buffer, "TestMode.%d MD1.%d", tm, md);
+    snprintf(buffer, sizeof(buffer), "TestMode.%d MD1.%d", tm, md);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MD_VER), buffer);
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MECHACON), MechaGetDesc());
     SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_CEXDEX), MechaGetCEXDEX() == 0 ? "DEX" : "CEX");
@@ -130,11 +131,11 @@ static void InitConsoleInfo(HWND hwnd)
     if (EEPROMInitSerial() == MECHA_RTC_RICOH)
     {
         EEPROMGetSerial(&serial, &emcs);
-        sprintf(buffer, "%07u", serial);
+        snprintf(buffer, sizeof(buffer), "%07u", serial);
         SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_SERIAL), buffer);
-        sprintf(buffer, "%02x", emcs);
+        snprintf(buffer, sizeof(buffer), "%02x", emcs);
         SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_EMCS_ID), buffer);
-        sprintf(buffer, "%04x", EEPROMGetModelID());
+        snprintf(buffer, sizeof(buffer), "%04x", EEPROMGetModelID());
         SetWindowTextA(GetDlgItem(hwnd, IDC_STATIC_MODEL_ID), buffer);
     }
     else
@@ -243,6 +244,8 @@ static INT_PTR CALLBACK MainDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
                 case IDC_BUTTON_SHOW_VER:
                     DialogBox(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_CON_VER), hwndDlg, &ShowRawConVerInfoDlg);
                     break;
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     PlatCloseCOMPort();
                     PlatDebugDeinit();

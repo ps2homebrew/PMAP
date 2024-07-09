@@ -125,29 +125,29 @@ static int MechaAdjTxHandler(MechaTask_t *task)
             switch (DiscDetect)
             {
                 case DISC_TYPE_CD12:
-                    printf("Disc type CD 12cm\n");
+                    PlatShowMessage("Disc type CD 12cm\n");
                     task->command = MECHA_CMD_DISC_MODE_CD_12;
                     status        = MECHA_ADJ_STATE_CD;
                     return 0;
                 case DISC_TYPE_DVDS12:
-                    printf("Disc type DVD-SL 12cm\n");
+                    PlatShowMessage("Disc type DVD-SL 12cm\n");
                     task->command = MECHA_CMD_DISC_MODE_DVDSL_12;
                     status        = MECHA_ADJ_STATE_DVDSL;
                     return 0;
                 case DISC_TYPE_DVDD12:
-                    printf("Disc type DVD-DL 12cm\n");
+                    PlatShowMessage("Disc type DVD-DL 12cm\n");
                     task->command = MECHA_CMD_DISC_MODE_DVDDL_12;
                     status        = MECHA_ADJ_STATE_DVDDL;
                     return 0;
                 case DISC_TYPE_UNKNOWN:
-                    printf("Disc type unknown.\n");
+                    PlatShowMessage("Disc type unknown.\n");
                     task->id      = 0;
                     task->tag     = 0;
                     task->command = 0;
                     status        = MECHA_ADJ_STATE_NONE;
                     return 0;
                 case DISC_TYPE_NO_DISC:
-                    printf("No disc inserted.\n");
+                    PlatShowMessage("No disc inserted.\n");
                     task->id      = 0;
                     task->tag     = 0;
                     task->command = 0;
@@ -155,7 +155,7 @@ static int MechaAdjTxHandler(MechaTask_t *task)
                     return 0;
                 default:
                     status = MECHA_ADJ_STATE_NONE;
-                    printf("Unsupported disc type: %02x\n", DiscDetect);
+                    PlatShowMessage("Unsupported disc type: %02x\n", DiscDetect);
                     return 1;
             }
         default:
@@ -391,7 +391,7 @@ static int MechaAdjInit(short int argc, char *argv[])
         case MECHA_TYPE_40:
             break;
         default:
-            printf("MechaAdjInit: Unsupported chassis.\n");
+            PlatShowMessage("MechaAdjInit: Unsupported chassis.\n");
             return 0;
     }
 
@@ -414,7 +414,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             case MECHA_ADJ_STATE_DVDDL_1:
             case MECHA_ADJ_STATE_DVDDL_1p6:
             case MECHA_ADJ_STATE_DVDDL_1p64:
-                printf("Please STOP the drive first! Currently in another PLAY mode.\n");
+                PlatShowMessage("Please STOP the drive first! Currently in another PLAY mode.\n");
                 return 0;
         }
 
@@ -441,7 +441,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "CD STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("CD initialization failed.\n");
+                PlatShowMessage("CD initialization failed.\n");
             else
                 status = MECHA_ADJ_STATE_CD;
 
@@ -468,7 +468,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-SL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("DVD-SL initialization failed.\n");
+                PlatShowMessage("DVD-SL initialization failed.\n");
             else
                 status = MECHA_ADJ_STATE_DVDSL;
 
@@ -494,7 +494,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-DL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("DVD-DL initialization failed.\n");
+                PlatShowMessage("DVD-DL initialization failed.\n");
             else
                 status = MECHA_ADJ_STATE_DVDDL;
 
@@ -521,7 +521,7 @@ static int MechaAdjInit(short int argc, char *argv[])
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-SL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("DVD-SL initialization failed.\n");
+                PlatShowMessage("DVD-SL initialization failed.\n");
             else
                 status = MECHA_ADJ_STATE_DVDSL;
 
@@ -547,7 +547,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
         switch (status)
         {
             case MECHA_ADJ_STATE_NONE:
-                printf("Please do initialization first!\n");
+                PlatShowMessage("Please do initialization first!\n");
                 break;
             case MECHA_ADJ_STATE_DVDDL_PAUSE:
             case MECHA_ADJ_STATE_DVDDL_1:
@@ -556,7 +556,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                 if (!pstricmp(argv[1], "FJ"))
                 {
                     if ((result = MechaCommandExecute(MECHA_CMD_FOCUS_JUMP, 2000, "0300", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     break;
                 }
             case MECHA_ADJ_STATE_DVDSL_PAUSE:
@@ -569,7 +569,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
             case MECHA_ADJ_STATE_CD_4:
             case MECHA_ADJ_STATE_CD_512:
             case MECHA_ADJ_STATE_CD_1024:
-                printf("Please STOP the drive. It is currently in PLAY mode.\n");
+                PlatShowMessage("Please STOP the drive. It is currently in PLAY mode.\n");
                 break;
             case MECHA_ADJ_STATE_CD:
                 speed = (int)strtol(argv[1], NULL, 0);
@@ -597,7 +597,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                         command = MECHA_CMD_CD_PLAY_5;
                         break;
                     default:
-                        printf("Unsupported speed.\n");
+                        PlatShowMessage("Unsupported speed.\n");
                         timeout = 0;
                         command = 0;
                 }
@@ -605,7 +605,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                 if (command != 0)
                 {
                     if ((result = MechaCommandExecute(command, timeout, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     else
                         status += speed;
 
@@ -631,7 +631,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                         command = MECHA_CMD_DVD_PLAY_3;
                         break;
                     default:
-                        printf("Unsupported speed.\n");
+                        PlatShowMessage("Unsupported speed.\n");
                         timeout = 0;
                         command = 0;
                 }
@@ -639,7 +639,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                 if (command != 0)
                 {
                     if ((result = MechaCommandExecute(command, timeout, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     else
                         status += speed;
 
@@ -668,7 +668,7 @@ static int MechaAdjStop(short int argc, char *argv[])
         case MECHA_ADJ_STATE_CD_512:
         case MECHA_ADJ_STATE_CD_1024:
             if ((result = MechaCommandExecute(MECHA_CMD_CD_STOP, 4000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             status = MECHA_ADJ_STATE_CD;
             break;
         case MECHA_ADJ_STATE_DVDSL_PAUSE:
@@ -680,7 +680,7 @@ static int MechaAdjStop(short int argc, char *argv[])
         case MECHA_ADJ_STATE_DVDDL_1p6:
         case MECHA_ADJ_STATE_DVDDL_1p64:
             if ((result = MechaCommandExecute(MECHA_CMD_DVD_STOP, 5000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
 
             switch (status)
             {
@@ -699,7 +699,7 @@ static int MechaAdjStop(short int argc, char *argv[])
             }
             break;
         default:
-            printf("Not in PLAY mode.\n");
+            PlatShowMessage("Not in PLAY mode.\n");
     }
 
     return 0;
@@ -711,7 +711,7 @@ static int MechaAdjAutoTilt(short int argc, char *argv[])
 
     if (!IsAutoTiltModel())
     {
-        printf("This is not a B-chassis (non-auto-tilt motor model).\n");
+        PlatShowMessage("This is not a B-chassis (non-auto-tilt motor model).\n");
         return 0;
     }
 
@@ -722,13 +722,13 @@ static int MechaAdjAutoTilt(short int argc, char *argv[])
         {
             MechaCommandAdd(MECHA_CMD_INIT_AUTO_TILT, NULL, id++, 0, 5000, "AUTO TILT INIT");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "ADJ"))
         {
             MechaCommandAdd(MECHA_CMD_ADJ_AUTO_TILT, "00", id++, 0, 15000, "TILT ADJUST");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "WRITE"))
         {
@@ -744,19 +744,19 @@ static int MechaAdjAutoTilt(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_WRITE_CHECKSUM, "00", id++, 0, 3000, "EEPROM WRITE CHECKSUM");
             MechaCommandAdd(MECHA_CMD_READ_CHECKSUM, "00", id++, 0, 3000, "EEPROM READ CHECKSUM");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "REV"))
         {
             MechaCommandAdd(MECHA_CMD_MOV_AUTO_TILT, "000001", id++, 0, 5000, "TILT ADJUST REV");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "FWD"))
         {
             MechaCommandAdd(MECHA_CMD_MOV_AUTO_TILT, "010001", id++, 0, 5000, "TILT ADJUST FWD");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else
             return -EINVAL;
@@ -777,7 +777,7 @@ static int MechaAdjPause(short int argc, char *argv[])
         case MECHA_ADJ_STATE_CD_PAUSE:
         case MECHA_ADJ_STATE_DVDSL_PAUSE:
         case MECHA_ADJ_STATE_DVDDL_PAUSE:
-            printf("Already paused.\n");
+            PlatShowMessage("Already paused.\n");
             break;
         case MECHA_ADJ_STATE_CD_1:
         case MECHA_ADJ_STATE_CD_2:
@@ -785,7 +785,7 @@ static int MechaAdjPause(short int argc, char *argv[])
         case MECHA_ADJ_STATE_CD_512:
         case MECHA_ADJ_STATE_CD_1024:
             if ((result = MechaCommandExecute(MECHA_CMD_CD_PAUSE, 3000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             break;
         case MECHA_ADJ_STATE_DVDSL_1:
         case MECHA_ADJ_STATE_DVDSL_1p6:
@@ -794,7 +794,7 @@ static int MechaAdjPause(short int argc, char *argv[])
         case MECHA_ADJ_STATE_DVDDL_1p6:
         case MECHA_ADJ_STATE_DVDDL_1p64:
             if ((result = MechaCommandExecute(MECHA_CMD_DVD_PAUSE, 5000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
 
             switch (status)
             {
@@ -811,7 +811,7 @@ static int MechaAdjPause(short int argc, char *argv[])
             }
             break;
         default:
-            printf("Not in PLAY mode.\n");
+            PlatShowMessage("Not in PLAY mode.\n");
     }
 
     return 0;
@@ -828,37 +828,37 @@ static int MechaAdjTray(short int argc, char *argv[])
         {
             if (!SledIsAtHome)
             {
-                printf("Sled must be in home position!\n");
+                PlatShowMessage("Sled must be in home position!\n");
                 return 0;
             }
 
             if ((result = MechaCommandExecute(MECHA_CMD_TRAY, 6000, "00", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
         }
         else if (!pstricmp(argv[1], "OPEN"))
         {
             if (!SledIsAtHome)
             {
-                printf("Sled must be in home position!\n");
+                PlatShowMessage("Sled must be in home position!\n");
                 return 0;
             }
 
             if ((result = MechaCommandExecute(MECHA_CMD_TRAY, 6000, "01", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
         }
         else if (!pstricmp(argv[1], "IN-SW"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_TRAY_SW, 3000, "00", buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
-                printf("IN-SW: %s\n", buffer);
+                PlatShowMessage("IN-SW: %s\n", buffer);
         }
         else if (!pstricmp(argv[1], "OUT-SW"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_TRAY_SW, 3000, "01", buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
-                printf("OUT-SW: %s\n", buffer);
+                PlatShowMessage("OUT-SW: %s\n", buffer);
         }
         else
             return -EINVAL;
@@ -879,23 +879,23 @@ static int MechaAdjJitter(short int argc, char *argv[])
         if (!pstricmp(argv[1], "1"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_JITTER, 1000, "00", buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
-                printf("%s\n", &buffer[1]);
+                PlatShowMessage("%s\n", &buffer[1]);
         }
         else if (!pstricmp(argv[1], "16"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_JITTER, 1000, "02", buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
-                printf("%s\n", &buffer[1]);
+                PlatShowMessage("%s\n", &buffer[1]);
         }
         else if (!pstricmp(argv[1], "256"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_JITTER, 2000, "01", buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
-                printf("%s\n", &buffer[1]);
+                PlatShowMessage("%s\n", &buffer[1]);
         }
         else
             return -EINVAL;
@@ -924,7 +924,7 @@ static int MechaAdjGetError(short int argc, char *argv[])
                 MechaCommandAdd(MECHA_CMD_DSP_ERROR_RATE, "00", id++, MECHA_CMD_TAG_MECHA_DVD_ERROR_RATE, 2000, "DVD GET DSP ERROR RATE");
                 if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) == 0)
                 {
-                    printf("DVD Error Data:\n"
+                    PlatShowMessage("DVD Error Data:\n"
                            "PI Correct:\t\t%#04x\tPO Correct:\t\t%#04x\n"
                            "PI Non-correct:\t%#04x\tPO Non-correct:\t%#04x\n"
                            "PI Max:\t\t\t%#04x\tPO Max:\t\t\t%#04x\n"
@@ -934,10 +934,10 @@ static int MechaAdjGetError(short int argc, char *argv[])
                            DvdError.jitter);
                 }
                 else
-                    printf("Failed to execute.\n");
+                    PlatShowMessage("Failed to execute.\n");
                 break;
             default:
-                printf("Not in a DVD PLAY mode.\n");
+                PlatShowMessage("Not in a DVD PLAY mode.\n");
         }
     }
     else if (!pstricmp(argv[1], "CD"))
@@ -952,13 +952,13 @@ static int MechaAdjGetError(short int argc, char *argv[])
                 MechaCommandAdd(MECHA_CMD_CD_ERROR, "00", id++, MECHA_CMD_TAG_MECHA_CD_ERROR_RATE, 2000, "CD GET DSP ERROR RATE");
                 if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) == 0)
                 {
-                    printf("%04x:::%04x\n", CdError.c1, CdError.c2);
+                    PlatShowMessage("%04x:::%04x\n", CdError.c1, CdError.c2);
                 }
                 else
-                    printf("Failed to execute.\n");
+                    PlatShowMessage("Failed to execute.\n");
                 break;
             default:
-                printf("Not in a CD PLAY mode.\n");
+                PlatShowMessage("Not in a CD PLAY mode.\n");
         }
     }
     else
@@ -977,26 +977,26 @@ static int MechaAdjSled(short int argc, char *argv[])
         if (!pstricmp(argv[1], "HOME"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_SLED_POS_HOME, 3000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
                 SledIsAtHome = 1;
         }
         else if (!pstricmp(argv[1], "IN"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_POS, 2000, "00", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             SledIsAtHome = 0;
         }
         else if (!pstricmp(argv[1], "OUT"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_POS, 3000, "02", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             SledIsAtHome = 0;
         }
         else if (!pstricmp(argv[1], "MID"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_POS, 3000, "01", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             SledIsAtHome = 0;
         }
         else if (!pstricmp(argv[1], "STEP-M"))
@@ -1005,16 +1005,16 @@ static int MechaAdjSled(short int argc, char *argv[])
             {
                 if (!pstricmp(argv[2], "IN"))
                 { // Micro reverse
-                    sprintf(args, "00%04x", StepAmount);
+                    snprintf(args, 7, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
                 { // Micro forward
-                    sprintf(args, "01%04x", StepAmount);
+                    snprintf(args, 7, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_MICRO, 2000, "010064", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else
@@ -1029,16 +1029,16 @@ static int MechaAdjSled(short int argc, char *argv[])
             {
                 if (!pstricmp(argv[2], "IN"))
                 { // Biphs reverse
-                    sprintf(args, "00%04x", StepAmount);
+                    snprintf(args, 7, "00%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else if (!pstricmp(argv[2], "OUT"))
                 { // Biphs forward
-                    sprintf(args, "01%04x", StepAmount);
+                    snprintf(args, 7, "01%04x", StepAmount);
                     if ((result = MechaCommandExecute(MECHA_CMD_SLED_CTL_BIPHS, 2000, args, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                     SledIsAtHome = 0;
                 }
                 else
@@ -1054,12 +1054,12 @@ static int MechaAdjSled(short int argc, char *argv[])
                 if (!pstricmp(argv[2], "ON"))
                 {
                     if ((result = MechaCommandExecute(MECHA_CMD_TRACKING, 1000, "01", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                 }
                 else if (!pstricmp(argv[2], "OFF"))
                 {
                     if ((result = MechaCommandExecute(MECHA_CMD_TRACKING, 1000, "00", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                        printf("Error %d\n", result);
+                        PlatShowMessage("Error %d\n", result);
                 }
                 else
                     return -EINVAL;
@@ -1070,11 +1070,11 @@ static int MechaAdjSled(short int argc, char *argv[])
         else if (!pstricmp(argv[1], "IN-SW"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_SLED_IN_SW, 1000, NULL, buffer, sizeof(buffer))) < 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
             {
                 result = (int)strtoul(&buffer[1], NULL, 16);
-                printf("IN-SW: %02x\n", result);
+                PlatShowMessage("IN-SW: %02x\n", result);
             }
         }
         else if (!pstricmp(argv[1], "STEP"))
@@ -1082,7 +1082,7 @@ static int MechaAdjSled(short int argc, char *argv[])
             if (argc == 3)
             {
                 StepAmount = (unsigned short int)strtoul(argv[2], NULL, 0);
-                printf("STEP: %u\n", StepAmount);
+                PlatShowMessage("STEP: %u\n", StepAmount);
             }
             else
                 return -EINVAL;
@@ -1103,10 +1103,10 @@ static int DisplayHelp(const struct MechaDiagCommand *commands, short int argc, 
 
     if (argc == 1)
     {
-        printf("To get help for a specific command, type HELP <command>\n"
+        PlatShowMessage("To get help for a specific command, type HELP <command>\n"
                "Available commands:\n");
         for (pCmd = commands, i = 0; pCmd->command != NULL; pCmd++, i++)
-            printf("\t%s%c", pCmd->command, (i != 0 && i % 4 == 0) ? '\n' : ' ');
+            PlatShowMessage("\t%s%c", pCmd->command, (i != 0 && i % 4 == 0) ? '\n' : ' ');
         putchar('\n');
     }
     else if (argc == 2)
@@ -1115,13 +1115,13 @@ static int DisplayHelp(const struct MechaDiagCommand *commands, short int argc, 
         {
             if (!pstricmp(pCmd->command, argv[1]))
             {
-                printf("%s - %s\n", pCmd->syntax, pCmd->description);
+                PlatShowMessage("%s - %s\n", pCmd->syntax, pCmd->description);
                 break;
             }
         }
 
         if (pCmd->command == NULL)
-            printf("No such command.\n");
+            PlatShowMessage("No such command.\n");
     }
     else
     {
@@ -1158,7 +1158,7 @@ static int MechaTestDiscControl(short int argc, char *argv[])
         if (!pstricmp(argv[1], "CD"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_DISC_MODE_CD_12, 1000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
             {
                 status     = MECHA_ADJ_STATE_CD;
@@ -1168,7 +1168,7 @@ static int MechaTestDiscControl(short int argc, char *argv[])
         else if (!pstricmp(argv[1], "DVD-SL"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_DISC_MODE_DVDSL_12, 1000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
             {
                 status     = MECHA_ADJ_STATE_DVDSL;
@@ -1178,7 +1178,7 @@ static int MechaTestDiscControl(short int argc, char *argv[])
         else if (!pstricmp(argv[1], "DVD-DL"))
         {
             if ((result = MechaCommandExecute(MECHA_CMD_DISC_MODE_DVDDL_12, 1000, NULL, buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
-                printf("Error %d\n", result);
+                PlatShowMessage("Error %d\n", result);
             else
             {
                 status     = MECHA_ADJ_STATE_DVDDL;
@@ -1190,7 +1190,7 @@ static int MechaTestDiscControl(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_DISC_DETECT, NULL, id++, MECHA_CMD_TAG_MECHA_DISC_DETECT, 3000, "DISC DETECT");
             MechaCommandAdd(MECHA_CMD_DISC_MODE_CD_8, NULL, id++, MECHA_CMD_TAG_MECHA_SET_DISC_TYPE, 1000, "DISC MODE CD 8cm");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else
             return -EINVAL;
@@ -1212,13 +1212,13 @@ static int MechaTestLaserControl(short int argc, char *argv[])
         {
             MechaCommandAdd(MECHA_CMD_LASER_DIODE, "01", id++, 0, 3000, "LD ON");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "OFF"))
         {
             MechaCommandAdd(MECHA_CMD_LASER_DIODE, "00", id++, 0, 3000, "LD OFF");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else
             return -EINVAL;
@@ -1235,13 +1235,13 @@ static int MechaTestLaserControl(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "01", id++, 0, 3000, "FOCUS UP/DOWN START");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else if (!pstricmp(argv[3], "STOP"))
                     {
                         MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "FOCUS UP/DOWN STOP");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
                         return -EINVAL;
@@ -1252,13 +1252,13 @@ static int MechaTestLaserControl(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_FOCUS_AUTO_START, NULL, id++, 0, 3000, "AUTO FOCUS START");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else if (!pstricmp(argv[3], "STOP"))
                     {
                         MechaCommandAdd(MECHA_CMD_FOCUS_AUTO_STOP, NULL, id++, 0, 3000, "AUTO FOCUS STOP");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
                         return -EINVAL;
@@ -1284,7 +1284,7 @@ static int MechaTestServoControl(short int argc, char *argv[])
 
     if (DiscDetect == 0xFF)
     {
-        printf("Disc type/circuit not set up!\n");
+        PlatShowMessage("Disc type/circuit not set up!\n");
         return 0;
     }
 
@@ -1296,7 +1296,7 @@ static int MechaTestServoControl(short int argc, char *argv[])
             MechaCommandAdd(MECHA_CMD_SLED_POS_HOME, NULL, id++, 0, 3000, "SLED HOME");
             MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_12, "00", id++, 0, 40000, "SERVO AUTO ADJ START");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else
             return -EINVAL;
@@ -1313,7 +1313,7 @@ static int MechaTestPlay(short int argc, char *argv[])
 
     if (DiscDetect == 0xFF)
     {
-        printf("Disc type/circuit not set up!\n");
+        PlatShowMessage("Disc type/circuit not set up!\n");
         return 0;
     }
 
@@ -1327,7 +1327,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                 case DISC_TYPE_CD12:
                     MechaCommandAdd(MECHA_CMD_CD_PLAY_1, NULL, id++, 0, 3000, "PLAY CD 12cm");
                     if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                        printf("Failed to execute.\n");
+                        PlatShowMessage("Failed to execute.\n");
                     else
                         status = MECHA_ADJ_STATE_CD_1;
                     break;
@@ -1335,7 +1335,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                 case DISC_TYPE_DVDD12:
                     MechaCommandAdd(MECHA_CMD_DVD_PLAY_1, NULL, id++, 0, 5000, "PLAY DVD 12cm");
                     if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                        printf("Failed to execute.\n");
+                        PlatShowMessage("Failed to execute.\n");
                     else
                     {
                         switch (DiscDetect)
@@ -1359,10 +1359,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_CD_TRACK_CTL, "01000A", id++, 0, 5000, "CD FWD 1 TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
                     break;
                 case DISC_TYPE_DVDS12:
                 case DISC_TYPE_DVDD12:
@@ -1370,10 +1370,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_DVD_TRACK_CTL, "01000A", id++, 0, 5000, "DVD FWD 1 TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
             }
         }
         else if (!pstricmp(argv[1], "REV"))
@@ -1385,10 +1385,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_CD_TRACK_CTL, "00000A", id++, 0, 5000, "CD REV 1 TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
                     break;
                 case DISC_TYPE_DVDS12:
                 case DISC_TYPE_DVDD12:
@@ -1396,10 +1396,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_DVD_TRACK_CTL, "00000A", id++, 0, 5000, "DVD REV 1 TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
             }
         }
         else if (!pstricmp(argv[1], "FWDL"))
@@ -1411,10 +1411,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_CD_TRACK_LONG_CTL, "010001", id++, 0, 10000, "CD FWD LONG TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
                     break;
                 case DISC_TYPE_DVDS12:
                 case DISC_TYPE_DVDD12:
@@ -1422,10 +1422,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_DVD_TRACK_LONG_CTL, "010001", id++, 0, 10000, "DVD FWD LONG TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
             }
         }
         else if (!pstricmp(argv[1], "REVL"))
@@ -1437,10 +1437,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_CD_TRACK_LONG_CTL, "000001", id++, 0, 10000, "CD REV LONG TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
                     break;
                 case DISC_TYPE_DVDS12:
                 case DISC_TYPE_DVDD12:
@@ -1448,10 +1448,10 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_DVD_TRACK_LONG_CTL, "000001", id++, 0, 10000, "DVD REV LONG TRACK");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
             }
         }
         else if (!pstricmp(argv[1], "STOP"))
@@ -1463,12 +1463,12 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_CD_STOP, NULL, id++, 0, 20000, "CD STOP");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
 
                         status = MECHA_ADJ_STATE_CD;
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
                     break;
                 case DISC_TYPE_DVDS12:
                 case DISC_TYPE_DVDD12:
@@ -1476,7 +1476,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                     {
                         MechaCommandAdd(MECHA_CMD_DVD_STOP, NULL, id++, 0, 20000, "DVD STOP");
                         if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                            printf("Failed to execute.\n");
+                            PlatShowMessage("Failed to execute.\n");
 
                         switch (status)
                         {
@@ -1488,7 +1488,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                         }
                     }
                     else
-                        printf("Not in PLAY mode.\n");
+                        PlatShowMessage("Not in PLAY mode.\n");
             }
         }
         else if (!pstricmp(argv[1], "FJ"))
@@ -1499,13 +1499,13 @@ static int MechaTestPlay(short int argc, char *argv[])
                 {
                     MechaCommandAdd(MECHA_CMD_FOCUS_JUMP, "0205", id++, 0, 2000, "DVD-DL FOCUS JUMP");
                     if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                        printf("Failed to execute.\n");
+                        PlatShowMessage("Failed to execute.\n");
                 }
                 else
-                    printf("Not in PLAY mode.\n");
+                    PlatShowMessage("Not in PLAY mode.\n");
             }
             else
-                printf("Not a DVD-DL.\n");
+                PlatShowMessage("Not a DVD-DL.\n");
         }
         else
             return -EINVAL;
@@ -1527,31 +1527,31 @@ static int MechaTestSpindle(short int argc, char *argv[])
         {
             MechaCommandAdd(MECHA_CMD_SP_CTL, "01", id++, 0, 3000, "SP KICK");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "BRAKE"))
         {
             MechaCommandAdd(MECHA_CMD_SP_CTL, "00", id++, 0, 3000, "SP BRAKE");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "STOP"))
         {
             MechaCommandAdd(MECHA_CMD_SP_CTL, "02", id++, 0, 3000, "SP STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "CLV-S"))
         {
             MechaCommandAdd(MECHA_CMD_SP_CLV_S, NULL, id++, 0, 3000, "SP CLV-S");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else if (!pstricmp(argv[1], "CLV-A"))
         {
             MechaCommandAdd(MECHA_CMD_SP_CLV_A, NULL, id++, 0, 3000, "SP CLV-A");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
-                printf("Failed to execute.\n");
+                PlatShowMessage("Failed to execute.\n");
         }
         else
             return -EINVAL;
@@ -1579,7 +1579,7 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
     previous[0]  = '\0';
     do
     {
-        printf("MD1.%d %c> ", md, prompt);
+        PlatShowMessage("MD1.%d %c> ", md, prompt);
         if (fgets(input, sizeof(input), stdin))
         {
             input[strlen(input) - 1] = '\0';
@@ -1605,7 +1605,7 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
                 if ((result = pCmd->function(argc, argv)) < 0)
                 {
                     if (result == -EINVAL)
-                        printf(MECHA_ADJ_SYNTAX_ERR);
+                        PlatShowMessage(MECHA_ADJ_SYNTAX_ERR);
                 }
                 else
                 {
@@ -1613,7 +1613,7 @@ static void MechaCommonMain(const struct MechaDiagCommand *commands, char prompt
                 }
             }
             else
-                printf("Unrecognized command. For help, type HELP.\n");
+                PlatShowMessage("Unrecognized command. For help, type HELP.\n");
         }
     } while (!done);
 }
@@ -1633,7 +1633,7 @@ static int MechaAdjPromptT10K(void)
     char input;
     do
     {
-        printf("Is this a DTL-T10000? [y,n] ");
+        PlatShowMessage("Is this a DTL-T10000? [y,n] ");
         input = getchar();
         while (getchar() != '\n')
         {
@@ -1665,6 +1665,8 @@ static INT_PTR CALLBACK MechaDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
                     // Test mechanics
                     // MechaTestMain();
 
+                case IDOK:
+                case IDCANCEL:
                 case IDCLOSE:
                     EndDialog(hwndDlg, TRUE);
                     break;

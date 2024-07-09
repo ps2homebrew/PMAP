@@ -11,6 +11,8 @@
 .vs
 Debug
 Release
+PMAP-unix/pmap
+PMAP-linux/pmap
 
 !.github
 !.editorconfig

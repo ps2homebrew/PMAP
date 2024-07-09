@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PMAP", "PMAP\PMAP.vcxproj", "{0E04D283-E9CF-4B50-AB74-887A62600457}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PMAP", "PMAP-wincli\PMAP.vcxproj", "{0E04D283-E9CF-4B50-AB74-887A62600457}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PMAP-win", "PMAP-win\PMAP-win.vcxproj", "{3346DB95-2EEB-4496-89B2-F2B9936B075D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PMAP-win", "PMAP-wingui\PMAP-win.vcxproj", "{3346DB95-2EEB-4496-89B2-F2B9936B075D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

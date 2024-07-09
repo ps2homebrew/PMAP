@@ -16,7 +16,7 @@ extern HWND g_mainWin;
 
 extern unsigned char ConType, ConCEXDEX;
 
-static void InitMechacon(void)
+/* static void InitMechacon(void)
 {
     int choice, done, dex, NumChoices;
 
@@ -27,7 +27,7 @@ static void InitMechacon(void)
         {
             do
             {
-                printf("MECHACON initialization for H/I-chassis\n"
+                PlatShowMessage("MECHACON initialization for H/I-chassis\n"
                        "Select type:\n"
                        "\t1. CEX\n"
                        "\t2. DEX\n"
@@ -58,25 +58,27 @@ static void InitMechacon(void)
                 {
                     if (!dex)
                     {
-                        printf("Select model Name:\n"
-                               "\t1. SCPH-50000\n"
-                               "\t2. SCPH-50001\n"
-                               "\t3. SCPH-50002\n"
-                               "\t4. SCPH-50003\n"
-                               "\t5. SCPH-50004\n"
-                               "\t6. SCPH-50005\n"
-                               "\t7. SCPH-50006\n"
-                               "\t8. SCPH-50007\n"
-                               "\t9. SCPH-50008\n"
-                               "\t10. SCPH-50009\n"
-                               "\t11. SCPH-50010\n"
-                               "\t12. Quit\n"
+                        PlatShowMessage("Select model Name:\n"
+                               "\t1. SCPH-xx000 (Japan)\n"
+                               "\t2. SCPH-xx001 (USA)\n"
+                               "\t3. SCPH-xx002 (Australia)\n"
+                               "\t4. SCPH-xx003 (Great Britian)\n"
+                               "\t5. SCPH-xx004 (Europe)\n"
+                               "\t6. SCPH-xx005 (Korea)\n"
+                               "\t7. SCPH-xx006 (Hong Kong)\n"
+                               "\t8. SCPH-xx007 (Taiwan)\n"
+                               "\t9. SCPH-xx008 (Russia)\n"
+                               "\t10. SCPH-50009 (China)\n"
+                               "\t11. SCPH-xx010 (SCPH-50010: Canada, Slims: Mexico)\n"
+                               "\t12. SCPH-x0011 (SCPH-50011: Mexico, SCPH-70011: USA)\n"
+                               "\t13. SCPH-70012 (Canada)\n"
+                               "\t14. Quit\n"
                                "Your choice: ");
                         NumChoices = 12;
                     }
                     else
                     {
-                        printf("Select model Name:\n"
+                        PlatShowMessage("Select model Name:\n"
                                "\t1. DTL-H50000\n"
                                "\t2. DTL-H50001\n"
                                "\t3. DTL-H50002\n"
@@ -109,9 +111,11 @@ static void InitMechacon(void)
                         case 9:
                         case 10:
                         case 11:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
-                            break;
                         case 12:
+                        case 13:
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 0) == 0 ? "done" : "failed");
+                            break;
+                        case 14:
                             done = 1;
                     }
                 }
@@ -126,7 +130,7 @@ static void InitMechacon(void)
                         case 5:
                         case 6:
                         case 7:
-                            printf("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
+                            PlatShowMessage("MechaInit: %s\n", MechaInitMechacon(choice, 1) == 0 ? "done" : "failed");
                             break;
                         case 8:
                             done = 1;
@@ -136,7 +140,7 @@ static void InitMechacon(void)
         }
     }
     else
-        printf("MechaInit: Unsupported chassis.\n");
+        PlatShowMessage("MechaInit: Unsupported chassis.\n");
 }
 
 static void InitNTSCPALDefaults(void)
@@ -145,7 +149,7 @@ static void InitNTSCPALDefaults(void)
 
     do
     {
-        printf("NTSC/PAL selection:\n"
+        PlatShowMessage("NTSC/PAL selection:\n"
                "\t1. NTSC\n"
                "\t2. PAL\n"
                "\t3. Quit\n"
@@ -160,13 +164,13 @@ static void InitNTSCPALDefaults(void)
     switch (choice)
     {
         case 1:
-            printf("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init NTSC defaults: %s\n", EEPROMNTSCPALDefaults(0) == 0 ? "completed" : "failed");
             break;
         case 2:
-            printf("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
+            PlatShowMessage("Init PAL defaults: %s\n", EEPROMNTSCPALDefaults(1) == 0 ? "completed" : "failed");
             break;
     }
-}
+} */
 
 static INT_PTR CALLBACK InitNTSCPALDefsDlg(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -238,38 +242,38 @@ static void InitMenu(HWND hwnd)
     EEPROMGetiLinkID(iLinkID);
     EEPROMGetConsoleID(ConsoleID);
 
-    sprintf(value, "%02x", ConsoleID[0]);
+    snprintf(value, 3, "%02x", ConsoleID[0]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_0), value);
-    sprintf(value, "%02x", ConsoleID[1]);
+    snprintf(value, 3, "%02x", ConsoleID[1]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_1), value);
-    sprintf(value, "%02x", ConsoleID[2]);
+    snprintf(value, 3, "%02x", ConsoleID[2]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_2), value);
-    sprintf(value, "%02x", ConsoleID[3]);
+    snprintf(value, 3, "%02x", ConsoleID[3]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_3), value);
-    sprintf(value, "%02x", ConsoleID[4]);
+    snprintf(value, 3, "%02x", ConsoleID[4]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_4), value);
-    sprintf(value, "%02x", ConsoleID[5]);
+    snprintf(value, 3, "%02x", ConsoleID[5]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_5), value);
-    sprintf(value, "%02x", ConsoleID[6]);
+    snprintf(value, 3, "%02x", ConsoleID[6]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_6), value);
-    sprintf(value, "%02x", ConsoleID[7]);
+    snprintf(value, 3, "%02x", ConsoleID[7]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_CON_ID_7), value);
 
-    sprintf(value, "%02x", iLinkID[0]);
+    snprintf(value, 3, "%02x", iLinkID[0]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_0), value);
-    sprintf(value, "%02x", iLinkID[1]);
+    snprintf(value, 3, "%02x", iLinkID[1]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_1), value);
-    sprintf(value, "%02x", iLinkID[2]);
+    snprintf(value, 3, "%02x", iLinkID[2]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_2), value);
-    sprintf(value, "%02x", iLinkID[3]);
+    snprintf(value, 3, "%02x", iLinkID[3]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_3), value);
-    sprintf(value, "%02x", iLinkID[4]);
+    snprintf(value, 3, "%02x", iLinkID[4]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_4), value);
-    sprintf(value, "%02x", iLinkID[5]);
+    snprintf(value, 3, "%02x", iLinkID[5]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_5), value);
-    sprintf(value, "%02x", iLinkID[6]);
+    snprintf(value, 3, "%02x", iLinkID[6]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_6), value);
-    sprintf(value, "%02x", iLinkID[7]);
+    snprintf(value, 3, "%02x", iLinkID[7]);
     SetWindowTextA(GetDlgItem(hwnd, IDC_EDIT_ILINK_ID_7), value);
 
     if (ConType != MECHA_TYPE_36)
