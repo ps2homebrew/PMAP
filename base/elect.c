@@ -92,8 +92,7 @@ static const ElectMechaTaskPrep_t AutoAdjACommands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {57, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {58, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdj139Commands[] = {
     // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
@@ -158,8 +157,7 @@ static const ElectMechaTaskPrep_t AutoAdj139Commands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {54, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {55, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdjFCommands[] = {
     // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
@@ -226,8 +224,7 @@ static const ElectMechaTaskPrep_t AutoAdjFCommands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {57, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {58, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdjGCommands[] = {
     // Test CD SCD-2700/YEDS-18, DVD-SL HX-504, DVD-DL HX-505
@@ -301,8 +298,7 @@ static const ElectMechaTaskPrep_t AutoAdjGCommands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {64, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {65, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdjG2Commands[] = {
     // Test CD SCD-2700, DVD-SL HX-504, DVD-DL HX-505
@@ -381,8 +377,7 @@ static const ElectMechaTaskPrep_t AutoAdjG2Commands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {68, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {69, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdj140Commands[] = {
     // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
@@ -487,8 +482,7 @@ static const ElectMechaTaskPrep_t AutoAdj140Commands[] = {
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Remove disc and press ENTER", NULL},
     {76, 0, 6000, MECHA_CMD_TRAY, "TRAY CLOSE", "00"},
     {77, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static const ElectMechaTaskPrep_t AutoAdjSlimCommands[] = {
     // Test CD SCD-2700, DVD-SL TDV-520CSC, DVD-DL TDV-540CSC
@@ -582,8 +576,7 @@ static const ElectMechaTaskPrep_t AutoAdjSlimCommands[] = {
     {74, 0, 3000, MECHA_CMD_SLED_POS_HOME, "DVD-DL SLED HOME POSITION", NULL},
     {0, 0, 0, MECHA_TASK_UI_CMD_MSG, "Open lid, remove disc, close lid and press ENTER", NULL},
     {77, 0, 3000, MECHA_CMD_SLED_POS_HOME, "FIN (SLED HOME)", NULL},
-    {0, 0, 0, 0, NULL, NULL},
-};
+    {0, 0, 0, 0, NULL, NULL}};
 
 static int ElectJudgeOPTypeError(const char *result, int len)
 {
