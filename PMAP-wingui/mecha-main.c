@@ -158,6 +158,7 @@ static int MechaAdjTxHandler(MechaTask_t *task)
                     PlatShowMessage("Unsupported disc type: %02x\n", DiscDetect);
                     return 1;
             }
+            break;
         default:
             return 0;
     }
@@ -233,6 +234,7 @@ static int MechaAdjRxHandler(MechaTask_t *task, const char *result, short int le
                 default:
                     return MechaDefaultHandleRes2(task, result, len);
             }
+            break;
         default:
             return MechaDefaultHandleResUnknown(task, result, len);
     }
@@ -465,6 +467,7 @@ static int MechaAdjInit(short int argc, char *argv[])
                 case MECHA_TYPE_G2: // TDR-832
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 2)");
+                    break;
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-SL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
@@ -491,6 +494,7 @@ static int MechaAdjInit(short int argc, char *argv[])
                 case MECHA_TYPE_G2: // HLX-505
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "DVD-DL AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2, "00", id++, 0, 20000, "DVD-DL AUTO ADJUSTMENT (STAGE 2)");
+                    break;
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-DL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
@@ -520,6 +524,7 @@ static int MechaAdjInit(short int argc, char *argv[])
                 case MECHA_TYPE_39:
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_1, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 1)");
                     MechaCommandAdd(MECHA_CMD_AUTO_ADJ_ST_2MD, "00", id++, 0, 20000, "DVD-SL AUTO ADJUSTMENT (STAGE 2MD)");
+                    break;
             }
             MechaCommandAdd(MECHA_CMD_FOCUS_UPDOWN, "00", id++, 0, 3000, "DVD-SL STOP");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
@@ -559,8 +564,8 @@ static int MechaAdjPlay(short int argc, char *argv[])
                 {
                     if ((result = MechaCommandExecute(MECHA_CMD_FOCUS_JUMP, 2000, "0300", buffer, sizeof(buffer))) < 0 || (result = strtoul(buffer, NULL, 16)) != 0)
                         PlatShowMessage("Error %d\n", result);
-                    break;
                 }
+                break;
             case MECHA_ADJ_STATE_DVDSL_PAUSE:
             case MECHA_ADJ_STATE_DVDSL_1:
             case MECHA_ADJ_STATE_DVDSL_1p6:
@@ -602,6 +607,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                         PlatShowMessage("Unsupported speed.\n");
                         timeout = 0;
                         command = 0;
+                        break;
                 }
 
                 if (command != 0)
@@ -636,6 +642,7 @@ static int MechaAdjPlay(short int argc, char *argv[])
                         PlatShowMessage("Unsupported speed.\n");
                         timeout = 0;
                         command = 0;
+                        break;
                 }
 
                 if (command != 0)
@@ -814,6 +821,7 @@ static int MechaAdjPause(short int argc, char *argv[])
             break;
         default:
             PlatShowMessage("Not in PLAY mode.\n");
+            break;
     }
 
     return 0;
@@ -1189,8 +1197,9 @@ static int MechaTestDiscControl(short int argc, char *argv[])
         }
         else if (!pstricmp(argv[1], "AUTO"))
         {
+            MechaCommandAdd(MECHA_CMD_SLED_POS_HOME, NULL, id++, 0, 3000, "SLED HOME");
+            MechaCommandAdd(MECHA_CMD_DISC_MODE_CD_12, NULL, id++, MECHA_CMD_TAG_MECHA_SET_DISC_TYPE, 1000, "DISC MODE CD 12cm");
             MechaCommandAdd(MECHA_CMD_DISC_DETECT, NULL, id++, MECHA_CMD_TAG_MECHA_DISC_DETECT, 3000, "DISC DETECT");
-            MechaCommandAdd(MECHA_CMD_DISC_MODE_CD_8, NULL, id++, MECHA_CMD_TAG_MECHA_SET_DISC_TYPE, 1000, "DISC MODE CD 8cm");
             if (MechaCommandExecuteList(&MechaAdjTxHandler, &MechaAdjRxHandler) != 0)
                 PlatShowMessage("Failed to execute.\n");
         }
@@ -1402,6 +1411,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                     }
                     else
                         PlatShowMessage("Not in PLAY mode.\n");
+                    break;
             }
         }
         else if (!pstricmp(argv[1], "FWDL"))
@@ -1428,6 +1438,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                     }
                     else
                         PlatShowMessage("Not in PLAY mode.\n");
+                    break;
             }
         }
         else if (!pstricmp(argv[1], "REVL"))
@@ -1454,6 +1465,7 @@ static int MechaTestPlay(short int argc, char *argv[])
                     }
                     else
                         PlatShowMessage("Not in PLAY mode.\n");
+                    break;
             }
         }
         else if (!pstricmp(argv[1], "STOP"))
@@ -1487,10 +1499,12 @@ static int MechaTestPlay(short int argc, char *argv[])
                                 break;
                             case MECHA_ADJ_STATE_DVDDL_1:
                                 status = MECHA_ADJ_STATE_DVDDL;
+                                break;
                         }
                     }
                     else
                         PlatShowMessage("Not in PLAY mode.\n");
+                    break;
             }
         }
         else if (!pstricmp(argv[1], "FJ"))
