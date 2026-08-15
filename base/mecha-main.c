@@ -291,7 +291,7 @@ static const struct MechaDiagCommand AdjCommands[] = {
                      "Entering a blank line will cause the previous command entered to be executed.",
      &MechaAdjHelp},
     {"QUIT", "QUIT", "Quits adjustment", &MechaAdjQuit},
-    {NULL, NULL, NULL}};
+    {NULL, NULL, NULL, (MechaCmdFunction_t)NULL}};
 
 static const struct MechaDiagCommand TestCommands[] = {
     {"DISC", "DISC <type>", "Sets up the circuit/disc mode:\n"
@@ -353,7 +353,7 @@ static const struct MechaDiagCommand TestCommands[] = {
                      "Entering a blank line will cause the previous command entered to be executed.",
      &MechaTestHelp},
     {"QUIT", "QUIT", "Quits testing", &MechaAdjQuit},
-    {NULL, NULL, NULL}};
+    {NULL, NULL, NULL, (MechaCmdFunction_t)NULL}};
 
 static int MechaAdjInit(short int argc, char *argv[])
 {
