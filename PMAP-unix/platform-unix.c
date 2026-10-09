@@ -241,21 +241,22 @@ void PlatShowMessageB(const char *format, ...)
         return; // Exit early if format is NULL
     }
 
-    va_list args;
+    va_list args, args_copy;
 
     // Print to standard output
     va_start(args, format);
-    vprintf(format, args);
+    va_copy(args_copy, args);
+
     vprintf(format, args);
     va_end(args); // Clean up after using args for vprintf
 
     // Print to debug output file, if specified
     if (DebugOutputFile != NULL)
     {
-        va_start(args, format); // Reinitialize args for vfprintf
-        vfprintf(DebugOutputFile, format, args);
-        va_end(args); // Clean up after using args for vfprintf
+        vfprintf(DebugOutputFile, format, args_copy);
     }
+
+    va_end(args_copy);
 
     // Block until the user presses ENTER
     while (getchar() != '\n')
