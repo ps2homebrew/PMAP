@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
+#include <time.h>
 
 #include "platform.h"
 #include "main.h"
@@ -15,6 +16,26 @@ static int DumpEEPROM(const char *filename)
     FILE *dump;
     int i, progress, result;
     u16 data;
+
+    /* Prevent accidental overwrites of existing dumps. */
+    if ((dump = fopen(filename, "rb")) != NULL)
+    {
+        char choice;
+
+        fclose(dump);
+
+        do
+        {
+            PlatShowMessage("File '%s' already exists. Overwrite? (Y/N): ", filename);
+            choice = getchar();
+            while (getchar() != '\n')
+            {
+            }
+        } while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N');
+
+        if (choice == 'n' || choice == 'N')
+            return -EEXIST;
+    }
 
     PlatShowMessage("\nDumping EEPROM:\n");
     if ((dump = fopen(filename, "wb")) != NULL)
@@ -387,6 +408,9 @@ void MenuEEPROM(void)
             {
                 char useDefault;
                 char default_filename[256];
+                char timestamp[32];
+                time_t now;
+                struct tm *local_time;
                 u32 serial = 0;
                 u8 emcs    = 0;
 
@@ -396,10 +420,17 @@ void MenuEEPROM(void)
                 const char *model = EEPROMGetModelName();
 
                 const struct MechaIdentRaw *RawData;
-                RawData = MechaGetRawIdent();
+                RawData    = MechaGetRawIdent();
 
                 // Format the filename
-                snprintf(default_filename, sizeof(default_filename), "%s_%07u_%s_%#08x.bin", model, serial, RawData->cfd, RawData->cfc);
+                now        = time(NULL);
+                local_time = localtime(&now);
+                if (local_time != NULL)
+                    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d_%H-%M-%S", local_time);
+                else
+                    strcpy(timestamp, "unknown-time");
+
+                snprintf(default_filename, sizeof(default_filename), "%s_%07u_%s_%#08x_%s.bin", model, serial, RawData->cfd, RawData->cfc, timestamp);
 
                 PlatShowMessage("Default filename: %s\n", default_filename);
                 PlatShowMessage("Do you want to use the default filename? (Y/N): ");
@@ -418,7 +449,13 @@ void MenuEEPROM(void)
                         filename[strlen(filename) - 1] = '\0';
                 }
 
-                PlatShowMessage("Dump %s.\n", DumpEEPROM(filename) == 0 ? "completed" : "failed");
+                int result = DumpEEPROM(filename);
+                if (result == 0)
+                    PlatShowMessage("Dump completed.\n");
+                else if (result == -EEXIST)
+                    PlatShowMessage("Dump cancelled.\n");
+                else
+                    PlatShowMessage("Dump failed.\n");
             }
             break;
             case 3:
