@@ -35,7 +35,8 @@ int PlatOpenCOMPort(const char *device)
         {
             while ((entry = readdir(dir)))
             {
-                if (strncmp(entry->d_name, "cu.", 3) == 0)
+                if (strncmp(entry->d_name, "cu.", 3) == 0 || strncmp(entry->d_name, "ttyUSB", 6) == 0 ||
+                    strncmp(entry->d_name, "ttyACM", 6) == 0)
                 {
                     PlatShowMessage("/dev/%s\n", entry->d_name);
                 }
@@ -60,8 +61,12 @@ int PlatOpenCOMPort(const char *device)
                 return errno;
             }
 
+            // Fully raw mode. Without this, ICRNL (on by default) turns the received '\r' into '\n',
+            // so the MECHACON's "\r\n" terminator arrives as "\n\n" and every reply looks invalid.
+            cfmakeraw(&options);
             cfsetispeed(&options, B57600);
             cfsetospeed(&options, B57600);
+            options.c_cflag |= CLOCAL | CREAD; // Ignore modem lines, enable receiver
             options.c_cflag &= ~PARENB; // No parity
             options.c_cflag &= ~CSTOPB; // 1 stop bit
             options.c_cflag &= ~CSIZE;
@@ -89,7 +94,7 @@ int PlatOpenCOMPort(const char *device)
 
             RxTimeout = MECHA_TASK_NORMAL_TO;
 
-            PlatShowMessage("COM port configuration set.\n");
+            PlatShowMessage("COM port configuration set (57600 8N1).\n");
             result = 0;
         }
         else
@@ -136,6 +141,7 @@ int PlatReadCOMPort(char *data, int n, unsigned short timeout)
         if (result < 0)
         {
             PlatShowMessage("Read from COM port failed.\n");
+            PlatDPrintf("PlatReadCOMPort: read failed (errno=%d: %s)\n", errno, strerror(errno));
         }
     }
     else if (result == 0)
@@ -160,6 +166,7 @@ int PlatWriteCOMPort(const char *data)
     if (result < 0)
     {
         PlatShowMessage("Write to COM port failed.\n");
+        PlatDPrintf("PlatWriteCOMPort: write failed (errno=%d: %s)\n", errno, strerror(errno));
     }
 
     return result;
@@ -307,7 +314,10 @@ void PlatDPrintf(const char *format, ...)
     // Print to standard output
     va_start(args, format);
     if (DebugOutputFile != NULL)
+    {
         vfprintf(DebugOutputFile, format, args);
+        fflush(DebugOutputFile); // Flush immediately so the log survives a hang/crash during a comms failure.
+    }
     va_end(args);
 }
 

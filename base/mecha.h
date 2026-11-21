@@ -125,6 +125,10 @@ typedef int (*MechaCommandHandler_t)(const char *data, int len);
 typedef int (*MechaCommandTxHandler_t)(MechaTask_t *task);
 typedef int (*MechaCommandRxHandler_t)(MechaTask_t *task, const char *result, short int len);
 
+// When non-zero, raw RX/TX traffic is dumped (hex + ASCII) to the debug log.
+// Off by default; toggled at runtime (e.g. the CLI "-d" option), no rebuild needed.
+extern int MechaDebugDump;
+
 int MechaCommandAdd(unsigned short int command, const char *args, unsigned char id, unsigned char tag, unsigned short int timeout, const char *label);
 int MechaCommandExecute(unsigned short int command, unsigned short int timeout, const char *args, char *buffer, unsigned char BufferSize);
 int MechaCommandExecuteList(MechaCommandTxHandler_t transmit, MechaCommandRxHandler_t receive);

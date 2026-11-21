@@ -72,21 +72,38 @@ int main(int argc, char *argv[])
 {
     short int choice;
     unsigned char done;
+    const char *port = NULL;
+    int i;
 
-    if (argc != 2)
+    for (i = 1; i < argc; i++)
     {
-        PlatShowMessage("Syntax error. Syntax: PMAP <COM port>\n");
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--debug") == 0)
+            MechaDebugDump = 1; // Log raw RX/TX hex dumps to the debug log.
+        else if (port == NULL)
+            port = argv[i];
+        else
+        {
+            PlatShowMessage("Syntax error. Syntax: PMAP <COM port> [-d]\n");
+            return EINVAL;
+        }
+    }
+
+    if (port == NULL)
+    {
+        PlatShowMessage("Syntax error. Syntax: PMAP <COM port> [-d]\n"
+                        "  -d, --debug   log raw RX/TX hex dumps to the debug log\n");
         return EINVAL;
     }
 
-    if (PlatOpenCOMPort(argv[1]) != 0)
+    // Initialise the debug log first so that COM-port open problems are logged too.
+    PlatDebugInit();
+
+    if (PlatOpenCOMPort(port) != 0)
     {
-        PlatShowMessage("Cannot open %s.\n", argv[1]);
+        PlatShowMessage("Cannot open %s.\n", port);
+        PlatDebugDeinit();
         return ENODEV;
     }
-
-    // TODO!
-    PlatDebugInit();
 
     done = 0;
     do

@@ -36,20 +36,59 @@ int PlatOpenCOMPort(const char *device)
     ListSerialDevices();
     COMMTIMEOUTS CommTimeout;
     DCB DeviceControlBlock;
+    char devicePath[64];
     int result;
+
+    // COM10 and above must be opened through the "\\.\COMxx" namespace; the bare
+    // "COMxx" name only resolves for COM1-COM9, which is why CreateFileA("COM10")
+    // fails. Prefixing works for every port number, so always use it (unless the
+    // caller already passed a full path).
+    if (device[0] == '\\')
+        snprintf(devicePath, sizeof(devicePath), "%s", device);
+    else
+        snprintf(devicePath, sizeof(devicePath), "\\\\.\\%s", device);
 
     if (ComPortHandle == INVALID_HANDLE_VALUE)
     {
-        if ((ComPortHandle = CreateFileA(device, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+        if ((ComPortHandle = CreateFileA(devicePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
         {
             memset(&DeviceControlBlock, 0, sizeof(DeviceControlBlock));
             DeviceControlBlock.DCBlength = sizeof(DCB);
             GetCommState(ComPortHandle, &DeviceControlBlock);
-            DeviceControlBlock.BaudRate = CBR_57600;
-            DeviceControlBlock.fParity  = FALSE;
-            DeviceControlBlock.ByteSize = 8;
-            DeviceControlBlock.StopBits = ONESTOPBIT;
-            SetCommState(ComPortHandle, &DeviceControlBlock);
+            // Fully specify the line settings instead of trusting whatever state
+            // the port was left in. fParity only disables parity *checking*; the
+            // Parity field decides whether a parity bit is actually used, so it
+            // must be forced to NOPARITY or the link can silently run 8E1/8O1.
+            DeviceControlBlock.BaudRate        = CBR_57600;
+            DeviceControlBlock.ByteSize        = 8;
+            DeviceControlBlock.Parity          = NOPARITY;
+            DeviceControlBlock.StopBits        = ONESTOPBIT;
+            DeviceControlBlock.fBinary         = TRUE;
+            DeviceControlBlock.fParity         = FALSE;
+            DeviceControlBlock.fOutxCtsFlow    = FALSE;
+            DeviceControlBlock.fOutxDsrFlow    = FALSE;
+            DeviceControlBlock.fDtrControl     = DTR_CONTROL_ENABLE;
+            DeviceControlBlock.fDsrSensitivity = FALSE;
+            DeviceControlBlock.fTXContinueOnXoff = FALSE;
+            DeviceControlBlock.fOutX           = FALSE;
+            DeviceControlBlock.fInX            = FALSE;
+            DeviceControlBlock.fErrorChar      = FALSE;
+            DeviceControlBlock.fNull           = FALSE;
+            DeviceControlBlock.fRtsControl     = RTS_CONTROL_ENABLE;
+            DeviceControlBlock.fAbortOnError   = FALSE;
+            if (!SetCommState(ComPortHandle, &DeviceControlBlock))
+                PlatShowMessage("SetCommState failed: %lu\n", (unsigned long)GetLastError());
+
+            // Log what the driver actually applied, so a mismatch is visible.
+            {
+                DCB applied;
+                memset(&applied, 0, sizeof(applied));
+                applied.DCBlength = sizeof(applied);
+                if (GetCommState(ComPortHandle, &applied))
+                    PlatDPrintf("DCB applied: baud=%lu bytesize=%u parity=%u stopbits=%u fParity=%d fOutxCts=%d fRts=%d fDtr=%d fOutX=%d fInX=%d\n",
+                                (unsigned long)applied.BaudRate, applied.ByteSize, applied.Parity, applied.StopBits,
+                                applied.fParity, applied.fOutxCtsFlow, applied.fRtsControl, applied.fDtrControl, applied.fOutX, applied.fInX);
+            }
             CommTimeout.ReadIntervalTimeout        = 0;
             CommTimeout.ReadTotalTimeoutMultiplier = 0;
             CommTimeout.ReadTotalTimeoutConstant = RxTimeout = MECHA_TASK_NORMAL_TO;
@@ -60,13 +99,18 @@ int PlatOpenCOMPort(const char *device)
             result = 0;
         }
         else
+        {
             result = ENXIO;
+            PlatDPrintf("PlatOpenCOMPort: CreateFileA(%s) failed (GetLastError=%lu)\n", devicePath, (unsigned long)GetLastError());
+        }
     }
     else
         result = EMFILE;
 
     if (result != 0)
         PlatCloseCOMPort();
+
+    PlatDPrintf("PlatOpenCOMPort: device=%s (%s) baud=57600 8N1 result=%d\n", device, devicePath, result);
 
     return result;
 }
@@ -89,7 +133,10 @@ int PlatReadCOMPort(char *data, int n, unsigned short timeout)
     if (ReadFile(ComPortHandle, data, n, &BytesRead, NULL) == TRUE)
         result = BytesRead;
     else
+    {
         result = -EIO;
+        PlatDPrintf("PlatReadCOMPort: ReadFile failed (GetLastError=%lu)\n", (unsigned long)GetLastError());
+    }
 
     return result;
 }
@@ -102,7 +149,10 @@ int PlatWriteCOMPort(const char *data)
     if (WriteFile(ComPortHandle, data, strlen(data), &BytesWritten, NULL) == TRUE)
         result = BytesWritten;
     else
+    {
         result = -EIO;
+        PlatDPrintf("PlatWriteCOMPort: WriteFile failed (GetLastError=%lu)\n", (unsigned long)GetLastError());
+    }
 
     if (result < 0)
     {
@@ -252,7 +302,10 @@ void PlatDPrintf(const char *format, ...)
     // Print to standard output
     va_start(args, format);
     if (DebugOutputFile != NULL)
+    {
         vfprintf(DebugOutputFile, format, args);
+        fflush(DebugOutputFile); // Flush immediately so the log survives a hang/crash during a comms failure.
+    }
     va_end(args);
 }
 
