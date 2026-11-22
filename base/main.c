@@ -18,10 +18,10 @@ void DisplayRawIdentData(void)
     RawData = MechaGetRawIdent();
 
     PlatShowMessage("\nTestMode.%d MD1.%d\n"
-           "CFD:\t\t0x%s\n"
-           "CFC:\t\t%#08x\n"
-           "Version:\t%#04x\n",
-           tm, md, RawData->cfd, RawData->cfc, RawData->VersionID);
+                    "CFD:\t\t0x%s\n"
+                    "CFC:\t\t%#08x\n"
+                    "Version:\t%#04x\n",
+                    tm, md, RawData->cfd, RawData->cfc, RawData->VersionID);
 }
 
 void DisplayCommonConsoleInfo(void)
@@ -32,16 +32,16 @@ void DisplayCommonConsoleInfo(void)
 
     MechaGetMode(&tm, &md);
     PlatShowMessage("\nTestMode.%d MD1.%d\tChecksum: %s\n"
-           "MECHA:\t\t%s (%s)\n",
-           tm, md, MechaGetEEPROMStat() ? "OK" : "NG",
-           MechaGetDesc(), MechaGetCEXDEX() == 0 ? "DEX" : "CEX");
+                    "MECHA:\t\t%s (%s)\n",
+                    tm, md, MechaGetEEPROMStat() ? "OK" : "NG",
+                    MechaGetDesc(), MechaGetCEXDEX() == 0 ? "DEX" : "CEX");
     PlatShowMessage("Serial:\t\t");
     if (EEPROMInitSerial() == 0)
     {
         EEPROMGetSerial(&serial, &emcs);
         PlatShowMessage("%07u\t\t"
-               "EMCS:\t%02x\n",
-               serial, emcs);
+                        "EMCS:\t%02x\n",
+                        serial, emcs);
     }
     else
         PlatShowMessage("<no serial number>\n");
@@ -55,9 +55,9 @@ void DisplayCommonConsoleInfo(void)
     else
         PlatShowMessage("<no model name>\n");
     PlatShowMessage("RTC:\t\t%s (%s)\n"
-           "OP:\t\t%s\t\tLens:\t%s\n",
-           MechaGetRTCName(MechaGetRTCType()), MechaGetRtcStatusDesc(MechaGetRTCType(), MechaGetRTCStat()),
-           MechaGetOPTypeName(MechaGetOP()), MechaGetLensTypeName(MechaGetLens()));
+                    "OP:\t\t%s\t\tLens:\t%s\n",
+                    MechaGetRTCName(MechaGetRTCType()), MechaGetRtcStatusDesc(MechaGetRTCType(), MechaGetRTCStat()),
+                    MechaGetOPTypeName(MechaGetOP()), MechaGetLensTypeName(MechaGetLens()));
     if (EEPROMGetEEPROMStatus() == 1)
         PlatShowMessage("EEPROM was erased (defaults must now be loaded).\n");
 }
@@ -65,7 +65,7 @@ void DisplayCommonConsoleInfo(void)
 void DisplayConnHelp(void)
 {
     PlatShowMessage("There was a problem communicating with the PlayStation 2 console.\n"
-           "Check the connections, press the RESET button and try again.\n\n");
+                    "Check the connections, press the RESET button and try again.\n\n");
 }
 
 int main(int argc, char *argv[])
@@ -111,16 +111,16 @@ int main(int argc, char *argv[])
         do
         {
             PlatShowMessage("\nP.M.A.P (v1.2)\n"
-                   "=============================\n"
-                   "\t1.\tEEPROM management\n"
-                   "\t2.\tAutomatic ELECT adjustment\n"
-                   "\t3.\tMECHA adjustment\n"
-                   "\t4.\tShow ident data\n"
-                   "\t5.\tQuit\n"
+                            "=============================\n"
+                            "\t1.\tEEPROM management\n"
+                            "\t2.\tAutomatic ELECT adjustment\n"
+                            "\t3.\tMECHA adjustment\n"
+                            "\t4.\tShow ident data\n"
+                            "\t5.\tQuit\n"
 #ifdef ID_MANAGEMENT
-                   "\t99.\tID management\n"
+                            "\t99.\tID management\n"
 #endif
-                   "Your choice: ");
+                            "Your choice: ");
 
             choice = 0;
             if (scanf("%hd", &choice) > 0)

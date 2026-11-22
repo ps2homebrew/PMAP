@@ -67,8 +67,8 @@ int PlatOpenCOMPort(const char *device)
             cfsetispeed(&options, B57600);
             cfsetospeed(&options, B57600);
             options.c_cflag |= CLOCAL | CREAD; // Ignore modem lines, enable receiver
-            options.c_cflag &= ~PARENB; // No parity
-            options.c_cflag &= ~CSTOPB; // 1 stop bit
+            options.c_cflag &= ~PARENB;        // No parity
+            options.c_cflag &= ~CSTOPB;        // 1 stop bit
             options.c_cflag &= ~CSIZE;
             options.c_cflag |= CS8;                     // 8 data bits
             options.c_cflag &= ~CRTSCTS;                // No hardware flow control

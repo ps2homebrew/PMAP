@@ -61,23 +61,23 @@ int PlatOpenCOMPort(const char *device)
             // the port was left in. fParity only disables parity *checking*; the
             // Parity field decides whether a parity bit is actually used, so it
             // must be forced to NOPARITY or the link can silently run 8E1/8O1.
-            DeviceControlBlock.BaudRate        = CBR_57600;
-            DeviceControlBlock.ByteSize        = 8;
-            DeviceControlBlock.Parity          = NOPARITY;
-            DeviceControlBlock.StopBits        = ONESTOPBIT;
-            DeviceControlBlock.fBinary         = TRUE;
-            DeviceControlBlock.fParity         = FALSE;
-            DeviceControlBlock.fOutxCtsFlow    = FALSE;
-            DeviceControlBlock.fOutxDsrFlow    = FALSE;
-            DeviceControlBlock.fDtrControl     = DTR_CONTROL_ENABLE;
-            DeviceControlBlock.fDsrSensitivity = FALSE;
+            DeviceControlBlock.BaudRate          = CBR_57600;
+            DeviceControlBlock.ByteSize          = 8;
+            DeviceControlBlock.Parity            = NOPARITY;
+            DeviceControlBlock.StopBits          = ONESTOPBIT;
+            DeviceControlBlock.fBinary           = TRUE;
+            DeviceControlBlock.fParity           = FALSE;
+            DeviceControlBlock.fOutxCtsFlow      = FALSE;
+            DeviceControlBlock.fOutxDsrFlow      = FALSE;
+            DeviceControlBlock.fDtrControl       = DTR_CONTROL_ENABLE;
+            DeviceControlBlock.fDsrSensitivity   = FALSE;
             DeviceControlBlock.fTXContinueOnXoff = FALSE;
-            DeviceControlBlock.fOutX           = FALSE;
-            DeviceControlBlock.fInX            = FALSE;
-            DeviceControlBlock.fErrorChar      = FALSE;
-            DeviceControlBlock.fNull           = FALSE;
-            DeviceControlBlock.fRtsControl     = RTS_CONTROL_ENABLE;
-            DeviceControlBlock.fAbortOnError   = FALSE;
+            DeviceControlBlock.fOutX             = FALSE;
+            DeviceControlBlock.fInX              = FALSE;
+            DeviceControlBlock.fErrorChar        = FALSE;
+            DeviceControlBlock.fNull             = FALSE;
+            DeviceControlBlock.fRtsControl       = RTS_CONTROL_ENABLE;
+            DeviceControlBlock.fAbortOnError     = FALSE;
             if (!SetCommState(ComPortHandle, &DeviceControlBlock))
                 PlatShowMessage("SetCommState failed: %lu\n", (unsigned long)GetLastError());
 

@@ -96,7 +96,7 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
         snprintf(cmd, sizeof(cmd), "%03x\r\n", command);
 
     txlen = (int)strlen(cmd);
-    PlatDPrintf("\n[TX] cmd=%03x timeout=%ums\n", command, (unsigned int)timeout);
+    PlatDPrintf("[TX] cmd=%03x timeout=%ums\n", command, (unsigned int)timeout);
     MechaDebugDumpBytes("[TX]", cmd, txlen);
 
     if ((written = PlatWriteCOMPort(cmd)) == txlen)
