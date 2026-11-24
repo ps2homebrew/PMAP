@@ -139,6 +139,7 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
     else
     {
         PlatDPrintf("[TX] write failed: wrote %d of %d byte(s)\n", written, txlen);
+        buffer[0] = '\0';
         result = -EPIPE;
     }
 
