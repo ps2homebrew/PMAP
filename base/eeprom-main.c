@@ -20,7 +20,7 @@ static int DumpEEPROM(const char *filename)
     /* Prevent accidental overwrites of existing dumps. */
     if ((dump = fopen(filename, "rb")) != NULL)
     {
-        char choice;
+        int choice, ch;
 
         fclose(dump);
 
@@ -28,7 +28,9 @@ static int DumpEEPROM(const char *filename)
         {
             PlatShowMessage("File '%s' already exists. Overwrite? (Y/N): ", filename);
             choice = getchar();
-            while (getchar() != '\n')
+            if (choice == EOF)
+                return -EEXIST;
+            while ((ch = getchar()) != '\n' && ch != EOF)
             {
             }
         } while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N');
