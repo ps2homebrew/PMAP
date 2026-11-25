@@ -15,6 +15,7 @@ static unsigned char TaskCount = 0;
 char MechaName[9], RTCData[19];
 struct MechaIdentRaw MechaIdentRaw;
 unsigned char ConMD, ConType, ConTM, ConCEXDEX, ConOP, ConLens, ConRTC, ConRTCStat, ConECR, ConChecksumStat, ConSlim;
+int MechaDebugDump = 0; // RX/TX hex dump off by default; enabled at runtime.
 
 int is_valid_data(const char *data, int size)
 {
@@ -27,6 +28,29 @@ int is_valid_data(const char *data, int size)
         }
     }
     return 1;
+}
+
+// Dump a buffer to the debug log as a hex view plus a printable-ASCII view.
+// Non-printable bytes are shown as '.' in the ASCII column. This makes RX/TX
+// traffic legible in the log even when the data is empty (timeout) or garbled
+// (framing/mismatch), where a plain "%s" print would show nothing useful.
+//
+// Off by default to keep the normal debug log terse; set MechaDebugDump (the CLI
+// "-d" option) to enable the dumps at runtime, no rebuild needed.
+static void MechaDebugDumpBytes(const char *label, const char *data, int size)
+{
+    int i;
+
+    if (!MechaDebugDump)
+        return;
+
+    PlatDPrintf("%s (%d byte%s):", label, size, (size == 1) ? "" : "s");
+    for (i = 0; i < size; i++)
+        PlatDPrintf(" %02X", (unsigned char)data[i]);
+    PlatDPrintf(" | \"");
+    for (i = 0; i < size; i++)
+        PlatDPrintf("%c", isprint((unsigned char)data[i]) ? data[i] : '.');
+    PlatDPrintf("\"\n");
 }
 
 int MechaCommandAdd(unsigned short int command, const char *args, unsigned char id, unsigned char tag, unsigned short int timeout, const char *label)
@@ -64,15 +88,18 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
     char cmd[MECHA_TX_BUFFER_SIZE];
     unsigned short int size;
     int result = 0;
+    int txlen, written;
 
     if (args != NULL)
         snprintf(cmd, sizeof(cmd), "%03x%s\r\n", command, args);
     else
         snprintf(cmd, sizeof(cmd), "%03x\r\n", command);
 
-    PlatDPrintf("PlatWriteCOMPort: %s", cmd);
+    txlen = (int)strlen(cmd);
+    PlatDPrintf("[TX] cmd=%03x timeout=%ums\n", command, (unsigned int)timeout);
+    MechaDebugDumpBytes("[TX]", cmd, txlen);
 
-    if (PlatWriteCOMPort(cmd) == strlen(cmd))
+    if ((written = PlatWriteCOMPort(cmd)) == txlen)
     {
         for (size = 0; size < BufferSize - 1; size++)
         {
@@ -90,8 +117,16 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
             {
                 if (result == 0)
                 {
+                    PlatDPrintf("[RX] timed out after %u byte(s) (timeout=%ums)\n", (unsigned int)size, (unsigned int)timeout);
                     result = -EPIPE;
                     break;
+                }
+                else
+                {
+                    // Negative result: a platform-level read error (details are
+                    // logged by the platform layer). Keep the pre-existing
+                    // behaviour of retrying until timeout or buffer-full.
+                    PlatDPrintf("[RX] read error %d after %u byte(s)\n", result, (unsigned int)size);
                 }
             }
         }
@@ -99,10 +134,14 @@ int MechaCommandExecute(unsigned short int command, unsigned short int timeout, 
         buffer[size] = '\0';
         if (result == 0)
             result = size;
-        PlatDPrintf("PlatReadCOMPort : %s\n", buffer);
+        MechaDebugDumpBytes("[RX]", buffer, size);
     }
     else
+    {
+        PlatDPrintf("[TX] write failed: wrote %d of %d byte(s)\n", written, txlen);
+        buffer[0] = '\0';
         result = -EPIPE;
+    }
 
     return result;
 }
@@ -158,17 +197,27 @@ int MechaCommandExecuteList(MechaCommandTxHandler_t transmit, MechaCommandRxHand
         }
         else
         {
+            // On an error path MechaCommandExecute does not return a length, so
+            // derive the number of received bytes from the NUL-terminated buffer
+            // instead of relying on the (here stale) 'size' value.
+            size = (int)strlen(RxBuffer);
+
+            PlatDPrintf("[ERR] task id=%02d cmd=%04x%s \"%s\" failed (result=%d)\n",
+                        task->id, task->command, task->args, task->label, result);
+            MechaDebugDumpBytes("[ERR] partial RX", RxBuffer, size);
 
             if (result == -EPIPE)
             {
                 if (!is_valid_data(RxBuffer, size))
                 {
-                    PlatShowEMessage("Error: Connection problems, received invalid data for task ID %02d.\n", task->id);
+                    PlatShowEMessage("Error: Connection problems, received invalid data for task ID %02d (got %d byte(s): \"%s\"). See debug log for the RX/TX hex dump.\n",
+                                     task->id, size, RxBuffer);
                     result = -1; // Indicate an error
                     break;
                 }
 
-                PlatShowEMessage("%02d. %04x%s %s: 101 - rx-Command timed out\n", task->id, task->command, task->args, task->label);
+                PlatShowEMessage("%02d. %04x%s %s: 101 - rx-Command timed out (received %d byte(s): \"%s\")\n",
+                                 task->id, task->command, task->args, task->label, size, RxBuffer);
             }
         }
 

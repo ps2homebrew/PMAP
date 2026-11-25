@@ -99,10 +99,11 @@ static int ConnectToConsole(HWND hwnd)
 
     PortName[3] = '0' + port + 1;
 
+    // Initialise the debug log first so that COM-port open problems are logged too.
+    PlatDebugInit();
+
     if ((result = PlatOpenCOMPort(PortName)) != 0)
         MessageBox(hwnd, L"Cannot open the selected port.", L"Cannot open port", MB_OK | MB_ICONERROR);
-
-    PlatDebugInit();
 
     return result;
 }
